@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dip"
+    android:orientation="vertical"
+    tools:context="at.lukasberger.android.thenexus.MainActivity">
+
+    <!--
+       Enable Boost
+      -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:layout_marginTop="16dip"
+        android:paddingEnd="?android:attr/scrollbarSize">
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dip"
+            android:layout_marginEnd="6dip"
+            android:layout_marginTop="6dip"
+            android:layout_marginBottom="6dip"
+            android:layout_weight="1">
+
+            <TextView android:text="@string/fragment_power_enable_boost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal" />
+
+            <TextView android:text="@string/fragment_power_enable_boost_descr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_marginTop="24dip"
+                android:maxLines="5" />
+
+        </RelativeLayout>
+
+        <Switch
+            android:id="@+id/fragment_power_enable_boost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="false"
+            android:padding="8dip" />
+
+    </LinearLayout>
+
+    <!--
+       Enable Profiles
+      -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:layout_marginTop="16dip"
+        android:paddingEnd="?android:attr/scrollbarSize">
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dip"
+            android:layout_marginEnd="6dip"
+            android:layout_marginTop="6dip"
+            android:layout_marginBottom="6dip"
+            android:layout_weight="1">
+
+            <TextView android:text="@string/fragment_power_enable_profiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal" />
+
+            <TextView android:text="@string/fragment_power_enable_profiles_descr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_marginTop="24dip"
+                android:maxLines="6" />
+
+        </RelativeLayout>
+
+        <Switch
+            android:id="@+id/fragment_power_enable_profiles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="false"
+            android:padding="8dip" />
+
+    </LinearLayout>
+
+    <!--
+       Enable Profiles
+      -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:layout_marginTop="16dip"
+        android:paddingEnd="?android:attr/scrollbarSize">
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dip"
+            android:layout_marginEnd="6dip"
+            android:layout_marginTop="6dip"
+            android:layout_marginBottom="6dip"
+            android:layout_weight="1">
+
+            <TextView android:text="@string/fragment_power_powersave_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal" />
+
+            <TextView android:text="@string/fragment_power_powersave_level_descr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_marginTop="24dip"
+                android:maxLines="6" />
+
+            <SeekBar
+                android:id="@+id/fragment_power_powersave_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="false"
+                android:padding="8dip"
+                android:layout_marginTop="64dip"
+                android:max="4" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!--
+       Debug
+      -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:layout_marginTop="16dip"
+        android:paddingEnd="?android:attr/scrollbarSize">
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dip"
+            android:layout_marginEnd="6dip"
+            android:layout_marginTop="6dip"
+            android:layout_marginBottom="6dip"
+            android:layout_weight="1">
+
+            <TextView android:text="@string/fragment_power_debug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal" />
+
+            <TextView android:text="@string/fragment_power_debug_descr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_marginTop="24dip"
+                android:maxLines="6" />
+
+        </RelativeLayout>
+
+        <Switch
+            android:id="@+id/fragment_power_debug"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="false"
+            android:padding="8dip" />
+
+    </LinearLayout>
+
+</LinearLayout>

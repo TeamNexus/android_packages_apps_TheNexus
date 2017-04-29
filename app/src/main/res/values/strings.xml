@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">The Nexus</string>
+
+    <!-- Drawer -->
+    <string name="navigation_drawer_open">Open Drawer</string>
+    <string name="navigation_drawer_close">Close Drawer</string>
+    <string name="drawer_start">Start</string>
+    <string name="drawer_fingerprint">Fingerprint</string>
+    <string name="drawer_power">Power</string>
+
+    <!-- Common -->
+    <string name="common_yes">Yes</string>
+    <string name="common_no">No</string>
+
+    <!-- Fragment: Start -->
+    <string name="fragment_start_description">
+        ROM-Control application for ROMs made by the Nexus7420-team
+    </string>
+    <string name="fragment_start_status">Status</string>
+    <string name="fragment_start_status_descr">
+        The current status of your device:
+    </string>
+    <string name="fragment_start_status_rooted">Rooted?</string>
+    <string name="fragment_start_status_installed_as_system">Installed in /system?</string>
+
+    <!-- Fragment: No Root -->
+    <string name="fragment_no_root">No root-access</string>
+
+    <!-- Fragment: Power -->
+    <string name="fragment_power_enable_boost">Enable Boost</string>
+    <string name="fragment_power_enable_boost_descr">
+        Enables the boost-abilities of the power-management. This allows the device to reach
+        higher CPU-frequencies and therefore performance, but lowers the battery-lifetime.
+    </string>
+    <string name="fragment_power_enable_profiles">Enable Profiles</string>
+    <string name="fragment_power_enable_profiles_descr">
+        Allows the power-management to change various system-configurations when the
+        power-profile is changed. Useful for normal usage, but should be deactivated if the
+        user often customizes the system-settings.
+    </string>
+    <string name="fragment_power_powersave_level">Powersave-Level</string>
+    <string name="fragment_power_powersave_level_descr">
+        The current powersave-level of the power-management. A higher value indicates a
+        more aggressive power-saving.
+    </string>
+    <string name="fragment_power_debug">Debug-Mode</string>
+    <string name="fragment_power_debug_descr">
+        Enabled the debug-mode of the power-management. Useful to see if something is wrong
+        in the power-management, e.g. too high battery-drain, slow performance, lags
+    </string>
+
+    <!-- Fragment: Fingerprint -->
+    <string name="fragment_fingerprint_enable_wake_lock">Enable always-on Fingerprint-Sensor</string>
+    <string name="fragment_fingerprint_enable_wake_lock_descr">
+        Enables fingerprint-wakelock so you can unlock the device with the fingerprint-sensor
+        even when the screen is turned off.
+    </string>
+
+</resources>

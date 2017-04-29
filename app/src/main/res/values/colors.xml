@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Basic colors -->
+    <color name="colorPrimary">#ff2196f3</color>
+    <color name="colorPrimaryDark">#ff1565c0</color>
+    <color name="colorAccent">@color/colorPrimary</color>
+
+    <!-- Extended colors -->
+    <color name="colorStartBoxTitle">#ff181818</color>
+    <color name="colorStartBoxText">#ff222222</color>
+
+</resources>

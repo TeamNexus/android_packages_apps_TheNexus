@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_start"
+            android:icon="@drawable/ic_menu_start"
+            android:title="@string/drawer_start" />
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_fingerprint"
+            android:icon="@drawable/ic_menu_fingerprint"
+            android:title="@string/drawer_fingerprint" />
+        <item
+            android:id="@+id/nav_power"
+            android:icon="@drawable/ic_menu_power"
+            android:title="@string/drawer_power" />
+    </group>
+
+</menu>

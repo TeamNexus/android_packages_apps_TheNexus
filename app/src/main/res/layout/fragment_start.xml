@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="70dip"
+    android:layout_marginStart="10dip"
+    android:layout_marginEnd="10dip"
+    android:orientation="vertical"
+    tools:context="at.lukasberger.android.thenexus.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorStartBoxTitle">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dip"
+                android:layout_marginEnd="15dip"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/app_name" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorStartBoxText">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dip"
+                android:layout_marginEnd="15dip"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/fragment_start_description" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dip">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorStartBoxTitle">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dip"
+                android:layout_marginEnd="15dip"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/fragment_start_status" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorStartBoxText">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dip"
+                android:layout_marginEnd="15dip"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/fragment_start_status_descr" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="15dip"
+                android:layout_marginEnd="15dip">
+
+                <RelativeLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/fragment_start_status_rooted" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/fragment_start_status_rooted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                    <!-- Yes can be fixed because if there's no root-access,
+                         "NoRootFragment" will be shown -->
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="15dip"
+                android:layout_marginEnd="15dip"
+                android:layout_marginBottom="10dip">
+
+                <RelativeLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/fragment_start_status_installed_as_system" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/fragment_start_status_installed_as_system"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
