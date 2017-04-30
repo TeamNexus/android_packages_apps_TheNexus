@@ -38,6 +38,7 @@ public final class FileUtils {
     private static ApplicationInfo applicationInfo;
 
     private static Shell.Interactive rootSession = null;
+    private static int rootSessionIdentifier = 0;
 
     public static void setPackageManager(PackageManager pm) {
         packageManager = pm;
@@ -126,7 +127,7 @@ public final class FileUtils {
         if (requestRoot && useSuBinary) {
             content = content.replaceAll("\"", "\\\"");
             try {
-                rootSession.addCommand("echo \"" + content + "\" > \"" + path + "\"");
+                Shell.SU.run("echo \"" + content + "\" > \"" + path + "\"");
             } catch (Exception e) {
                 Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: true)", e);
             }
@@ -144,24 +145,7 @@ public final class FileUtils {
     public static String readOneLine(String path) {
         if (requestRoot && useSuBinary) {
             try {
-                final String[] result = new String[] { null };
-
-                rootSession.addCommand(
-                        "cat \"" + path + "\"", 0,
-                        new Shell.OnCommandResultListener() {
-                            @Override
-                            public void onCommandResult(int commandCode, int exitCode, List<String> output) {
-                                result[0] = output.get(0);
-                                if (result[0] == null) {
-                                    result[0] = "";
-                                }
-                            }
-                        }
-                );
-
-                while (result[0] == null) ;
-
-                return result[0];
+                return Shell.SU.run("cat \"" + path + "\"").get(0);
             } catch (Exception e) {
                 Log.e("TheNexus", "readOneLine: failed to read from file: " + path + " (requestRoot: true)", e);
             }
