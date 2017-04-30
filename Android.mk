@@ -17,7 +17,6 @@
 LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE_TAGS := optional
 LOCAL_STATIC_JAVA_LIBRARIES := \
     android-support-v4 \
     android-support-v7-appcompat \
@@ -36,11 +35,12 @@ LOCAL_AAPT_FLAGS := \
 	--auto-add-overlay \
 	--extra-packages android.support.v7.appcompat
 
-LOCAL_PACKAGE_NAME := TheNexus
-LOCAL_PRIVILEGED_MODULE := true
-LOCAL_PROGUARD_ENABLED: := disabled
-
-LOCAL_SDK_VERSION := current
-LOCAL_MIN_SDK_VERSION := 25
+LOCAL_MODULE_TAGS        := optional
+LOCAL_PACKAGE_NAME       := TheNexus
+LOCAL_OVERRIDES_PACKAGES := TheNexus-prebuilt
+LOCAL_PRIVILEGED_MODULE  := true
+LOCAL_PROGUARD_ENABLED:  := disabled
+LOCAL_SDK_VERSION        := current
+LOCAL_MIN_SDK_VERSION    := 25
 
 include $(BUILD_PACKAGE)
