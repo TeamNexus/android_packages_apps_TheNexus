@@ -34,6 +34,7 @@ LOCAL_RESOURCE_DIR := \
 	
 LOCAL_AAPT_FLAGS := \
 	--auto-add-overlay \
+	--multi-dex \
 	--extra-packages android.support.v7.appcompat
 
 LOCAL_PACKAGE_NAME := TheNexus
