@@ -147,7 +147,7 @@ public final class FileUtils {
                 final String[] result = new String[] { null };
 
                 rootSession.addCommand(
-                        "echo \"" + path + "\" > \"" + path + "\"", 0,
+                        "cat \"" + path + "\"", 0,
                         new Shell.OnCommandResultListener() {
                             @Override
                             public void onCommandResult(int commandCode, int exitCode, List<String> output) {
