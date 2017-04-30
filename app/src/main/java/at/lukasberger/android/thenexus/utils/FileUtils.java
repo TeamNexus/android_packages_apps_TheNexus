@@ -26,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
 
@@ -35,6 +36,8 @@ public final class FileUtils {
     private static boolean useSuBinary;
     private static PackageManager packageManager;
     private static ApplicationInfo applicationInfo;
+
+    private static Shell.Interactive rootSession = null;
 
     public static void setPackageManager(PackageManager pm) {
         packageManager = pm;
@@ -53,16 +56,49 @@ public final class FileUtils {
         return (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM;
     }
 
+    private static void openRootSession() {
+        Log.e("TheNexus", "openRootSession: required to re-open root-session: " + (rootSession == null ? "true" : "false"));
+
+        // check if an open root-session is required
+        if (requestRoot && useSuBinary && rootSession == null) {
+            Log.i("TheNexus", "openRootSession: try to open new root-session");
+            rootSession = new Shell.Builder()
+                    .useSU()
+                    .setWantSTDERR(true)
+                    .setWatchdogTimeout(5)
+                    .setMinimalLogging(true)
+                    .open();
+
+            Log.i("TheNexus", "openRootSession: " + (rootSession == null ? "failed" : "succeeded"));
+        }
+    }
+
     public static void setRequireRoot(boolean requireRoot) {
+        if (requireRoot == requestRoot) {
+            // state not changed, skip it
+            return;
+        }
+
         requestRoot = requireRoot;
 
         if (requestRoot) {
+
             /*
              * Check if the app is placed in /system/
              */
             if (checkIfAppIsSytemApp()) {
-                useSuBinary = false;
-                return;
+                Log.i("TheNexus", "setRequireRoot: installed as system-appliction, try to switch to non-su mode");
+
+                try {
+                    new BufferedReader(new FileReader("/data/.nonexistent"));
+
+                    Log.i("TheNexus", "setRequireRoot: able to access /data/-partition, continue using system-method");
+                    useSuBinary = false;
+                    return;
+                } catch (Exception ex) {
+                    Log.i("TheNexus", "setRequireRoot: failed to access protected /data/-partition, fall back to root-method");
+                    useSuBinary = true;
+                }
             }
 
             /*
@@ -72,9 +108,17 @@ public final class FileUtils {
             if (!Shell.SU.available()) {
                 Log.e("TheNexus", "setRequireRoot: failed to request root, fallback to non-root-mode");
                 requestRoot = false;
-            } else {
-                useSuBinary = true;
             }
+
+            openRootSession();
+        } else {
+            // reset variables
+            requestRoot = false;
+            useSuBinary = false;
+
+            // destroy open root-session
+            rootSession.close();
+            rootSession = null;
         }
     }
 
@@ -82,9 +126,7 @@ public final class FileUtils {
         if (requestRoot && useSuBinary) {
             content = content.replaceAll("\"", "\\\"");
             try {
-                Shell.SU.run(new String[] {
-                        "echo \"" + content + "\" > \"" + path + "\""
-                });
+                rootSession.addCommand("echo \"" + content + "\" > \"" + path + "\"");
             } catch (Exception e) {
                 Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: true)", e);
             }
@@ -102,7 +144,24 @@ public final class FileUtils {
     public static String readOneLine(String path) {
         if (requestRoot && useSuBinary) {
             try {
-                return Shell.SU.run("cat \"" + path + "\"").get(0);
+                final String[] result = new String[] { null };
+
+                rootSession.addCommand(
+                        "echo \"" + path + "\" > \"" + path + "\"", 0,
+                        new Shell.OnCommandResultListener() {
+                            @Override
+                            public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                                result[0] = output.get(0);
+                                if (result[0] == null) {
+                                    result[0] = "";
+                                }
+                            }
+                        }
+                );
+
+                while (result[0] == null) ;
+
+                return result[0];
             } catch (Exception e) {
                 Log.e("TheNexus", "readOneLine: failed to read from file: " + path + " (requestRoot: true)", e);
             }

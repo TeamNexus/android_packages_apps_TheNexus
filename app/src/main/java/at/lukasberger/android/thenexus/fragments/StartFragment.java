@@ -45,8 +45,8 @@ public class StartFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        assertUpdateTextView(view, Shell.SU.available(), R.id.fragment_start_status_rooted);
-        assertUpdateTextView(view, FileUtils.checkIfAppIsSytemApp(), R.id.fragment_start_status_installed_as_system);
+        // assertUpdateTextView(view, Shell.SU.available(), R.id.fragment_start_status_rooted);
+        // assertUpdateTextView(view, FileUtils.checkIfAppIsSytemApp(), R.id.fragment_start_status_installed_as_system);
     }
 
     private void assertUpdateTextView(View view, boolean flag, int viewId) {
