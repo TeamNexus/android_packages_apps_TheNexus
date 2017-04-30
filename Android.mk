@@ -23,22 +23,24 @@ LOCAL_STATIC_JAVA_LIBRARIES := \
     android-support-v7-appcompat \
     android-support-v13 \
     android-support-design
-	
+
 LOCAL_SRC_FILES := \
     $(call all-java-files-under, app/src/main/java)
-	
+
 LOCAL_RESOURCE_DIR := \
     $(LOCAL_PATH)/app/src/main/res \
 	prebuilts/sdk/current/support/v7/appcompat/res \
 	prebuilts/sdk/current/support/design/res
-	
+
 LOCAL_AAPT_FLAGS := \
 	--auto-add-overlay \
 	--extra-packages android.support.v7.appcompat
 
 LOCAL_PACKAGE_NAME := TheNexus
 LOCAL_PRIVILEGED_MODULE := true
-LOCAL_RENDERSCRIPT_TARGET_API := 25
-LOCAL_PROGUARD_FLAG_FILES := proguard.flags
+LOCAL_PROGUARD_ENABLED: := disabled
+
+LOCAL_SDK_VERSION := current
+LOCAL_MIN_SDK_VERSION := 25
 
 include $(BUILD_PACKAGE)
