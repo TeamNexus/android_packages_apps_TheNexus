@@ -29,6 +29,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import at.lukasberger.android.thenexus.fragments.BatteryFragment;
 import at.lukasberger.android.thenexus.fragments.FingerprintFragment;
 import at.lukasberger.android.thenexus.fragments.StartFragment;
 import at.lukasberger.android.thenexus.fragments.PowerFragment;
@@ -81,6 +82,9 @@ public class MainActivity extends AppCompatActivity
         switch(item.getItemId()) {
             case R.id.nav_start:
                 fragment = new StartFragment();
+                break;
+            case R.id.nav_battery:
+                fragment = new BatteryFragment();
                 break;
             case R.id.nav_fingerprint:
                 fragment = new FingerprintFragment();

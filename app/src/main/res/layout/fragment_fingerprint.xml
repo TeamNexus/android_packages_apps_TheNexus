@@ -28,7 +28,8 @@
             android:layout_marginBottom="6dip"
             android:layout_weight="1">
 
-            <TextView android:text="@string/fragment_fingerprint_enable_wake_lock"
+            <TextView android:id="@+id/fragment_fingerprint_enable_wake_lock_title"
+                android:text="@string/fragment_fingerprint_enable_wake_lock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceListItem"
@@ -38,9 +39,9 @@
             <TextView android:text="@string/fragment_fingerprint_enable_wake_lock_descr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_fingerprint_enable_wake_lock_title"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="24dip"
                 android:maxLines="5" />
 
         </RelativeLayout>

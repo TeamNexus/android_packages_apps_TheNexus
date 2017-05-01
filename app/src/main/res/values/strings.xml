@@ -5,6 +5,7 @@
     <string name="navigation_drawer_open">Open Drawer</string>
     <string name="navigation_drawer_close">Close Drawer</string>
     <string name="drawer_start">Start</string>
+    <string name="drawer_battery">Battery</string>
     <string name="drawer_fingerprint">Fingerprint</string>
     <string name="drawer_power">Power</string>
 
@@ -25,6 +26,20 @@
 
     <!-- Fragment: No Root -->
     <string name="fragment_no_root">No root-access</string>
+
+    <!-- Fragment: Battery -->
+    <string name="fragment_battery_max_charging_limit">Maximum Charging Limit</string>
+    <string name="fragment_battery_max_charging_limit_descr">
+        Allows you to change the maximum charging limit. The slider is limited to
+        the recommended minimal and maximal values.
+    </string>
+
+    <!-- Fragment: Fingerprint -->
+    <string name="fragment_fingerprint_enable_wake_lock">Enable always-on Fingerprint-Sensor</string>
+    <string name="fragment_fingerprint_enable_wake_lock_descr">
+        Enables fingerprint-wakelock so you can unlock the device with the fingerprint-sensor
+        even when the screen is turned off.
+    </string>
 
     <!-- Fragment: Power -->
     <string name="fragment_power_enable_boost">Enable Boost</string>
@@ -47,13 +62,6 @@
     <string name="fragment_power_debug_descr">
         Enabled the debug-mode of the power-management. Useful to see if something is wrong
         in the power-management, e.g. too high battery-drain, slow performance, lags
-    </string>
-
-    <!-- Fragment: Fingerprint -->
-    <string name="fragment_fingerprint_enable_wake_lock">Enable always-on Fingerprint-Sensor</string>
-    <string name="fragment_fingerprint_enable_wake_lock_descr">
-        Enables fingerprint-wakelock so you can unlock the device with the fingerprint-sensor
-        even when the screen is turned off.
     </string>
 
 </resources>

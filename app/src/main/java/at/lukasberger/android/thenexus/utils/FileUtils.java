@@ -182,7 +182,11 @@ public final class FileUtils {
 
     public static int readOneInt(String path, int def) {
         try {
-            return Integer.parseInt(readOneLine(path));
+            String result = readOneLine(path);
+            if (result == null) {
+                return def;
+            }
+            return Integer.parseInt(result);
         } catch (Exception ex) {
             return def;
         }

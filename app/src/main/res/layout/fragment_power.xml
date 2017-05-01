@@ -28,7 +28,8 @@
             android:layout_marginBottom="6dip"
             android:layout_weight="1">
 
-            <TextView android:text="@string/fragment_power_enable_boost"
+            <TextView android:id="@+id/fragment_power_enable_boost_title"
+                android:text="@string/fragment_power_enable_boost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceListItem"
@@ -38,9 +39,9 @@
             <TextView android:text="@string/fragment_power_enable_boost_descr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_power_enable_boost_title"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="24dip"
                 android:maxLines="5" />
 
         </RelativeLayout>
@@ -76,7 +77,8 @@
             android:layout_marginBottom="6dip"
             android:layout_weight="1">
 
-            <TextView android:text="@string/fragment_power_enable_profiles"
+            <TextView android:id="@+id/fragment_power_enable_profiles_title"
+                android:text="@string/fragment_power_enable_profiles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceListItem"
@@ -86,9 +88,9 @@
             <TextView android:text="@string/fragment_power_enable_profiles_descr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_power_enable_profiles_title"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="24dip"
                 android:maxLines="6" />
 
         </RelativeLayout>
@@ -124,30 +126,32 @@
             android:layout_marginBottom="6dip"
             android:layout_weight="1">
 
-            <TextView android:text="@string/fragment_power_powersave_level"
+            <TextView android:id="@+id/fragment_power_powersave_level_title"
+                android:text="@string/fragment_power_powersave_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceListItem"
                 android:ellipsize="marquee"
                 android:fadingEdge="horizontal" />
 
-            <TextView android:text="@string/fragment_power_powersave_level_descr"
+            <TextView android:id="@+id/fragment_power_powersave_level_subtitle"
+                android:text="@string/fragment_power_powersave_level_descr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_power_powersave_level_title"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="24dip"
                 android:maxLines="6" />
 
             <SeekBar
                 android:id="@+id/fragment_power_powersave_level"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_power_powersave_level_subtitle"
                 android:layout_gravity="center"
                 android:clickable="true"
                 android:focusable="false"
                 android:padding="8dip"
-                android:layout_marginTop="64dip"
                 android:max="4" />
 
         </RelativeLayout>
@@ -174,7 +178,8 @@
             android:layout_marginBottom="6dip"
             android:layout_weight="1">
 
-            <TextView android:text="@string/fragment_power_debug"
+            <TextView android:id="@+id/fragment_power_debug_title"
+                android:text="@string/fragment_power_debug"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceListItem"
@@ -184,9 +189,9 @@
             <TextView android:text="@string/fragment_power_debug_descr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_power_debug_title"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="24dip"
                 android:maxLines="6" />
 
         </RelativeLayout>
