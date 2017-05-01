@@ -31,7 +31,8 @@
     <string name="fragment_battery_max_charging_limit">Maximum Charging Limit</string>
     <string name="fragment_battery_max_charging_limit_descr">
         Allows you to change the maximum charging limit. The slider is limited to
-        the recommended minimal and maximal values.
+        the recommended minimal and maximal values. To change the value, you have
+        to unplug the charger and replug it
     </string>
 
     <!-- Fragment: Fingerprint -->
