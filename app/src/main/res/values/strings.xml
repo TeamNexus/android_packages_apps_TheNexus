@@ -28,9 +28,9 @@
     <string name="fragment_no_root">No root-access</string>
 
     <!-- Fragment: Battery -->
-    <string name="fragment_battery_max_charging_limit">Maximum Charging Limit</string>
+    <string name="fragment_battery_max_charging_limit">Maximum Charging-Speed Limit</string>
     <string name="fragment_battery_max_charging_limit_descr">
-        Allows you to change the maximum charging limit. The slider is limited to
+        Allows you to change the maximum charging-speed limit. The slider is limited to
         the recommended minimal and maximal values. To change the value, you have
         to unplug the charger and replug it
     </string>
