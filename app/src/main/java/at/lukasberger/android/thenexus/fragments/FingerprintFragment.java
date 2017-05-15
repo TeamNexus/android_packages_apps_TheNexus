@@ -49,13 +49,13 @@ public class FingerprintFragment extends Fragment {
          * Enable Boost
          */
         Switch enableWakeLockSwitch = (Switch) view.findViewById(R.id.fragment_fingerprint_enable_wake_lock);
-        enableWakeLockSwitch.setChecked(!FileUtils.readOneBoolean("/sys/devices/virtual/fingerprint/fingerprint/disable_wake_lock"));
+        enableWakeLockSwitch.setChecked(FileUtils.readOneBoolean("/data/power/fp_always_on"));
         enableWakeLockSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 FileUtils.setRequireRoot(true);
-                FileUtils.writeOneLine("/sys/devices/virtual/fingerprint/fingerprint/disable_wake_lock", (isChecked ? "0" : "1"));
+                FileUtils.writeOneLine("/data/power/fp_always_on", (isChecked ? "1" : "0"));
             }
 
         });
