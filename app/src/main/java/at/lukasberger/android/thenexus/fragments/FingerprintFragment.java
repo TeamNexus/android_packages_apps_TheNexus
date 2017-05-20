@@ -63,7 +63,7 @@ public class FingerprintFragment extends Fragment {
 
             });
         } else {
-            enableWakeLockSwitch.setVisibility(View.GONE);
+            view.findViewById(R.id.fragment_fingerprint_enable_wake_lock_container).setVisibility(View.GONE);
         }
     }
 

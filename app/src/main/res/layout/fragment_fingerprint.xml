@@ -11,7 +11,7 @@
     <!--
        Disable FP-Wakelock
       -->
-    <LinearLayout
+    <LinearLayout android:id="@+id/fragment_fingerprint_enable_wake_lock_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

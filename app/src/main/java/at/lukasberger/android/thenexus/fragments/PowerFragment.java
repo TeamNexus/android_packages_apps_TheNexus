@@ -63,7 +63,7 @@ public class PowerFragment extends Fragment {
 
             });
         } else {
-            enableBoostSwitch.setVisibility(View.GONE);
+            view.findViewById(R.id.fragment_power_enable_boost_container).setVisibility(View.GONE);
         }
 
         /*
@@ -82,7 +82,7 @@ public class PowerFragment extends Fragment {
 
             });
         } else {
-            enableProfilesSwitch.setVisibility(View.GONE);
+            view.findViewById(R.id.fragment_power_enable_profiles_container).setVisibility(View.GONE);
         }
 
         /*
@@ -115,7 +115,7 @@ public class PowerFragment extends Fragment {
 
             });
         } else {
-            powersaveLevelSeekBar.setVisibility(View.GONE);
+            view.findViewById(R.id.fragment_power_powersave_level_container).setVisibility(View.GONE);
         }
 
         /*

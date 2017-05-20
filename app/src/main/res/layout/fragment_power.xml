@@ -11,7 +11,7 @@
     <!--
        Enable Boost
       -->
-    <LinearLayout
+    <LinearLayout android:id="@+id/fragment_power_enable_boost_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -60,7 +60,7 @@
     <!--
        Enable Profiles
       -->
-    <LinearLayout
+    <LinearLayout android:id="@+id/fragment_power_enable_profiles_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -107,9 +107,9 @@
     </LinearLayout>
 
     <!--
-       Enable Profiles
+       Powersave-Level
       -->
-    <LinearLayout
+    <LinearLayout android:id="@+id/fragment_power_powersave_level_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

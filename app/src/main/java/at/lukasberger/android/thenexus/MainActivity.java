@@ -21,6 +21,8 @@ package at.lukasberger.android.thenexus;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -63,15 +65,15 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
 
-        if (!PowerCapabilities.has(PowerCapabilities.POWER_CAPABILITY_FP_WORKAROUND)) {
-            this.findViewById(R.id.nav_fingerprint).setVisibility(View.GONE);
-        }
-
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
 
         navigationView = (NavigationView)findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (!PowerCapabilities.has(PowerCapabilities.POWER_CAPABILITY_FP_WORKAROUND)) {
+            navigationView.getMenu().findItem(R.id.nav_fingerprint).setVisible(false);
+        }
 
         FileUtils.setPackageManager(this.getPackageManager());
 
