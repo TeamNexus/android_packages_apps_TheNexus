@@ -30,6 +30,7 @@ import android.widget.Switch;
 
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.PowerCapabilities;
 
 public class PowerFragment extends Fragment {
 
@@ -45,62 +46,77 @@ public class PowerFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         /*
          * Enable Boost
          */
         Switch enableBoostSwitch = (Switch)view.findViewById(R.id.fragment_power_enable_boost);
-        enableBoostSwitch.setChecked(FileUtils.readOneBoolean("/data/power/enable_boost"));
-        enableBoostSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        if (PowerCapabilities.has(PowerCapabilities.POWER_CAPABILITY_BOOST)) {
+            enableBoostSwitch.setChecked(FileUtils.readOneBoolean("/data/power/enable_boost"));
+            enableBoostSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FileUtils.setRequireRoot(true);
-                FileUtils.writeOneLine("/data/power/enable_boost", (isChecked ? "1" : "0"));
-            }
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    FileUtils.setRequireRoot(true);
+                    FileUtils.writeOneLine("/data/power/enable_boost", (isChecked ? "1" : "0"));
+                }
 
-        });
+            });
+        } else {
+            enableBoostSwitch.setVisibility(View.GONE);
+        }
 
         /*
          * Enable Profiles
          */
         Switch enableProfilesSwitch = (Switch)view.findViewById(R.id.fragment_power_enable_profiles);
-        enableProfilesSwitch.setChecked(FileUtils.readOneBoolean("/data/power/enable_profiles"));
-        enableProfilesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        if (PowerCapabilities.has(PowerCapabilities.POWER_CAPABILITY_PROFILES)) {
+            enableProfilesSwitch.setChecked(FileUtils.readOneBoolean("/data/power/enable_profiles"));
+            enableProfilesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FileUtils.setRequireRoot(true);
-                FileUtils.writeOneLine("/data/power/enable_profiles", (isChecked ? "1" : "0"));
-            }
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    FileUtils.setRequireRoot(true);
+                    FileUtils.writeOneLine("/data/power/enable_profiles", (isChecked ? "1" : "0"));
+                }
 
-        });
+            });
+        } else {
+            enableProfilesSwitch.setVisibility(View.GONE);
+        }
 
         /*
          * Powersave-Level
          */
         SeekBar powersaveLevelSeekBar = (SeekBar)view.findViewById(R.id.fragment_power_powersave_level);
-        int powersaveLevel = FileUtils.readOneInt("/data/power/powersave_level", 2);
-        powersaveLevel = Math.min(powersaveLevel, 4);
-        powersaveLevel = Math.max(0, powersaveLevel);
-        powersaveLevelSeekBar.setProgress(powersaveLevel);
-        powersaveLevelSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        if (PowerCapabilities.has(PowerCapabilities.POWER_CAPABILITY_BOOST)) {
+            int powersaveLevel = FileUtils.readOneInt("/data/power/powersave_level", 2);
+            powersaveLevel = Math.min(powersaveLevel, 4);
+            powersaveLevel = Math.max(0, powersaveLevel);
+            powersaveLevelSeekBar.setProgress(powersaveLevel);
+            powersaveLevelSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progress = Math.min(progress, 4);
-                progress = Math.max(0, progress);
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    progress = Math.min(progress, 4);
+                    progress = Math.max(0, progress);
 
-                FileUtils.setRequireRoot(true);
-                FileUtils.writeOneLine("/data/power/powersave_level", Integer.toString(progress));
-            }
+                    FileUtils.setRequireRoot(true);
+                    FileUtils.writeOneLine("/data/power/powersave_level", Integer.toString(progress));
+                }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {  }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                }
 
-        });
+            });
+        } else {
+            powersaveLevelSeekBar.setVisibility(View.GONE);
+        }
 
         /*
          * Debug

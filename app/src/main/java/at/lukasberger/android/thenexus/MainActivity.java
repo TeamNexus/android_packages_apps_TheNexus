@@ -28,12 +28,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import at.lukasberger.android.thenexus.fragments.BatteryFragment;
 import at.lukasberger.android.thenexus.fragments.FingerprintFragment;
+import at.lukasberger.android.thenexus.fragments.NoRootFragment;
 import at.lukasberger.android.thenexus.fragments.StartFragment;
 import at.lukasberger.android.thenexus.fragments.PowerFragment;
 import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.PowerCapabilities;
+import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,9 +54,18 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.drawer_layout);
 
+        if (!Shell.SU.available()) {
+            this.updateFragment(new NoRootFragment());
+            return;
+        }
+
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
+
+        if (!PowerCapabilities.has(PowerCapabilities.POWER_CAPABILITY_FP_WORKAROUND)) {
+            this.findViewById(R.id.nav_fingerprint).setVisibility(View.GONE);
+        }
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();

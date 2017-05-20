@@ -29,6 +29,7 @@ import android.widget.Switch;
 
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.PowerCapabilities;
 
 public class FingerprintFragment extends Fragment {
 
@@ -38,6 +39,7 @@ public class FingerprintFragment extends Fragment {
         if (container == null) {
             return null;
         }
+
         return inflater.inflate(R.layout.fragment_fingerprint, container, false);
     }
 
@@ -49,16 +51,20 @@ public class FingerprintFragment extends Fragment {
          * Enable Boost
          */
         Switch enableWakeLockSwitch = (Switch) view.findViewById(R.id.fragment_fingerprint_enable_wake_lock);
-        enableWakeLockSwitch.setChecked(FileUtils.readOneBoolean("/data/power/fp_always_on"));
-        enableWakeLockSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        if (PowerCapabilities.has(PowerCapabilities.POWER_CAPABILITY_FP_WORKAROUND)) {
+            enableWakeLockSwitch.setChecked(FileUtils.readOneBoolean("/data/power/fp_always_on"));
+            enableWakeLockSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FileUtils.setRequireRoot(true);
-                FileUtils.writeOneLine("/data/power/fp_always_on", (isChecked ? "1" : "0"));
-            }
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    FileUtils.setRequireRoot(true);
+                    FileUtils.writeOneLine("/data/power/fp_always_on", (isChecked ? "1" : "0"));
+                }
 
-        });
+            });
+        } else {
+            enableWakeLockSwitch.setVisibility(View.GONE);
+        }
     }
 
 }
