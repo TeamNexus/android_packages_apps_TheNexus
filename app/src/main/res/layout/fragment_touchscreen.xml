@@ -9,9 +9,9 @@
     tools:context="at.lukasberger.android.thenexus.MainActivity">
 
     <!--
-       Profiles
+       Disable FP-Wakelock
       -->
-    <LinearLayout android:id="@+id/fragment_power_profiles_container"
+    <LinearLayout android:id="@+id/fragment_touchscreen_dt2w_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -28,26 +28,26 @@
             android:layout_marginBottom="6dip"
             android:layout_weight="1">
 
-            <TextView android:id="@+id/fragment_power_profiles_title"
-                android:text="@string/fragment_power_profiles"
+            <TextView android:id="@+id/fragment_touchscreen_dt2w_title"
+                android:text="@string/fragment_touchscreen_dt2w"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceListItem"
                 android:ellipsize="marquee"
                 android:fadingEdge="horizontal" />
 
-            <TextView android:text="@string/fragment_power_profiles_descr"
+            <TextView android:text="@string/fragment_touchscreen_dt2w_descr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_power_profiles_title"
+                android:layout_below="@+id/fragment_touchscreen_dt2w_title"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="?android:attr/textColorSecondary"
-                android:maxLines="6" />
+                android:maxLines="5" />
 
         </RelativeLayout>
 
         <Switch
-            android:id="@+id/fragment_power_profiles"
+            android:id="@+id/fragment_touchscreen_dt2w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -56,6 +56,5 @@
             android:padding="8dip" />
 
     </LinearLayout>
-
 
 </LinearLayout>

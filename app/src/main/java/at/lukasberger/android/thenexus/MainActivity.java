@@ -37,6 +37,7 @@ import at.lukasberger.android.thenexus.fragments.FingerprintFragment;
 import at.lukasberger.android.thenexus.fragments.NoRootFragment;
 import at.lukasberger.android.thenexus.fragments.StartFragment;
 import at.lukasberger.android.thenexus.fragments.PowerFragment;
+import at.lukasberger.android.thenexus.fragments.TouchscreenFragment;
 import at.lukasberger.android.thenexus.utils.FileUtils;
 import at.lukasberger.android.thenexus.utils.PowerCapabilities;
 import eu.chainfire.libsuperuser.Shell;
@@ -71,10 +72,6 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView)findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (!PowerCapabilities.has(PowerCapabilities.POWER_CAPABILITY_FP_WORKAROUND)) {
-            navigationView.getMenu().findItem(R.id.nav_fingerprint).setVisible(false);
-        }
-
         FileUtils.setPackageManager(this.getPackageManager());
 
         firstFragmentUpdate = true;
@@ -106,6 +103,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_power:
                 fragment = new PowerFragment();
+                break;
+            case R.id.nav_touchscreen:
+                fragment = new TouchscreenFragment();
                 break;
         }
 

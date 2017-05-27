@@ -25,14 +25,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.SeekBar;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.PowerCapabilities;
 
-public class BatteryFragment extends Fragment {
+public class TouchscreenFragment extends Fragment {
 
     @Nullable
     @Override
@@ -40,40 +39,25 @@ public class BatteryFragment extends Fragment {
         if (container == null) {
             return null;
         }
-        return inflater.inflate(R.layout.fragment_battery, container, false);
+
+        return inflater.inflate(R.layout.fragment_touchscreen, container, false);
     }
 
     @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         /*
-         * Maximum Charging Limit
+         * Enable Boost
          */
-        SeekBar maxChargeLimitSeekBar = (SeekBar)view.findViewById(R.id.fragment_battery_max_charging_limit);
-        int maxChargeLimit = FileUtils.readOneInt("/sys/class/power_supply/max77843-charger/current_max_tunable", 1000);
-        maxChargeLimit = Math.min(maxChargeLimit, 0);
-        maxChargeLimit = Math.max(140, maxChargeLimit);
-        maxChargeLimitSeekBar.setProgress((maxChargeLimit + 10) * 10);
-        ((TextView)view.findViewById(R.id.fragment_battery_max_charging_limit_current)).setText(maxChargeLimit + " mA");
-        maxChargeLimitSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        Switch dt2wSwitch = (Switch)view.findViewById(R.id.fragment_touchscreen_dt2w);
+        dt2wSwitch.setChecked(FileUtils.readOneBoolean("/data/power/dt2w"));
+        dt2wSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progress += 10; // minimal value of 100 mAh
-                progress *= 10; // only set in steps of ten
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 FileUtils.setRequireRoot(true);
-                FileUtils.writeOneLine("/sys/class/power_supply/max77843-charger/current_max_tunable", Integer.toString(progress));
-                ((TextView)view.findViewById(R.id.fragment_battery_max_charging_limit_current)).setText(progress + " mA");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {  }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                int progress = seekBar.getProgress();
+                FileUtils.writeOneLine("/data/power/dt2w", (isChecked ? "1" : "0"));
             }
 
         });

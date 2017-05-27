@@ -11,7 +11,7 @@
     <!--
        Disable FP-Wakelock
       -->
-    <LinearLayout android:id="@+id/fragment_fingerprint_enable_wake_lock_container"
+    <LinearLayout android:id="@+id/fragment_fingerprint_always_on_fp_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -28,18 +28,18 @@
             android:layout_marginBottom="6dip"
             android:layout_weight="1">
 
-            <TextView android:id="@+id/fragment_fingerprint_enable_wake_lock_title"
-                android:text="@string/fragment_fingerprint_enable_wake_lock"
+            <TextView android:id="@+id/fragment_fingerprint_always_on_fp_title"
+                android:text="@string/fragment_fingerprint_always_on_fp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceListItem"
                 android:ellipsize="marquee"
                 android:fadingEdge="horizontal" />
 
-            <TextView android:text="@string/fragment_fingerprint_enable_wake_lock_descr"
+            <TextView android:text="@string/fragment_fingerprint_always_on_fp_descr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_fingerprint_enable_wake_lock_title"
+                android:layout_below="@+id/fragment_fingerprint_always_on_fp_title"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="?android:attr/textColorSecondary"
                 android:maxLines="5" />
@@ -47,7 +47,7 @@
         </RelativeLayout>
 
         <Switch
-            android:id="@+id/fragment_fingerprint_enable_wake_lock"
+            android:id="@+id/fragment_fingerprint_always_on_fp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

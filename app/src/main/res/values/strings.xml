@@ -8,6 +8,7 @@
     <string name="drawer_battery">Battery</string>
     <string name="drawer_fingerprint">Fingerprint</string>
     <string name="drawer_power">Power</string>
+    <string name="drawer_touchscreen">Touchscreen</string>
 
     <!-- Common -->
     <string name="common_yes">Yes</string>
@@ -36,33 +37,25 @@
     </string>
 
     <!-- Fragment: Fingerprint -->
-    <string name="fragment_fingerprint_enable_wake_lock">Enable always-on Fingerprint-Sensor</string>
-    <string name="fragment_fingerprint_enable_wake_lock_descr">
+    <string name="fragment_fingerprint_always_on_fp">Enable always-on Fingerprint-Sensor</string>
+    <string name="fragment_fingerprint_always_on_fp_descr">
         Enables fingerprint-wakelock so you can unlock the device with the fingerprint-sensor
         even when the screen is turned off.
     </string>
 
     <!-- Fragment: Power -->
-    <string name="fragment_power_enable_boost">Enable Boost</string>
-    <string name="fragment_power_enable_boost_descr">
-        Enables the boost-abilities of the power-management. This allows the device to reach
-        higher CPU-frequencies and therefore performance, but lowers the battery-lifetime.
-    </string>
-    <string name="fragment_power_enable_profiles">Enable Profiles</string>
-    <string name="fragment_power_enable_profiles_descr">
+    <string name="fragment_power_profiles">Enable Profiles</string>
+    <string name="fragment_power_profiles_descr">
         Allows the power-management to change various system-configurations when the
         power-profile is changed. Useful for normal usage, but should be deactivated if the
         user often customizes the system-settings.
     </string>
-    <string name="fragment_power_powersave_level">Powersave-Level</string>
-    <string name="fragment_power_powersave_level_descr">
-        The current powersave-level of the power-management. A higher value indicates a
-        more aggressive power-saving.
-    </string>
-    <string name="fragment_power_debug">Debug-Mode</string>
-    <string name="fragment_power_debug_descr">
-        Enabled the debug-mode of the power-management. Useful to see if something is wrong
-        in the power-management, e.g. too high battery-drain, slow performance, lags
+
+    <!-- Fragment: Touchscreens -->
+    <string name="fragment_touchscreen_dt2w">Enable Double-Tap to Wake (DT2W)</string>
+    <string name="fragment_touchscreen_dt2w_descr">
+        Allows you to wake the device by tapping on the turned-off screen twice.
+        Warning: Probably destroys deep-sleep and battery!
     </string>
 
 </resources>

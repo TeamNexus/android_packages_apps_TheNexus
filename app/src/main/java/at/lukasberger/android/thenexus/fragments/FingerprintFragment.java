@@ -50,21 +50,17 @@ public class FingerprintFragment extends Fragment {
         /*
          * Enable Boost
          */
-        Switch enableWakeLockSwitch = (Switch) view.findViewById(R.id.fragment_fingerprint_enable_wake_lock);
-        if (PowerCapabilities.has(PowerCapabilities.POWER_CAPABILITY_FP_WORKAROUND)) {
-            enableWakeLockSwitch.setChecked(FileUtils.readOneBoolean("/data/power/fp_always_on"));
-            enableWakeLockSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        Switch alwaysOnFPSwitch = (Switch) view.findViewById(R.id.fragment_fingerprint_always_on_fp);
+        alwaysOnFPSwitch.setChecked(FileUtils.readOneBoolean("/data/power/always_on_fp"));
+        alwaysOnFPSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    FileUtils.setRequireRoot(true);
-                    FileUtils.writeOneLine("/data/power/fp_always_on", (isChecked ? "1" : "0"));
-                }
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                FileUtils.setRequireRoot(true);
+                FileUtils.writeOneLine("/data/power/always_on_fp", (isChecked ? "1" : "0"));
+            }
 
-            });
-        } else {
-            view.findViewById(R.id.fragment_fingerprint_enable_wake_lock_container).setVisibility(View.GONE);
-        }
+        });
     }
 
 }
