@@ -21,8 +21,6 @@ package at.lukasberger.android.thenexus;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,7 +28,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import at.lukasberger.android.thenexus.fragments.BatteryFragment;
 import at.lukasberger.android.thenexus.fragments.FingerprintFragment;
@@ -39,7 +36,6 @@ import at.lukasberger.android.thenexus.fragments.StartFragment;
 import at.lukasberger.android.thenexus.fragments.PowerFragment;
 import at.lukasberger.android.thenexus.fragments.TouchscreenFragment;
 import at.lukasberger.android.thenexus.utils.FileUtils;
-import at.lukasberger.android.thenexus.utils.PowerCapabilities;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity
