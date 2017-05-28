@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (this.drawer.isDrawerOpen(GravityCompat.START)) {
+        if (this.drawer != null && this.drawer.isDrawerOpen(GravityCompat.START)) {
             this.drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
