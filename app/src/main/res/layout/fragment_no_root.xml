@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="68dip"
-    android:layout_marginStart="8dip"
-    android:layout_marginEnd="8dip"
     android:orientation="vertical"
     tools:context="at.lukasberger.android.thenexus.MainActivity">
 
@@ -18,4 +15,4 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/fragment_no_root" />
 
-</LinearLayout>
+</RelativeLayout>
