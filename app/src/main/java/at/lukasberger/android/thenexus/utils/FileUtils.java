@@ -26,7 +26,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
 
@@ -38,7 +37,6 @@ public final class FileUtils {
     private static ApplicationInfo applicationInfo;
 
     private static Shell.Interactive rootSession = null;
-    private static int rootSessionIdentifier = 0;
 
     public static void setPackageManager(PackageManager pm) {
         packageManager = pm;

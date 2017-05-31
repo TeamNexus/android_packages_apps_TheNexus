@@ -29,7 +29,6 @@ import android.widget.Switch;
 
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.FileUtils;
-import at.lukasberger.android.thenexus.utils.PowerCapabilities;
 
 public class FingerprintFragment extends Fragment {
 
