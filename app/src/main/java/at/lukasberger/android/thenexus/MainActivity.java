@@ -35,6 +35,7 @@ import at.lukasberger.android.thenexus.fragments.NoRootFragment;
 import at.lukasberger.android.thenexus.fragments.StartFragment;
 import at.lukasberger.android.thenexus.fragments.PowerFragment;
 import at.lukasberger.android.thenexus.fragments.TouchscreenFragment;
+import at.lukasberger.android.thenexus.fragments.UpdatesFragment;
 import at.lukasberger.android.thenexus.utils.FileUtils;
 import eu.chainfire.libsuperuser.Shell;
 
@@ -68,8 +69,6 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView)findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FileUtils.setPackageManager(this.getPackageManager());
-
         firstFragmentUpdate = true;
         this.updateFragment(new StartFragment());
     }
@@ -90,6 +89,9 @@ public class MainActivity extends AppCompatActivity
         switch(item.getItemId()) {
             case R.id.nav_start:
                 fragment = new StartFragment();
+                break;
+            case R.id.nav_updates:
+                fragment = new UpdatesFragment();
                 break;
             case R.id.nav_battery:
                 fragment = new BatteryFragment();

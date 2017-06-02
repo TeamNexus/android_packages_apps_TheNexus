@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginTop="8dip"
     tools:context="at.lukasberger.android.thenexus.MainActivity">
 
     <!--
        Profiles
       -->
-    <LinearLayout android:id="@+id/fragment_power_profiles_container"
+    <LinearLayout
+        android:id="@+id/fragment_power_profiles_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:minHeight="48dp"
-        android:layout_marginTop="16dip"
         android:paddingEnd="?android:attr/scrollbarSize">
 
         <RelativeLayout
@@ -27,7 +28,8 @@
             android:layout_marginBottom="6dip"
             android:layout_weight="1">
 
-            <TextView android:id="@+id/fragment_power_profiles_title"
+            <TextView
+                android:id="@+id/fragment_power_profiles_title"
                 android:text="@string/fragment_power_profiles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,7 +37,8 @@
                 android:ellipsize="marquee"
                 android:fadingEdge="horizontal" />
 
-            <TextView android:text="@string/fragment_power_profiles_descr"
+            <TextView
+                android:text="@string/fragment_power_profiles_descr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/fragment_power_profiles_title"
@@ -57,4 +60,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

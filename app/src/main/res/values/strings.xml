@@ -5,6 +5,7 @@
     <string name="navigation_drawer_open">Open Drawer</string>
     <string name="navigation_drawer_close">Close Drawer</string>
     <string name="drawer_start">Start</string>
+    <string name="drawer_updates">Updates</string>
     <string name="drawer_battery">Battery</string>
     <string name="drawer_fingerprint">Fingerprint</string>
     <string name="drawer_power">Power</string>
@@ -13,20 +14,54 @@
     <!-- Common -->
     <string name="common_yes">Yes</string>
     <string name="common_no">No</string>
+    <string name="common_close">Close</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="this_can_take_a_while_internet">
+        This can take a while, depending on your current internet connection
+    </string>
 
     <!-- Fragment: Start -->
-    <string name="fragment_start_description">
-        ROM-Control application for ROMs made by the Nexus7420-team
-    </string>
-    <string name="fragment_start_status">Status</string>
-    <string name="fragment_start_status_descr">
-        The current status of your device:
-    </string>
-    <string name="fragment_start_status_rooted">Rooted?</string>
-    <string name="fragment_start_status_installed_as_system">Installed in /system?</string>
 
-    <!-- Fragment: No Root -->
-    <string name="fragment_no_root">No root-access</string>
+    <!-- Fragment: Updates -->
+    <string name="fragment_updates_searching_for_updates">Searching for updates...</string>
+    <string name="fragment_updates_searching_for_updates_failed">Searching for updates failed</string>
+    <string name="fragment_updates_info_no_infos">No informations...</string>
+    <string name="fragment_updates_info_no_infos_subtitle">Please check for updates to get more informations...</string>
+    <string name="fragment_updates_info_no_update">No update available...</string>
+    <string name="fragment_updates_info_no_update_subtitle">You are already on the latest version</string>
+    <string name="fragment_updates_info_new_update">New update available!</string>
+    <string name="fragment_updates_info_new_update_subtitle">There\'s a new update available!</string>
+    <string name="fragment_updates_testing_ota_channel">Search for testing-updates</string>
+    <string name="fragment_updates_testing_ota_channel_descr">
+        Search for updates in the unstable \"testing\"-channel. These builds can
+        be very unstable, maybe destroy your device, cause thermonuclear war or harm cure kittens.
+    </string>
+    <string name="fragment_updates_check_for_updates">Check for updates</string>
+    <string name="fragment_updates_download_and_install">Download &amp; Install</string>
+    <string name="fragment_updates_download_and_install_title">Downloading update...</string>
+    <string name="fragment_updates_download_and_install_failed">Downloading update failed</string>
+    <string name="fragment_updates_ask_for_reboot">Reboot and install?</string>
+    <string name="fragment_updates_ask_for_reboot_descr">
+        Search for updates in the unstable \"testing\"-channel. These builds can
+        be very unstable, maybe destroy your device, cause thermonuclear war or harm cure kittens.
+    </string>
+    <string name="fragment_updates_ask_for_reboot_yes">Reboot &amp; install</string>
+    <string name="fragment_updates_ask_for_reboot_no">Cancel</string>
+    <string name="fragment_updates_backup_system">Backup /system before installing</string>
+    <string name="fragment_updates_backup_system_descr">
+        Tell the recovery to create a backup of the
+        system-partition before flashing the update.
+    </string>
+    <string name="fragment_updates_backup_data">Backup /data before installing</string>
+    <string name="fragment_updates_backup_data_descr">
+        Tell the recovery to create a backup of the
+        data-partition before flashing the update.
+    </string>
+    <string name="fragment_updates_backup_boot">Backup /boot before installing</string>
+    <string name="fragment_updates_backup_boot_descr">
+        Tell the recovery to create a backup of the
+        boot-partition before flashing the update.
+    </string>
 
     <!-- Fragment: Battery -->
     <string name="fragment_battery_max_charging_limit">Maximum Charging-Speed Limit</string>
@@ -51,11 +86,14 @@
         user often customizes the system-settings.
     </string>
 
-    <!-- Fragment: Touchscreens -->
+    <!-- Fragment: Touchscreen -->
     <string name="fragment_touchscreen_dt2w">Enable Double-Tap to Wake (DT2W)</string>
     <string name="fragment_touchscreen_dt2w_descr">
         Allows you to wake the device by tapping on the turned-off screen twice.
         Warning: Probably destroys deep-sleep and battery!
     </string>
+
+    <!-- Fragment: No Root -->
+    <string name="fragment_no_root">No root-access</string>
 
 </resources>

@@ -32,45 +32,6 @@ import eu.chainfire.libsuperuser.Shell;
 public final class FileUtils {
 
     private static boolean requestRoot;
-    private static boolean useSuBinary;
-    private static PackageManager packageManager;
-    private static ApplicationInfo applicationInfo;
-
-    private static Shell.Interactive rootSession = null;
-
-    public static void setPackageManager(PackageManager pm) {
-        packageManager = pm;
-    }
-
-    public static boolean checkIfAppIsSytemApp() {
-        if (applicationInfo == null) {
-            try {
-                applicationInfo = packageManager.getApplicationInfo("at.lukasberger.android.thenexus", 0);
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        return (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM;
-    }
-
-    private static void openRootSession() {
-        Log.e("TheNexus", "openRootSession: required to re-open root-session: " + (rootSession == null ? "true" : "false"));
-
-        // check if an open root-session is required
-        if (requestRoot && useSuBinary && rootSession == null) {
-            Log.i("TheNexus", "openRootSession: try to open new root-session");
-            rootSession = new Shell.Builder()
-                    .useSU()
-                    .setWantSTDERR(true)
-                    .setWatchdogTimeout(5)
-                    .setMinimalLogging(true)
-                    .open();
-
-            Log.i("TheNexus", "openRootSession: " + (rootSession == null ? "failed" : "succeeded"));
-        }
-    }
 
     public static void setRequireRoot(boolean requireRoot) {
         if (requireRoot == requestRoot) {
@@ -81,25 +42,6 @@ public final class FileUtils {
         requestRoot = requireRoot;
 
         if (requestRoot) {
-
-            /*
-             * Check if the app is placed in /system/
-             */
-            if (checkIfAppIsSytemApp()) {
-                Log.i("TheNexus", "setRequireRoot: installed as system-appliction, try to switch to non-su mode");
-
-                try {
-                    new BufferedReader(new FileReader("/data/.nonexistent"));
-
-                    Log.i("TheNexus", "setRequireRoot: able to access /data/-partition, continue using system-method");
-                    useSuBinary = false;
-                    return;
-                } catch (Exception ex) {
-                    Log.i("TheNexus", "setRequireRoot: failed to access protected /data/-partition, fall back to root-method");
-                    useSuBinary = true;
-                }
-            }
-
             /*
              * Check if the su-binary is available and if
              * the app can access it
@@ -107,27 +49,23 @@ public final class FileUtils {
             if (!Shell.SU.available()) {
                 Log.e("TheNexus", "setRequireRoot: failed to request root, fallback to non-root-mode");
                 requestRoot = false;
+                return;
             }
 
-            openRootSession();
+            Log.i("TheNexus", "setRequireRoot: root-access acquired");
         } else {
             // reset variables
             requestRoot = false;
-            useSuBinary = false;
-
-            // destroy open root-session
-            rootSession.close();
-            rootSession = null;
         }
     }
 
     public static void writeOneLine(String path, String content) {
-        if (requestRoot && useSuBinary) {
+        if (requestRoot) {
             content = content.replaceAll("\"", "\\\"");
             try {
                 Shell.SU.run("echo \"" + content + "\" > \"" + path + "\"");
             } catch (Exception e) {
-                Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: true)", e);
+                Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: " + requestRoot + ")", e);
             }
         } else {
             try {
@@ -135,17 +73,44 @@ public final class FileUtils {
                 writer.println(content);
                 writer.close();
             } catch (IOException e) {
-                Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: false)", e);
+                Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: " + requestRoot + ")", e);
             }
         }
     }
 
+    public static void appendOneLine(String path, String content) {
+        if (requestRoot) {
+            content = content.replaceAll("\"", "\\\"");
+            try {
+                Shell.SU.run("echo \"" + content + "\" >> \"" + path + "\"");
+            } catch (Exception e) {
+                Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: " + requestRoot + ")", e);
+            }
+        } else {
+            try {
+                PrintWriter writer = new PrintWriter(path, "UTF-8");
+                writer.println(content);
+                writer.close();
+            } catch (IOException e) {
+                Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: " + requestRoot + ")", e);
+            }
+        }
+    }
+
+    public static void writeLines(String path, String[] content) {
+        int i;
+
+        writeOneLine(path, content[0]);
+        for (i = 1; i < content.length; i++)
+            appendOneLine(path, content[i]);
+    }
+
     public static String readOneLine(String path) {
-        if (requestRoot && useSuBinary) {
+        if (requestRoot) {
             try {
                 return Shell.SU.run("cat \"" + path + "\"").get(0);
             } catch (Exception e) {
-                Log.e("TheNexus", "readOneLine: failed to read from file: " + path + " (requestRoot: true)", e);
+                Log.e("TheNexus", "readOneLine: failed to read from file: " + path + " (requestRoot: " + requestRoot + ")", e);
             }
         } else {
             BufferedReader reader = null;
@@ -156,7 +121,7 @@ public final class FileUtils {
                 reader.close();
                 return result;
             } catch (IOException e) {
-                Log.e("TheNexus", "readOneLine: failed to read from file: " + path + " (requestRoot: false)", e);
+                Log.e("TheNexus", "readOneLine: failed to read from file: " + path + " (requestRoot: " + requestRoot + ")", e);
             }
         }
         return null;
@@ -188,6 +153,24 @@ public final class FileUtils {
         } catch (Exception ex) {
             return def;
         }
+    }
+
+    public static String convertBytesToReadable(int bytes) {
+        return convertBytesToReadable(bytes, 2);
+    }
+
+    public static String convertBytesToReadable(int bytes, int precision) {
+        double ibytes = bytes;
+        String[] suffixes = new String[] { "Bytes", "KB", "MB", "GB", "TB" };
+        int suffixIndex = 0;
+
+        while (ibytes / 1024.0 > 0.9) {
+            ibytes /= 1024.0;
+            suffixIndex++;
+        }
+
+        return (Math.round(ibytes * Math.pow(10, precision)) / Math.pow(10, precision))
+                + " " + suffixes[suffixIndex];
     }
 
 }
