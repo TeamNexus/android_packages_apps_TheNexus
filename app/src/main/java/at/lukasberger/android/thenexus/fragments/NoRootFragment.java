@@ -24,11 +24,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import at.lukasberger.android.thenexus.R;
-import at.lukasberger.android.thenexus.utils.FileUtils;
-import eu.chainfire.libsuperuser.Shell;
 
 public class NoRootFragment extends Fragment {
 

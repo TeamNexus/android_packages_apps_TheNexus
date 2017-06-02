@@ -26,10 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import at.lukasberger.android.thenexus.MainActivity;
 import at.lukasberger.android.thenexus.R;
-import at.lukasberger.android.thenexus.utils.FileUtils;
-import eu.chainfire.libsuperuser.Shell;
 
 public class StartFragment extends Fragment {
 
@@ -45,21 +42,6 @@ public class StartFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // assertUpdateTextView(view, Shell.SU.available(), R.id.fragment_start_status_rooted);
-        // assertUpdateTextView(view, FileUtils.checkIfAppIsSytemApp(), R.id.fragment_start_status_installed_as_system);
-    }
-
-    private void assertUpdateTextView(View view, boolean flag, int viewId) {
-        assertUpdateTextView(view, flag, viewId, false);
-    }
-
-    private void assertUpdateTextView(View view, boolean flag, int viewId, boolean inverted) {
-        TextView v = ((TextView)view.findViewById(viewId));
-        if (flag && !inverted) {
-            v.setText(R.string.common_yes);
-        } else {
-            v.setText(R.string.common_no);
-        }
     }
 
 }
