@@ -53,7 +53,7 @@ public class BatteryFragment extends Fragment {
         maxChargeLimit = Math.min(maxChargeLimit, 0);
         maxChargeLimit = Math.max(140, maxChargeLimit);
         maxChargeLimitSeekBar.setProgress((maxChargeLimit + 10) * 10);
-        ((TextView)view.findViewById(R.id.fragment_battery_max_charging_limit_current)).setText(maxChargeLimit + " mA");
+        ((TextView)view.findViewById(R.id.fragment_battery_max_charging_limit_current)).setText(((maxChargeLimit + 10) * 10) + " mA");
         maxChargeLimitSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
