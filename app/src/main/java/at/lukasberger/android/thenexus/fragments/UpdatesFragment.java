@@ -103,7 +103,7 @@ public class UpdatesFragment extends Fragment {
 
                 case BROADCAST_UPDATE_OTA_INFORMATIONS:
                     try {
-                        String channelName   = (prefs.getBoolean("updates.testing_ota_channel", false) ? "release" : "testing");
+                        String channelName   = (prefs.getBoolean("updates.testing_ota_channel", false) ? "testing" : "release");
                         String deviceOtaName = SystemUtils.getSystemProperty("ro.nexus.otaname");
 
                         int buildTimestamp = Integer.parseInt(SystemUtils.getSystemProperty("ro.build.date.utc")) - 1;
@@ -288,7 +288,7 @@ public class UpdatesFragment extends Fragment {
                                 return;
                             }
 
-                            String channelName         = (prefs.getBoolean("updates.testing_ota_channel", false) ? "release" : "testing");
+                            String channelName         = (prefs.getBoolean("updates.testing_ota_channel", false) ? "testing" : "release");
                             String deviceOtaName       = SystemUtils.getSystemProperty("ro.nexus.otaname");
                             JSONObject otaChannelInfos = otaInformation
                                     .getJSONObject(deviceOtaName)
