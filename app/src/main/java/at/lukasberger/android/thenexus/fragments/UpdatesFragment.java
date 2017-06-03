@@ -348,6 +348,7 @@ public class UpdatesFragment extends Fragment {
                             recovery_script.add("install /sdcard/.nexusota/" + otaLocalStreamFileName);
                             recovery_script.add("wipe cache");
                             recovery_script.add("wipe dalvik");
+                            recovery_script.add("cmd reboot system");
 
                             Shell.SU.run("mkdir -p /cache/recovery/");
                             Shell.SU.run("mkdir -p /sdcard/.nexusota/");
