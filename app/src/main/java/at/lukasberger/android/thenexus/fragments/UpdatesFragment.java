@@ -106,7 +106,7 @@ public class UpdatesFragment extends Fragment {
                         String channelName   = (prefs.getBoolean("updates.testing_ota_channel", false) ? "testing" : "release");
                         String deviceOtaName = SystemUtils.getSystemProperty("ro.nexus.otaname");
 
-                        int buildTimestamp = Integer.parseInt(SystemUtils.getSystemProperty("ro.build.date.utc")) - 999999;
+                        int buildTimestamp = Integer.parseInt(SystemUtils.getSystemProperty("ro.build.date.utc"));
                         int otaTimestamp   = 0;
 
                         if (otaInformation.has(deviceOtaName) &&
