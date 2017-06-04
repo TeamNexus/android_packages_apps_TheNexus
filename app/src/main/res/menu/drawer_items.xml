@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_start"
-            android:icon="@drawable/ic_menu_start"
-            android:title="@string/drawer_start" />
-        <item
-            android:id="@+id/nav_updates"
-            android:icon="@drawable/ic_menu_updates"
-            android:title="@string/drawer_updates" />
-    </group>
+    <item
+        android:title="@string/drawer_category_start">
+        <menu
+            android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_start"
+                android:icon="@drawable/ic_menu_start"
+                android:title="@string/drawer_start" />
+            <item
+                android:id="@+id/nav_updates"
+                android:icon="@drawable/ic_menu_updates"
+                android:title="@string/drawer_updates" />
+        </menu>
+    </item>
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_battery"
-            android:icon="@drawable/ic_menu_battery"
-            android:title="@string/drawer_battery" />
-        <item
-            android:id="@+id/nav_fingerprint"
-            android:icon="@drawable/ic_menu_fingerprint"
-            android:title="@string/drawer_fingerprint" />
-        <item
-            android:id="@+id/nav_power"
-            android:icon="@drawable/ic_menu_power"
-            android:title="@string/drawer_power" />
-        <item
-            android:id="@+id/nav_touchscreen"
-            android:icon="@drawable/ic_menu_touchscreen"
-            android:title="@string/drawer_touchscreen" />
-    </group>
+    <item
+        android:title="@string/drawer_category_personalization">
+        <menu
+            android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_battery"
+                android:icon="@drawable/ic_menu_battery"
+                android:title="@string/drawer_battery" />
+            <item
+                android:id="@+id/nav_fingerprint"
+                android:icon="@drawable/ic_menu_fingerprint"
+                android:title="@string/drawer_fingerprint" />
+            <item
+                android:id="@+id/nav_power"
+                android:icon="@drawable/ic_menu_power"
+                android:title="@string/drawer_power" />
+            <item
+                android:id="@+id/nav_touchscreen"
+                android:icon="@drawable/ic_menu_touchscreen"
+                android:title="@string/drawer_touchscreen" />
+        </menu>
+    </item>
 
 </menu>

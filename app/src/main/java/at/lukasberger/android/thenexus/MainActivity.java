@@ -36,7 +36,6 @@ import at.lukasberger.android.thenexus.fragments.StartFragment;
 import at.lukasberger.android.thenexus.fragments.PowerFragment;
 import at.lukasberger.android.thenexus.fragments.TouchscreenFragment;
 import at.lukasberger.android.thenexus.fragments.UpdatesFragment;
-import at.lukasberger.android.thenexus.utils.FileUtils;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity

@@ -4,6 +4,8 @@
     <!-- Drawer -->
     <string name="navigation_drawer_open">Open Drawer</string>
     <string name="navigation_drawer_close">Close Drawer</string>
+    <string name="drawer_category_start">Start</string>
+    <string name="drawer_category_personalization">Personalization</string>
     <string name="drawer_start">Start</string>
     <string name="drawer_updates">Updates</string>
     <string name="drawer_battery">Battery</string>
