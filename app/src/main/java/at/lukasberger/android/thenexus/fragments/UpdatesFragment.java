@@ -106,11 +106,16 @@ public class UpdatesFragment extends Fragment {
                         String channelName   = (prefs.getBoolean("updates.testing_ota_channel", false) ? "testing" : "release");
                         String deviceOtaName = SystemUtils.getSystemProperty("ro.nexus.otaname");
 
-                        int buildTimestamp = Integer.parseInt(SystemUtils.getSystemProperty("ro.build.date.utc")) - 1;
-                        int otaTimestamp   = otaInformation
-                                .getJSONObject(deviceOtaName)
-                                .getJSONObject(channelName)
-                                .getInt("timestamp");
+                        int buildTimestamp = Integer.parseInt(SystemUtils.getSystemProperty("ro.build.date.utc")) - 999999;
+                        int otaTimestamp   = 0;
+
+                        if (otaInformation.has(deviceOtaName) &&
+                                (otaInformation.getJSONObject(deviceOtaName).has(channelName))) {
+                            otaTimestamp = otaInformation
+                                    .getJSONObject(deviceOtaName)
+                                    .getJSONObject(channelName)
+                                    .getInt("timestamp");
+                        }
 
                         if (buildTimestamp < otaTimestamp) {
                             ((TextView)view.findViewById(R.id.fragment_updates_info_title)).setText(R.string.fragment_updates_info_new_update);
@@ -329,6 +334,7 @@ public class UpdatesFragment extends Fragment {
                             } while (current < otaDownloadSize && !abortDownload);
 
                             if (abortDownload) {
+                                FileUtils.delete(otaLocalStreamPath, true);
                                 Log.e("TheNexus", "Download abort [1]");
                                 return;
                             }
@@ -354,8 +360,7 @@ public class UpdatesFragment extends Fragment {
                             Shell.SU.run("mkdir -p /sdcard/.nexusota/");
                             Shell.SU.run("rm -f /sdcard/.nexusota/*");
                             Shell.SU.run("mv -f " + otaLocalStreamPath + " /sdcard/.nexusota/" + otaLocalStreamFileName);
-                            FileUtils.setRequireRoot(true);
-                            FileUtils.writeLines("/cache/recovery/openrecoveryscript", recovery_script.toArray(new String[] { }));
+                            FileUtils.write("/cache/recovery/openrecoveryscript", recovery_script.toArray(new String[] { }));
 
                             // request user to accept reboot
                             broadcastIntent.putExtra("action", BROADCAST_ASK_FOR_REBOOT);

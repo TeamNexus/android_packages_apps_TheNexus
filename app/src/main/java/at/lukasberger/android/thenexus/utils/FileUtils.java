@@ -18,121 +18,88 @@
 
 package at.lukasberger.android.thenexus.utils;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
 
 public final class FileUtils {
 
-    private static boolean requestRoot;
-
-    public static void setRequireRoot(boolean requireRoot) {
-        if (requireRoot == requestRoot) {
-            // state not changed, skip it
-            return;
-        }
-
-        requestRoot = requireRoot;
-
-        if (requestRoot) {
-            /*
-             * Check if the su-binary is available and if
-             * the app can access it
-             */
-            if (!Shell.SU.available()) {
-                Log.e("TheNexus", "setRequireRoot: failed to request root, fallback to non-root-mode");
-                requestRoot = false;
-                return;
-            }
-
-            Log.i("TheNexus", "setRequireRoot: root-access acquired");
-        } else {
-            // reset variables
-            requestRoot = false;
+    public static void touch(String path) {
+        try {
+            Shell.SU.run("touch \"" + path + "\"");
+        } catch (Exception e) {
+            Log.e("TheNexus", "FileUtils.touch: failed to touch file: " + path, e);
         }
     }
 
-    public static void writeOneLine(String path, String content) {
-        if (requestRoot) {
-            content = content.replaceAll("\"", "\\\"");
-            try {
-                Shell.SU.run("echo \"" + content + "\" > \"" + path + "\"");
-            } catch (Exception e) {
-                Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: " + requestRoot + ")", e);
-            }
-        } else {
-            try {
-                PrintWriter writer = new PrintWriter(path, "UTF-8");
-                writer.println(content);
-                writer.close();
-            } catch (IOException e) {
-                Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: " + requestRoot + ")", e);
-            }
+    public static void delete(String path) {
+        FileUtils.delete(path, false);
+    }
+
+    public static void delete(String path, boolean force) {
+        try {
+            Shell.SU.run("rm " + (force ? "-f " : " ") + "\"" + path + "\"");
+        } catch (Exception e) {
+            Log.e("TheNexus", "FileUtils.touch: failed to touch file: " + path, e);
         }
     }
 
-    public static void appendOneLine(String path, String content) {
-        if (requestRoot) {
-            content = content.replaceAll("\"", "\\\"");
-            try {
-                Shell.SU.run("echo \"" + content + "\" >> \"" + path + "\"");
-            } catch (Exception e) {
-                Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: " + requestRoot + ")", e);
-            }
-        } else {
-            try {
-                PrintWriter writer = new PrintWriter(path, "UTF-8");
-                writer.println(content);
-                writer.close();
-            } catch (IOException e) {
-                Log.e("TheNexus", "writeOneLine: failed to write to file: " + path + " (requestRoot: " + requestRoot + ")", e);
-            }
+    public static void write(String path, boolean content) {
+        FileUtils.write(path, (content ? "1" : "0"));
+    }
+
+    public static void write(String path, int content) {
+        FileUtils.write(path, Integer.toString(content));
+    }
+
+    public static void write(String path, String content) {
+        content = content.replaceAll("\"", "\\\"");
+        try {
+            Shell.SU.run("echo \"" + content + "\" > \"" + path + "\"");
+        } catch (Exception e) {
+            Log.e("TheNexus", "FileUtils.write: failed to write to file: " + path, e);
         }
     }
 
-    public static void writeLines(String path, String[] content) {
+    public static void write(String path, String[] content) {
         int i;
 
-        writeOneLine(path, content[0]);
+        FileUtils.write(path, content[0]);
         for (i = 1; i < content.length; i++)
-            appendOneLine(path, content[i]);
+            FileUtils.append(path, content[i]);
     }
 
-    public static String readOneLine(String path) {
-        if (requestRoot) {
-            try {
-                return Shell.SU.run("cat \"" + path + "\"").get(0);
-            } catch (Exception e) {
-                Log.e("TheNexus", "readOneLine: failed to read from file: " + path + " (requestRoot: " + requestRoot + ")", e);
-            }
-        } else {
-            BufferedReader reader = null;
-            String result = null;
-            try {
-                reader = new BufferedReader(new FileReader(path));
-                result = reader.readLine();
-                reader.close();
-                return result;
-            } catch (IOException e) {
-                Log.e("TheNexus", "readOneLine: failed to read from file: " + path + " (requestRoot: " + requestRoot + ")", e);
-            }
+    public static void append(String path, String content) {
+        content = content.replaceAll("\"", "\\\"");
+        try {
+            Shell.SU.run("echo \"" + content + "\" >> \"" + path + "\"");
+        } catch (Exception e) {
+            Log.e("TheNexus", "FileUtils.append: failed to write to file: " + path, e);
+        }
+    }
+
+    public static List<String> read(String path) {
+        try {
+            return Shell.SU.run("cat \"" + path + "\"");
+        } catch (Exception e) {
+            Log.e("TheNexus", "FileUtils.readLine: failed to read from file: " + path, e);
         }
         return null;
     }
 
-    public static boolean readOneBoolean(String path) {
-        return readOneBoolean(path, false);
+    public static String readLine(String path) {
+        List<String> result = FileUtils.read(path);
+        return (result == null ? null : result.get(0));
     }
 
-    public static boolean readOneBoolean(String path, boolean onlyTrueOnOne) {
-        String result = readOneLine(path);
+    public static boolean readBoolean(String path) {
+        return readBoolean(path, false);
+    }
+
+    public static boolean readBoolean(String path, boolean onlyTrueOnOne) {
+        String result = FileUtils.readLine(path);
         if (result == null) {
             return false;
         }
@@ -143,9 +110,9 @@ public final class FileUtils {
         }
     }
 
-    public static int readOneInt(String path, int def) {
+    public static int readInt(String path, int def) {
         try {
-            String result = readOneLine(path);
+            String result = FileUtils.readLine(path);
             if (result == null) {
                 return def;
             }

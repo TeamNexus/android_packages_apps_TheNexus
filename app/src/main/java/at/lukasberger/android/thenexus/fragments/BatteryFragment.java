@@ -49,7 +49,7 @@ public class BatteryFragment extends Fragment {
          * Maximum Charging Limit
          */
         SeekBar maxChargeLimitSeekBar = (SeekBar)view.findViewById(R.id.fragment_battery_max_charging_limit);
-        int maxChargeLimit = FileUtils.readOneInt("/sys/class/power_supply/max77843-charger/current_max_tunable", 1000);
+        int maxChargeLimit = FileUtils.readInt("/sys/class/power_supply/max77843-charger/current_max_tunable", 1000);
         maxChargeLimit = Math.min(maxChargeLimit, 0);
         maxChargeLimit = Math.max(140, maxChargeLimit);
         maxChargeLimitSeekBar.setProgress((maxChargeLimit + 10) * 10);
@@ -61,8 +61,7 @@ public class BatteryFragment extends Fragment {
                 progress += 10; // minimal value of 100 mAh
                 progress *= 10; // only set in steps of ten
 
-                FileUtils.setRequireRoot(true);
-                FileUtils.writeOneLine("/sys/class/power_supply/max77843-charger/current_max_tunable", Integer.toString(progress));
+                FileUtils.write("/sys/class/power_supply/max77843-charger/current_max_tunable", progress);
                 ((TextView)view.findViewById(R.id.fragment_battery_max_charging_limit_current)).setText(progress + " mA");
             }
 

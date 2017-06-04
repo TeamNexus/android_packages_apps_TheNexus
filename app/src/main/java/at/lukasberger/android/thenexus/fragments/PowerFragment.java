@@ -49,13 +49,12 @@ public class PowerFragment extends Fragment {
          * Enable Profiles
          */
         Switch profilesSwitch = (Switch)view.findViewById(R.id.fragment_power_profiles);
-        profilesSwitch.setChecked(FileUtils.readOneBoolean("/data/power/profiles"));
+        profilesSwitch.setChecked(FileUtils.readBoolean("/data/power/profiles"));
         profilesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FileUtils.setRequireRoot(true);
-                FileUtils.writeOneLine("/data/power/profiles", (isChecked ? "1" : "0"));
+                FileUtils.write("/data/power/profiles", isChecked);
             }
 
         });

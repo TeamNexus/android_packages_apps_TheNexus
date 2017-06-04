@@ -50,14 +50,13 @@ public class TouchscreenFragment extends Fragment {
          * Enable Boost
          */
         Switch dt2wSwitch = (Switch)view.findViewById(R.id.fragment_touchscreen_dt2w);
-        dt2wSwitch.setChecked(FileUtils.readOneBoolean("/data/power/dt2w"));
+        dt2wSwitch.setChecked(FileUtils.readBoolean("/data/power/dt2w"));
         dt2wSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FileUtils.setRequireRoot(true);
-                FileUtils.writeOneLine("/sys/android_touch/doubletap2wake", (isChecked ? "1" : "0"));
-                FileUtils.writeOneLine("/data/power/dt2w", (isChecked ? "1" : "0"));
+                FileUtils.write("/sys/android_touch/doubletap2wake", isChecked);
+                FileUtils.write("/data/power/dt2w", isChecked);
             }
 
         });

@@ -31,7 +31,7 @@ public class PowerCapabilities {
 
     public static boolean has(int capability) {
         if (cachedFlags == 0) {
-            cachedFlags = FileUtils.readOneInt("/data/power/capabilities", 0);
+            cachedFlags = FileUtils.readInt("/data/power/capabilities", 0);
         }
 
         return (cachedFlags & capability) == capability;

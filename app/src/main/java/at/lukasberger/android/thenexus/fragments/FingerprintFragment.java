@@ -50,13 +50,12 @@ public class FingerprintFragment extends Fragment {
          * Enable Boost
          */
         Switch alwaysOnFPSwitch = (Switch) view.findViewById(R.id.fragment_fingerprint_always_on_fp);
-        alwaysOnFPSwitch.setChecked(FileUtils.readOneBoolean("/data/power/always_on_fp"));
+        alwaysOnFPSwitch.setChecked(FileUtils.readBoolean("/data/power/always_on_fp"));
         alwaysOnFPSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FileUtils.setRequireRoot(true);
-                FileUtils.writeOneLine("/data/power/always_on_fp", (isChecked ? "1" : "0"));
+                FileUtils.write("/data/power/always_on_fp", isChecked);
             }
 
         });
