@@ -220,7 +220,7 @@ public class UpdatesFragment extends Fragment {
                         try {
                             // download update-index
                             String deviceOtaName                 = SystemUtils.getSystemProperty("ro.nexus.otaname");
-                            URL deviceOtaUrl                     = new URL("https://nexus-roms.eu/files/ota.php?device=" + deviceOtaName);
+                            URL deviceOtaUrl                     = new URL("https://nexus-roms.eu/files/ota.php?device=" + deviceOtaName + "&rom=NexusOS");
                             HttpURLConnection otaIndexConnection = (HttpURLConnection)deviceOtaUrl.openConnection();
 
                             BufferedReader in = new BufferedReader(new InputStreamReader(otaIndexConnection.getInputStream()));
