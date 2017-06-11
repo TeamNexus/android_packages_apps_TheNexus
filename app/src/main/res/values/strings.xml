@@ -64,6 +64,11 @@
         Tell the recovery to create a backup of the
         boot-partition before flashing the update.
     </string>
+    <string name="fragment_updates_unsupported_rom">ROM is not supported</string>
+    <string name="fragment_updates_unsupported_rom_descr">
+        Your ROM does not support OTA-updates through TheNexus.
+		Please download and flash the build manually.
+    </string>
 
     <!-- Fragment: Battery -->
     <string name="fragment_battery_max_charging_limit">Maximum Charging-Speed Limit</string>

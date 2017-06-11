@@ -69,6 +69,7 @@ public class UpdatesFragment extends Fragment {
     private final int BROADCAST_UPDATE_DOWNLOAD_PROGRESS          = 0x00000004;
     private final int BROADCAST_DOWNLOAD_AND_INSTALL_FAILED       = 0x00000005;
     private final int BROADCAST_ASK_FOR_REBOOT                    = 0x00000006;
+    private final int BROADCAST_OTA_UNSUPPORTED_DEVICE            = 0x00000007;
 
     private View view;
     private MaterialDialog dialog;
@@ -178,6 +179,17 @@ public class UpdatesFragment extends Fragment {
                     dialog.show();
 
                     break;
+
+                case BROADCAST_OTA_UNSUPPORTED_DEVICE:
+                    dialog.hide();
+
+                    dialog = new MaterialDialog.Builder(context)
+                            .title(R.string.fragment_updates_unsupported_rom)
+                            .content(R.string.fragment_updates_unsupported_rom_descr)
+                            .build();
+
+                    dialog.show();
+					break;
             }
         }
     };
@@ -220,7 +232,16 @@ public class UpdatesFragment extends Fragment {
                         try {
                             // download update-index
                             String deviceOtaName                 = SystemUtils.getSystemProperty("ro.nexus.otaname");
-                            URL deviceOtaUrl                     = new URL("https://nexus-roms.eu/files/ota.php?device=" + deviceOtaName + "&rom=NexusOS");
+                            String romOtaName                    = SystemUtils.getSystemProperty("ro.nexus.otarom");
+
+                            if (romOtaName.equals("unknown")) {
+                                // fail
+                                broadcastIntent.putExtra("action", BROADCAST_OTA_UNSUPPORTED_DEVICE);
+                                context.sendBroadcast(broadcastIntent);
+                                return;
+                            }
+
+                            URL deviceOtaUrl                     = new URL("https://nexus-roms.eu/files/ota.php?device=" + deviceOtaName + "&rom=" + romOtaName);
                             HttpURLConnection otaIndexConnection = (HttpURLConnection)deviceOtaUrl.openConnection();
 
                             BufferedReader in = new BufferedReader(new InputStreamReader(otaIndexConnection.getInputStream()));
