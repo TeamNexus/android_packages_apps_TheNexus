@@ -234,7 +234,7 @@ public class UpdatesFragment extends Fragment {
                             String deviceOtaName                 = SystemUtils.getSystemProperty("ro.nexus.otaname");
                             String romOtaName                    = SystemUtils.getSystemProperty("ro.nexus.otarom");
 
-                            if (romOtaName.equals("unknown")) {
+                            if (romOtaName.equals("unknown") || romOtaName.equals("")) {
                                 // fail
                                 broadcastIntent.putExtra("action", BROADCAST_OTA_UNSUPPORTED_DEVICE);
                                 context.sendBroadcast(broadcastIntent);
