@@ -88,26 +88,35 @@ public class MainActivity extends AppCompatActivity
         switch(item.getItemId()) {
             case R.id.nav_start:
                 fragment = new StartFragment();
+                setTitle("Start");
                 break;
             case R.id.nav_updates:
                 fragment = new UpdatesFragment();
+                setTitle("Updates");
                 break;
             case R.id.nav_battery:
                 fragment = new BatteryFragment();
+                setTitle("Battery");
                 break;
             case R.id.nav_fingerprint:
                 fragment = new FingerprintFragment();
+                setTitle("Fingerprint");
                 break;
             case R.id.nav_power:
                 fragment = new PowerFragment();
+                setTitle("Power");
                 break;
             case R.id.nav_touchscreen:
                 fragment = new TouchscreenFragment();
+                setTitle("Touchscreen");
                 break;
         }
 
-        this.updateFragment(fragment);
-        drawer.closeDrawer(GravityCompat.START);
+        if (fragment != null) {
+            this.updateFragment(fragment);
+            drawer.closeDrawer(GravityCompat.START);
+        }
+
         return true;
     }
 
@@ -116,6 +125,7 @@ public class MainActivity extends AppCompatActivity
 
         if (this.firstFragmentUpdate) {
             transact.add(R.id.content, fragment);
+            setTitle("Start");
         } else {
             transact.replace(R.id.content, fragment);
         }
@@ -123,5 +133,4 @@ public class MainActivity extends AppCompatActivity
         this.firstFragmentUpdate = false;
         transact.commit();
     }
-
 }
