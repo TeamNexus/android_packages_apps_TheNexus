@@ -10,4 +10,7 @@
     <color name="colorStartBoxTitle">#ff181818</color>
     <color name="colorStartBoxText">#ff222222</color>
 
+    <color name="md_red_800">#ffc62828</color>
+    <color name="md_yellow_800">#fff9a825</color>
+    <color name="md_green_800">#ff2e7d32</color>
 </resources>

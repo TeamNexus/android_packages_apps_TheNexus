@@ -23,6 +23,11 @@
     </string>
 
     <!-- Fragment: Start -->
+    <string name="fragment_start_device_name">Device name: %1$s</string>
+    <string name="fragment_start_rom">ROM: %1$s</string>
+    <string name="fragment_start_android_version">Android version: %1$s</string>
+    <string name="fragment_start_kernel">Kernel: %1$s</string>
+    <string name="fragment_start_battery_status">Battery status: %1$s</string>
 
     <!-- Fragment: Updates -->
     <string name="fragment_updates_searching_for_updates">Searching for updates...</string>
