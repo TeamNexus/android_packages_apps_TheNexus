@@ -10,7 +10,7 @@
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/device_card_view"
+        android:id="@+id/fragment_start_device_card_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,41 +26,44 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="100dp"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="15dp"
                 android:src="@drawable/ic_smartphone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp">
 
                 <TextView
-                    android:id="@+id/device_name"
+                    android:id="@+id/fragment_start_device"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:text="@string/fragment_start_device_name"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white" />
 
                 <TextView
-                    android:id="@+id/rom_name"
+                    android:id="@+id/fragment_start_rom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fragment_start_rom"/>
+                    android:text="@string/fragment_start_rom" />
 
                 <TextView
-                    android:id="@+id/android_version"
+                    android:id="@+id/fragment_start_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fragment_start_android_version"/>
+                    android:text="@string/fragment_start_android_version" />
 
                 <TextView
-                    android:id="@+id/build_date"
+                    android:id="@+id/fragment_start_kernel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fragment_start_kernel"/>
+                    android:text="@string/fragment_start_kernel" />
 
             </LinearLayout>
 
@@ -70,8 +73,8 @@
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/battery_card_view"
-        android:layout_below="@id/device_card_view"
+        android:id="@+id/fragment_start_profile_card_view"
+        android:layout_below="@id/fragment_start_device_card_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,29 +90,118 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="80dp"
+                android:layout_width="75dp"
                 android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_power_profile" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:text="@string/fragment_start_power_profile"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/fragment_start_power_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/fragment_start_power_profile_balanced" />
+
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/fragment_start_power_profile_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:padding="8dip"
+                    android:layout_marginEnd="16dp"
+                    android:max="2"
+                    android:progress="1"
+                    android:progressTint="@android:color/white"
+                    android:thumbTint="@android:color/white" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fragment_start_battery_card_view"
+        android:layout_below="@id/fragment_start_profile_card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dip"
+        android:layout_marginEnd="6dip"
+        android:layout_marginBottom="6dip"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardBackgroundColor="@color/colorAccent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="15dp"
                 android:src="@drawable/ic_battery_full" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="25dp"
                 android:layout_marginEnd="20dp">
 
-                <TextView
-                    android:id="@+id/battery_percentage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="79%"
-                    android:textSize="35sp"
-                    android:textColor="@android:color/white"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/fragment_start_battery_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="000 %"
+                        android:textSize="35sp"
+                        android:textColor="@android:color/white"/>
+
+                    <TextView
+                        android:id="@+id/fragment_start_battery_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/fragment_start_battery_speed"/>
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/battery_status"
+                    android:id="@+id/fragment_start_battery_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/fragment_start_battery_status"/>
@@ -119,4 +211,5 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+
 </RelativeLayout>

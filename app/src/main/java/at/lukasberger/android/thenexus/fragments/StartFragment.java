@@ -26,20 +26,26 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import at.lukasberger.android.thenexus.R;
+import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.SystemUtils;
+import cyanogenmod.power.PerformanceManager;
 
 public class StartFragment extends Fragment {
 
     private CardView batteryCardView;
     private TextView batteryPercentageTextView;
+    private TextView batterySpeedTextView;
     private TextView batteryStatusTextView;
 
     @Nullable
@@ -52,21 +58,26 @@ public class StartFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        TextView deviceNameTextView = (TextView)view.findViewById(R.id.fragment_start_device);
+        TextView romNameTextView = (TextView)view.findViewById(R.id.fragment_start_rom);
+        TextView androidVersionTextView = (TextView)view.findViewById(R.id.fragment_start_version);
+        TextView kernelTextView = (TextView)view.findViewById(R.id.fragment_start_kernel);
 
-        TextView deviceNameTextView = (TextView) view.findViewById(R.id.device_name);
-        TextView romNameTextView = (TextView) view.findViewById(R.id.rom_name);
-        TextView androidVersionTextView = (TextView) view.findViewById(R.id.android_version);
-        TextView buildDateTextView = (TextView) view.findViewById(R.id.build_date);
-        batteryCardView = (CardView) view.findViewById(R.id.battery_card_view);
-        batteryPercentageTextView = (TextView) view.findViewById(R.id.battery_percentage);
-        batteryStatusTextView = (TextView) view.findViewById(R.id.battery_status);
+        final TextView powerProfileTextView = (TextView)view.findViewById(R.id.fragment_start_power_profile);
+        SeekBar powerProfileSeekBar = (SeekBar)view.findViewById(R.id.fragment_start_power_profile_bar);
+        final PowerManager mPowerManager = (PowerManager)view.getContext().getSystemService(Context.POWER_SERVICE);
 
-        deviceNameTextView.setText(getString(R.string.fragment_start_device_name, Build.DEVICE));
-        romNameTextView.setText(getString(R.string.fragment_start_rom, Build.DISPLAY));
-        androidVersionTextView.setText(getString(R.string.fragment_start_android_version, Build.VERSION.RELEASE));
-        buildDateTextView.setText(getString(R.string.fragment_start_kernel, System.getProperty("os.version")));
+        batteryCardView = (CardView) view.findViewById(R.id.fragment_start_battery_card_view);
+        batteryPercentageTextView = (TextView) view.findViewById(R.id.fragment_start_battery_percentage);
+        batterySpeedTextView = (TextView) view.findViewById(R.id.fragment_start_battery_speed);
+        batteryStatusTextView = (TextView) view.findViewById(R.id.fragment_start_battery_status);
+
+        deviceNameTextView.setText(getString(R.string.fragment_start_device_name, Build.BRAND, Build.PRODUCT));
+        romNameTextView.setText(getString(R.string.fragment_start_rom, SystemUtils.getSystemProperty("ro.nexus.otarom")));
+        androidVersionTextView.setText(getString(R.string.fragment_start_android_version, Build.VERSION.RELEASE, Build.VERSION.SECURITY_PATCH));
+        kernelTextView.setText(getString(R.string.fragment_start_kernel, System.getProperty("os.version").split("-")[0]));
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_POWER_CONNECTED);
@@ -74,6 +85,33 @@ public class StartFragment extends Fragment {
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
 
         getActivity().registerReceiver(batteryReceiver, intentFilter);
+
+        powerProfileSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                switch (progress) {
+                    case 0:
+                        powerProfileTextView.setText(R.string.fragment_start_power_profile_power_save);
+                        break;
+
+                    case 1:
+                        powerProfileTextView.setText(R.string.fragment_start_power_profile_balanced);
+                        break;
+
+                    case 2:
+                        powerProfileTextView.setText(R.string.fragment_start_power_profile_performance);
+                        break;
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+
+        });
     }
 
     @Override
@@ -90,7 +128,10 @@ public class StartFragment extends Fragment {
 
             if (level != -1 && scale != -1) {
                 int percentage = (int) ((level / (float) scale) * 100f);
-                batteryPercentageTextView.setText(percentage + " %");
+                int speed = FileUtils.readInt("/sys/class/power_supply/max77843-charger/current_now", -1);
+
+                batteryPercentageTextView.setText(getString(R.string.fragment_start_battery_precentage, percentage));
+                batterySpeedTextView.setText(getString(R.string.fragment_start_battery_speed, speed));
 
                 if (percentage < 15) {
                     batteryCardView.setCardBackgroundColor(ContextCompat.getColor(getActivity(), R.color.md_red_800));
