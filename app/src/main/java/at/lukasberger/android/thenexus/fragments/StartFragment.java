@@ -93,14 +93,17 @@ public class StartFragment extends Fragment {
                 switch (progress) {
                     case 0:
                         powerProfileTextView.setText(R.string.fragment_start_power_profile_power_save);
+                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(0);
                         break;
 
                     case 1:
                         powerProfileTextView.setText(R.string.fragment_start_power_profile_balanced);
+                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(1);
                         break;
 
                     case 2:
                         powerProfileTextView.setText(R.string.fragment_start_power_profile_performance);
+                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(2);
                         break;
                 }
             }
@@ -125,24 +128,28 @@ public class StartFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+            int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+            boolean isCharging = (status == BatteryManager.BATTERY_STATUS_CHARGING);
 
             if (level != -1 && scale != -1) {
                 int percentage = (int) ((level / (float) scale) * 100f);
                 int speed = FileUtils.readInt("/sys/class/power_supply/max77843-charger/current_now", -1);
 
                 batteryPercentageTextView.setText(getString(R.string.fragment_start_battery_precentage, percentage));
-                batterySpeedTextView.setText(getString(R.string.fragment_start_battery_speed, speed));
 
-                if (percentage < 15) {
+                if (isCharging)
+                    batterySpeedTextView.setText(getString(R.string.fragment_start_battery_speed, speed));
+                else
+                    batterySpeedTextView.setText("");
+
+                if (percentage < 15 && !isCharging) {
                     batteryCardView.setCardBackgroundColor(ContextCompat.getColor(getActivity(), R.color.md_red_800));
-                } else if (percentage < 80) {
+                } else if (percentage < 75 && !isCharging) {
                     batteryCardView.setCardBackgroundColor(ContextCompat.getColor(getActivity(), R.color.md_yellow_800));
                 } else {
                     batteryCardView.setCardBackgroundColor(ContextCompat.getColor(getActivity(), R.color.md_green_800));
                 }
             }
-
-            int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
 
             switch (status) {
                 case BatteryManager.BATTERY_STATUS_CHARGING:
