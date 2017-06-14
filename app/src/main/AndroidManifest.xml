@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="at.lukasberger.android.thenexus">
 
-    <protected-broadcast android:name="at.lukasberger.android.thenexus.UPDATER_BROADCAST" />
-    <protected-broadcast android:name="at.lukasberger.android.thenexus.FRAGMENTHELPER_BROADCAST" />
-
     <uses-sdk
         android:minSdkVersion="25"
         android:targetSdkVersion="25"
