@@ -1,6 +1,6 @@
 /*
- * The Nexus - ROM-Control application for ROMs made by the Nexus7420-team
- * Copyright (C) 2017  Team Nexus7420, Lukas Berger
+ * The Nexus - ROM-Control for ROMs made by TeamNexus
+ * Copyright (C) 2017  TeamNexus, Lukas Berger
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,16 +19,32 @@
 package at.lukasberger.android.thenexus.fragments;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
+import org.json.JSONException;
+
+import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.SystemUtils;
+import eu.chainfire.libsuperuser.Shell;
 
 public class BatteryFragment extends Fragment {
 
@@ -38,42 +54,65 @@ public class BatteryFragment extends Fragment {
         if (container == null) {
             return null;
         }
-        return inflater.inflate(R.layout.fragment_battery, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_battery, container, false);
+        FragmentHelper.begin(view, R.id.fragment_battery_loader, R.id.fragment_battery_layout);
+
+        return view;
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final SharedPreferences prefs = view.getContext().getSharedPreferences("TheNexus", 0);
+        final SharedPreferences.Editor prefsEdit = prefs.edit();
 
-        /*
-         * Maximum Charging Limit
-         */
-        SeekBar maxChargeLimitSeekBar = (SeekBar)view.findViewById(R.id.fragment_battery_max_charging_limit);
-        int maxChargeLimit = FileUtils.readInt("/sys/class/power_supply/max77843-charger/current_max_tunable", 1000);
-        maxChargeLimit = Math.min(maxChargeLimit, 0);
-        maxChargeLimit = Math.max(140, maxChargeLimit);
-        maxChargeLimitSeekBar.setProgress((maxChargeLimit + 10) * 10);
-        ((TextView)view.findViewById(R.id.fragment_battery_max_charging_limit_current)).setText(((maxChargeLimit + 10) * 10) + " mA");
-        maxChargeLimitSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        Thread thread = new Thread(new Runnable() {
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progress += 10; // minimal value of 100 mAh
-                progress *= 10; // only set in steps of ten
+            public void run() {
+                /*
+                 * Maximum Charging Limit
+                 */
+                SeekBar maxChargeLimitSeekBar = (SeekBar)view.findViewById(R.id.fragment_battery_max_charging_limit);
+                int maxChargeLimit = FileUtils.readInt("/sys/class/power_supply/max77843-charger/current_max_tunable", 1000);
 
-                FileUtils.write("/sys/class/power_supply/max77843-charger/current_max_tunable", progress);
-                ((TextView)view.findViewById(R.id.fragment_battery_max_charging_limit_current)).setText(progress + " mA");
-            }
+                FragmentHelper.setText(R.id.fragment_battery_max_charging_limit_current, getString(R.string.fragment_battery_max_charging_limit_text, maxChargeLimit));
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {  }
+                maxChargeLimit = Math.max(maxChargeLimit, 0);
+                maxChargeLimit = Math.min(1500, maxChargeLimit);
+                FragmentHelper.setProgress(maxChargeLimitSeekBar.getId(), (maxChargeLimit / 10) - 10);
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                int progress = seekBar.getProgress();
+                maxChargeLimitSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progress += 10; // minimal value of 100 mAh
+                        progress *= 10; // only set in steps of ten
+
+                        prefsEdit.putInt("battery.max_charging_limit_current", progress);
+                        prefsEdit.apply();
+
+                        FileUtils.write("/sys/class/power_supply/max77843-charger/current_max_tunable", progress);
+                        FragmentHelper.setText(R.id.fragment_battery_max_charging_limit_current, getString(R.string.fragment_battery_max_charging_limit_text, progress));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        int progress = seekBar.getProgress();
+                    }
+
+                });
+
+                FragmentHelper.finish();
             }
 
         });
+        thread.start();
     }
 
 }

@@ -1,6 +1,6 @@
 /*
- * The Nexus - ROM-Control application for ROMs made by the Nexus7420-team
- * Copyright (C) 2017  Team Nexus7420, Lukas Berger
+ * The Nexus - ROM-Control for ROMs made by TeamNexus
+ * Copyright (C) 2017  TeamNexus, Lukas Berger
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -36,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.FileUtils;
 import at.lukasberger.android.thenexus.utils.SystemUtils;
@@ -54,7 +54,11 @@ public class StartFragment extends Fragment {
         if (container == null) {
             return null;
         }
-        return inflater.inflate(R.layout.fragment_start, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_start, container, false);
+        FragmentHelper.begin(view);
+
+        return view;
     }
 
     @Override
@@ -67,7 +71,6 @@ public class StartFragment extends Fragment {
 
         final TextView powerProfileTextView = (TextView)view.findViewById(R.id.fragment_start_power_profile);
         SeekBar powerProfileSeekBar = (SeekBar)view.findViewById(R.id.fragment_start_power_profile_bar);
-        final PowerManager mPowerManager = (PowerManager)view.getContext().getSystemService(Context.POWER_SERVICE);
 
         batteryCardView = (CardView) view.findViewById(R.id.fragment_start_battery_card_view);
         batteryPercentageTextView = (TextView) view.findViewById(R.id.fragment_start_battery_percentage);
@@ -125,51 +128,59 @@ public class StartFragment extends Fragment {
 
     private BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-            int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-            int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-            boolean isCharging = (status == BatteryManager.BATTERY_STATUS_CHARGING);
+        public void onReceive(Context context, final Intent intent) {
 
-            if (level != -1 && scale != -1) {
-                int percentage = (int) ((level / (float) scale) * 100f);
-                int speed = FileUtils.readInt("/sys/class/power_supply/max77843-charger/current_now", -1);
+            Thread thread = new Thread(new Runnable() {
 
-                batteryPercentageTextView.setText(getString(R.string.fragment_start_battery_precentage, percentage));
+                @Override
+                public void run() {
+                    int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                    int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                    int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+                    boolean isCharging = (status == BatteryManager.BATTERY_STATUS_CHARGING);
 
-                if (isCharging)
-                    batterySpeedTextView.setText(getString(R.string.fragment_start_battery_speed, speed));
-                else
-                    batterySpeedTextView.setText("");
+                    if (level != -1 && scale != -1) {
+                        int percentage = (int) ((level / (float) scale) * 100f);
+                        int speed = FileUtils.readInt("/sys/class/power_supply/max77843-charger/current_now", -1);
 
-                if (percentage < 15 && !isCharging) {
-                    batteryCardView.setCardBackgroundColor(ContextCompat.getColor(getActivity(), R.color.md_red_800));
-                } else if (percentage < 75 && !isCharging) {
-                    batteryCardView.setCardBackgroundColor(ContextCompat.getColor(getActivity(), R.color.md_yellow_800));
-                } else {
-                    batteryCardView.setCardBackgroundColor(ContextCompat.getColor(getActivity(), R.color.md_green_800));
+                        FragmentHelper.setText(batteryPercentageTextView.getId(), getString(R.string.fragment_start_battery_precentage, percentage));
+
+                        if (isCharging)
+                            FragmentHelper.setText(batterySpeedTextView.getId(), getString(R.string.fragment_start_battery_speed, speed));
+                        else
+                            FragmentHelper.setText(batterySpeedTextView.getId(), "");
+
+                        if (percentage < 15 && !isCharging) {
+                            FragmentHelper.setCardBackgroundColor(batteryCardView.getId(), R.color.md_red_800);
+                        } else if (percentage < 75 && !isCharging) {
+                            FragmentHelper.setCardBackgroundColor(batteryCardView.getId(), R.color.md_yellow_800);
+                        } else {
+                            FragmentHelper.setCardBackgroundColor(batteryCardView.getId(), R.color.md_green_800);
+                        }
+                    }
+
+                    switch (status) {
+                        case BatteryManager.BATTERY_STATUS_CHARGING:
+                            FragmentHelper.setText(batteryStatusTextView.getId(), getString(R.string.fragment_start_battery_status, "Charging"));
+                            break;
+
+                        case BatteryManager.BATTERY_STATUS_FULL:
+                            FragmentHelper.setText(batteryStatusTextView.getId(), getString(R.string.fragment_start_battery_status, "Full"));
+                            break;
+
+                        case BatteryManager.BATTERY_STATUS_UNKNOWN:
+                            FragmentHelper.setText(batteryStatusTextView.getId(), getString(R.string.fragment_start_battery_status, "Unknown"));
+                            break;
+
+                        case BatteryManager.BATTERY_STATUS_DISCHARGING:
+                        case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
+                        default:
+                            FragmentHelper.setText(batteryStatusTextView.getId(), getString(R.string.fragment_start_battery_status, "Discharging"));
+                            break;
+                    }
                 }
-            }
-
-            switch (status) {
-                case BatteryManager.BATTERY_STATUS_CHARGING:
-                    batteryStatusTextView.setText(getString(R.string.fragment_start_battery_status, "Charging"));
-                    break;
-
-                case BatteryManager.BATTERY_STATUS_FULL:
-                    batteryStatusTextView.setText(getString(R.string.fragment_start_battery_status, "Full"));
-                    break;
-
-                case BatteryManager.BATTERY_STATUS_UNKNOWN:
-                    batteryStatusTextView.setText(getString(R.string.fragment_start_battery_status, "Unknown"));
-                    break;
-
-                case BatteryManager.BATTERY_STATUS_DISCHARGING:
-                case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
-                default:
-                    batteryStatusTextView.setText(getString(R.string.fragment_start_battery_status, "Discharging"));
-                    break;
-            }
+            });
+            thread.start();
         }
     };
 }

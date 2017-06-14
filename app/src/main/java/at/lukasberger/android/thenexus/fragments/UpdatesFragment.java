@@ -1,6 +1,6 @@
 /*
- * The Nexus - ROM-Control application for ROMs made by the Nexus7420-team
- * Copyright (C) 2017  Team Nexus7420, Lukas Berger
+ * The Nexus - ROM-Control for ROMs made by TeamNexus
+ * Copyright (C) 2017  TeamNexus, Lukas Berger
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class UpdatesFragment extends Fragment {
 
-    private final String BROADCAST_KEY = "threnexus-updates-broadcast";
+    private final String BROADCAST_KEY = "UPDATER_BROADCAST";
 
     private final int BROADCAST_HIDE_SEARCHING_FOR_UPDATES_DIALOG = 0x00000001;
     private final int BROADCAST_SEARCHING_FOR_UPDATES_FAILED      = 0x00000002;
