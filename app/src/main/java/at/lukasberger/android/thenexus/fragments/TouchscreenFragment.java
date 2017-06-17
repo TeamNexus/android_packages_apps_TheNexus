@@ -30,6 +30,7 @@ import android.widget.Switch;
 
 import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
+import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.FileUtils;
 
 public class TouchscreenFragment extends Fragment {
@@ -61,7 +62,7 @@ public class TouchscreenFragment extends Fragment {
                  * Enable DT2W
                  */
                 Switch dt2wSwitch = (Switch)view.findViewById(R.id.fragment_touchscreen_dt2w);
-                FragmentHelper.setChecked(dt2wSwitch.getId(), FileUtils.readBoolean("/data/power/dt2w"));
+                FragmentHelper.setChecked(dt2wSwitch.getId(), AsyncFileUtils.readBoolean("/data/power/dt2w"));
                 dt2wSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                     @Override
@@ -69,8 +70,8 @@ public class TouchscreenFragment extends Fragment {
                         prefsEdit.putBoolean("touchscreen.dt2w", isChecked);
                         prefsEdit.apply();
 
-                        FileUtils.write("/sys/android_touch/doubletap2wake", isChecked);
-                        FileUtils.write("/data/power/dt2w", isChecked);
+                        AsyncFileUtils.write("/sys/android_touch/doubletap2wake", isChecked);
+                        AsyncFileUtils.write("/data/power/dt2w", isChecked);
                     }
 
                 });

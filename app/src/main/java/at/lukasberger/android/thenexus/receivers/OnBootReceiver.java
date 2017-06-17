@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.FileUtils;
 
 public class OnBootReceiver extends BroadcastReceiver
@@ -36,24 +37,24 @@ public class OnBootReceiver extends BroadcastReceiver
         if (prefs.contains("battery.max_charging_limit_current")) {
             int battery_max_charging_limit = prefs.getInt("battery.max_charging_limit_current", 0);
             if (battery_max_charging_limit >= 100 && battery_max_charging_limit <= 1500) {
-                FileUtils.write("/sys/class/power_supply/max77843-charger/current_max_tunable", battery_max_charging_limit);
+                AsyncFileUtils.writeSync("/sys/class/power_supply/max77843-charger/current_max_tunable", battery_max_charging_limit);
             }
         }
 
         if (prefs.contains("fingerprint.always_on_fp")) {
-            FileUtils.write("/data/power/always_on_fp",
+            AsyncFileUtils.writeSync("/data/power/always_on_fp",
                     prefs.getBoolean("fingerprint.always_on_fp", false));
         }
 
         if (prefs.contains("power.profiles")) {
-            FileUtils.write("/data/power/profiles",
+            AsyncFileUtils.writeSync("/data/power/profiles",
                     prefs.getBoolean("power.profiles", true));
         }
 
         if (prefs.contains("touchscreen.dt2w")) {
             boolean dt2w = prefs.getBoolean("power.profiles", true);
-            FileUtils.write("/sys/android_touch/doubletap2wake", dt2w);
-            FileUtils.write("/data/power/dt2w", dt2w);
+            AsyncFileUtils.writeSync("/sys/android_touch/doubletap2wake", dt2w);
+            AsyncFileUtils.writeSync("/data/power/dt2w", dt2w);
         }
     }
 

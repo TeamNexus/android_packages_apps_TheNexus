@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -34,7 +35,7 @@ public class FragmentHelper {
     private static final int BROADCAST_FINISHED = 0x00000001;
     private static final int BROADCAST_SET_TEXT = 0x00000002;
     private static final int BROADCAST_SET_PROGRESS = 0x00000003;
-    private static final int BROADCAST_SET_CHECKED = 0x00000004;
+    private static final int BROADCAST_SET_CHECKED = 0x000000004;
     private static final int BROADCAST_SET_CARD_BACKGROUND_COLOR = 0x00000005;
 
     private static View mView;
@@ -50,18 +51,25 @@ public class FragmentHelper {
             int action = intent.getIntExtra("action", 0);
             int id, progress, color;
             String text;
-            boolean checked;
+            boolean checked, shutdownBroadcast;
 
             switch (action) {
                 case BROADCAST_FINISHED:
+                    shutdownBroadcast = intent.getBooleanExtra("shutdownBroadcast", true);
+
                     if (mLoaderId != -1 && mLayoutId != -1) {
                         mView.findViewById(mLoaderId).setVisibility(View.GONE);
                         mView.findViewById(mLayoutId).setVisibility(View.VISIBLE);
-                        unregisterBroadcast();
                     }
+
+                    if (shutdownBroadcast)
+                        unregisterBroadcast();
+
                     break;
 
                 case BROADCAST_SET_TEXT:
+                    Log.e("TheNexus", "FragmentHelper: Received broadcast BROADCAST_SET_TEXT");
+
                     id = intent.getIntExtra("id", -1);
                     text = intent.getStringExtra("text");
 
@@ -159,8 +167,11 @@ public class FragmentHelper {
         mView.getContext().sendBroadcast(broadcastIntent);
     }
 
-    public static void finish() {
+    public static void finish() { finish(true); }
+
+    public static void finish(boolean shutdownBroadcast) {
         broadcastIntent.putExtra("action", BROADCAST_FINISHED);
+        broadcastIntent.putExtra("shutdownBroadcast", shutdownBroadcast);
         mView.getContext().sendBroadcast(broadcastIntent);
     }
 

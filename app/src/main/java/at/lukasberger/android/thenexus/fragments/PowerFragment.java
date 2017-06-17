@@ -30,6 +30,7 @@ import android.widget.Switch;
 
 import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
+import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.FileUtils;
 
 public class PowerFragment extends Fragment {
@@ -61,7 +62,7 @@ public class PowerFragment extends Fragment {
                  * Enable Profiles
                  */
                 Switch profilesSwitch = (Switch)view.findViewById(R.id.fragment_power_profiles);
-                FragmentHelper.setChecked(profilesSwitch.getId(), FileUtils.readBoolean("/data/power/profiles"));
+                FragmentHelper.setChecked(profilesSwitch.getId(), AsyncFileUtils.readBoolean("/data/power/profiles"));
                 profilesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                     @Override
@@ -69,7 +70,7 @@ public class PowerFragment extends Fragment {
                         prefsEdit.putBoolean("power.profiles", isChecked);
                         prefsEdit.apply();
 
-                        FileUtils.write("/data/power/profiles", isChecked);
+                        AsyncFileUtils.write("/data/power/profiles", isChecked);
                     }
 
                 });

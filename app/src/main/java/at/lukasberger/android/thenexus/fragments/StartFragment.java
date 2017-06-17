@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
+import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.FileUtils;
 import at.lukasberger.android.thenexus.utils.SystemUtils;
 import cyanogenmod.power.PerformanceManager;
@@ -141,7 +142,7 @@ public class StartFragment extends Fragment {
 
                     if (level != -1 && scale != -1) {
                         int percentage = (int) ((level / (float) scale) * 100f);
-                        int speed = FileUtils.readInt("/sys/class/power_supply/max77843-charger/current_now", -1);
+                        int speed = AsyncFileUtils.readInt("/sys/class/power_supply/max77843-charger/current_now", -1);
 
                         FragmentHelper.setText(batteryPercentageTextView.getId(), getString(R.string.fragment_start_battery_precentage, percentage));
 

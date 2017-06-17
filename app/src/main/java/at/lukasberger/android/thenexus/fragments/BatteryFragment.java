@@ -42,6 +42,7 @@ import org.json.JSONException;
 
 import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
+import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.FileUtils;
 import at.lukasberger.android.thenexus.utils.SystemUtils;
 import eu.chainfire.libsuperuser.Shell;
@@ -75,7 +76,7 @@ public class BatteryFragment extends Fragment {
                  * Maximum Charging Limit
                  */
                 SeekBar maxChargeLimitSeekBar = (SeekBar)view.findViewById(R.id.fragment_battery_max_charging_limit);
-                int maxChargeLimit = FileUtils.readInt("/sys/class/power_supply/max77843-charger/current_max_tunable", 1000);
+                int maxChargeLimit = AsyncFileUtils.readInt("/sys/class/power_supply/max77843-charger/current_max_tunable", 1000);
 
                 FragmentHelper.setText(R.id.fragment_battery_max_charging_limit_current, getString(R.string.fragment_battery_max_charging_limit_text, maxChargeLimit));
 
@@ -93,7 +94,9 @@ public class BatteryFragment extends Fragment {
                         prefsEdit.putInt("battery.max_charging_limit_current", progress);
                         prefsEdit.apply();
 
-                        FileUtils.write("/sys/class/power_supply/max77843-charger/current_max_tunable", progress);
+                        AsyncFileUtils.write("/sys/class/power_supply/max77843-charger/current_max_tunable", progress);
+
+                        // we need to restart the FragmentHelper here which was finished below
                         FragmentHelper.setText(R.id.fragment_battery_max_charging_limit_current, getString(R.string.fragment_battery_max_charging_limit_text, progress));
                     }
 
@@ -103,12 +106,11 @@ public class BatteryFragment extends Fragment {
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
-                        int progress = seekBar.getProgress();
                     }
 
                 });
 
-                FragmentHelper.finish();
+                FragmentHelper.finish(false);
             }
 
         });

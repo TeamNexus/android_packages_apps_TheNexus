@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.lukasberger.android.thenexus.R;
+import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.FileUtils;
 import at.lukasberger.android.thenexus.utils.SystemUtils;
 import eu.chainfire.libsuperuser.Shell;
@@ -355,7 +356,7 @@ public class UpdatesFragment extends Fragment {
                             } while (current < otaDownloadSize && !abortDownload);
 
                             if (abortDownload) {
-                                FileUtils.delete(otaLocalStreamPath, true);
+                                AsyncFileUtils.delete(otaLocalStreamPath, true);
                                 Log.e("TheNexus", "Download abort [1]");
                                 return;
                             }
@@ -381,7 +382,7 @@ public class UpdatesFragment extends Fragment {
                             Shell.SU.run("mkdir -p /sdcard/.nexusota/");
                             Shell.SU.run("rm -f /sdcard/.nexusota/*");
                             Shell.SU.run("mv -f " + otaLocalStreamPath + " /sdcard/.nexusota/" + otaLocalStreamFileName);
-                            FileUtils.write("/cache/recovery/openrecoveryscript", recovery_script.toArray(new String[] { }));
+                            AsyncFileUtils.writeSync("/cache/recovery/openrecoveryscript", recovery_script.toArray(new String[] { }));
 
                             // request user to accept reboot
                             broadcastIntent.putExtra("action", BROADCAST_ASK_FOR_REBOOT);

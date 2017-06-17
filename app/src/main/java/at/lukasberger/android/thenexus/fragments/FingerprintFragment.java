@@ -30,6 +30,7 @@ import android.widget.Switch;
 
 import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
+import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.FileUtils;
 
 public class FingerprintFragment extends Fragment {
@@ -61,7 +62,7 @@ public class FingerprintFragment extends Fragment {
                  * Enable Boost
                  */
                 Switch alwaysOnFPSwitch = (Switch)view.findViewById(R.id.fragment_fingerprint_always_on_fp);
-                FragmentHelper.setChecked(alwaysOnFPSwitch.getId(), FileUtils.readBoolean("/data/power/always_on_fp"));
+                FragmentHelper.setChecked(alwaysOnFPSwitch.getId(), AsyncFileUtils.readBoolean("/data/power/always_on_fp"));
                 alwaysOnFPSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                     @Override
@@ -69,7 +70,7 @@ public class FingerprintFragment extends Fragment {
                         prefsEdit.putBoolean("fingerprint.always_on_fp", isChecked);
                         prefsEdit.apply();
 
-                        FileUtils.write("/data/power/always_on_fp", isChecked);
+                        AsyncFileUtils.write("/data/power/always_on_fp", isChecked);
                     }
 
                 });
