@@ -68,8 +68,6 @@ public class FragmentHelper {
                     break;
 
                 case BROADCAST_SET_TEXT:
-                    Log.e("TheNexus", "FragmentHelper: Received broadcast BROADCAST_SET_TEXT");
-
                     id = intent.getIntExtra("id", -1);
                     text = intent.getStringExtra("text");
 

@@ -59,7 +59,7 @@ public class FingerprintFragment extends Fragment {
             @Override
             public void run() {
                 /*
-                 * Enable Boost
+                 * Always-On Fingerprint
                  */
                 Switch alwaysOnFPSwitch = (Switch)view.findViewById(R.id.fragment_fingerprint_always_on_fp);
                 FragmentHelper.setChecked(alwaysOnFPSwitch.getId(), AsyncFileUtils.readBoolean("/data/power/always_on_fp"));

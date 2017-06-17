@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.SystemUtils;
 
 public class OnBootReceiver extends BroadcastReceiver
 {
@@ -33,6 +34,7 @@ public class OnBootReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent) {
         final SharedPreferences prefs = context.getSharedPreferences("TheNexus", 0);
+        final String romName = SystemUtils.getSystemProperty("ro.nexus.otarom");
 
         if (prefs.contains("battery.max_charging_limit_current")) {
             int battery_max_charging_limit = prefs.getInt("battery.max_charging_limit_current", 0);
@@ -49,6 +51,16 @@ public class OnBootReceiver extends BroadcastReceiver
         if (prefs.contains("power.profiles")) {
             AsyncFileUtils.writeSync("/data/power/profiles",
                     prefs.getBoolean("power.profiles", true));
+        }
+
+        if (prefs.contains("power.boost")) {
+            AsyncFileUtils.writeSync("/data/power/boost",
+                    prefs.getBoolean("power.boost", true));
+        }
+
+        if (romName.equals("NexusOS") && prefs.contains("power.app_boost")) {
+            AsyncFileUtils.writeSync("/data/power/app_boost",
+                    prefs.getBoolean("power.app_boost", true));
         }
 
         if (prefs.contains("touchscreen.dt2w")) {

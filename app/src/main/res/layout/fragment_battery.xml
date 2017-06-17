@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="8dip"
+    android:paddingTop="8dip"
     tools:context="at.lukasberger.android.thenexus.MainActivity">
 
     <LinearLayout
@@ -26,9 +26,11 @@
     <LinearLayout
         android:id="@+id/fragment_battery_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <!--
-           Disable FP-Wakelock
+           Maximum Charging-Speed Limit
           -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,10 +42,10 @@
             <RelativeLayout
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dip"
-                android:layout_marginEnd="6dip"
-                android:layout_marginTop="6dip"
-                android:layout_marginBottom="6dip"
+                android:paddingStart="15dip"
+                android:paddingEnd="6dip"
+                android:paddingTop="6dip"
+                android:paddingBottom="6dip"
                 android:layout_weight="1">
 
                 <TextView android:id="@+id/fragment_battery_max_charging_limit_title"
@@ -118,6 +120,40 @@
             </RelativeLayout>
 
         </LinearLayout>
+
+        <!--
+           Calibrate Battery
+          -->
+        <RelativeLayout
+            android:id="@+id/fragment_battery_calibrate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:paddingStart="15dip"
+            android:paddingTop="6dip"
+            android:paddingBottom="6dip"
+            android:paddingEnd="?android:attr/scrollbarSize">
+
+            <TextView android:id="@+id/fragment_battery_calibrate_title"
+                android:text="@string/fragment_battery_calibrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal" />
+
+            <TextView android:id="@+id/fragment_battery_calibrate_subtitle"
+                android:text="@string/fragment_battery_calibrate_descr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_battery_calibrate_title"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?android:attr/textColorSecondary"
+                android:maxLines="5" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

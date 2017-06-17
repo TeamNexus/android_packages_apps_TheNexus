@@ -32,8 +32,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -76,7 +78,7 @@ public class BatteryFragment extends Fragment {
                  * Maximum Charging Limit
                  */
                 SeekBar maxChargeLimitSeekBar = (SeekBar)view.findViewById(R.id.fragment_battery_max_charging_limit);
-                int maxChargeLimit = AsyncFileUtils.readInt("/sys/class/power_supply/max77843-charger/current_max_tunable", 1000);
+                int maxChargeLimit = AsyncFileUtils.readInteger("/sys/class/power_supply/max77843-charger/current_max_tunable", 1000);
 
                 FragmentHelper.setText(R.id.fragment_battery_max_charging_limit_current, getString(R.string.fragment_battery_max_charging_limit_text, maxChargeLimit));
 
@@ -91,11 +93,6 @@ public class BatteryFragment extends Fragment {
                         progress += 10; // minimal value of 100 mAh
                         progress *= 10; // only set in steps of ten
 
-                        prefsEdit.putInt("battery.max_charging_limit_current", progress);
-                        prefsEdit.apply();
-
-                        AsyncFileUtils.write("/sys/class/power_supply/max77843-charger/current_max_tunable", progress);
-
                         // we need to restart the FragmentHelper here which was finished below
                         FragmentHelper.setText(R.id.fragment_battery_max_charging_limit_current, getString(R.string.fragment_battery_max_charging_limit_text, progress));
                     }
@@ -106,6 +103,28 @@ public class BatteryFragment extends Fragment {
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
+                        int progress = seekBar.getProgress();
+                        progress += 10; // minimal value of 100 mAh
+                        progress *= 10; // only set in steps of ten
+
+                        prefsEdit.putInt("battery.max_charging_limit_current", progress);
+                        prefsEdit.apply();
+
+                        AsyncFileUtils.write("/sys/class/power_supply/max77843-charger/current_max_tunable", progress);
+                    }
+
+                });
+
+                /*
+                 * Calibrate Battery
+                 */
+                RelativeLayout calibrateBatteryButton = (RelativeLayout)view.findViewById(R.id.fragment_battery_calibrate);
+                calibrateBatteryButton.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        AsyncFileUtils.delete("/data/system/batterystats.bin");
+                        Toast.makeText(view.getContext(), R.string.fragment_battery_calibrate_toast, Toast.LENGTH_SHORT).show();
                     }
 
                 });

@@ -142,7 +142,7 @@ public class StartFragment extends Fragment {
 
                     if (level != -1 && scale != -1) {
                         int percentage = (int) ((level / (float) scale) * 100f);
-                        int speed = AsyncFileUtils.readInt("/sys/class/power_supply/max77843-charger/current_now", -1);
+                        int speed = AsyncFileUtils.readInteger("/sys/class/power_supply/max77843-charger/current_now", -1);
 
                         FragmentHelper.setText(batteryPercentageTextView.getId(), getString(R.string.fragment_start_battery_precentage, percentage));
 

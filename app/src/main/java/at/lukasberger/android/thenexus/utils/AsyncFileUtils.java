@@ -18,36 +18,26 @@
 
 package at.lukasberger.android.thenexus.utils;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import eu.chainfire.libsuperuser.Shell;
 
 public class AsyncFileUtils {
 
-    private final static Map<String, Object> filePathLocks = new HashMap<>();
-
     public static void touch(String path) {
-        AsyncFileUtils.asyncIOOperation(path, "touch \"" + escapePath(path) + "\"");
+        AsyncFileUtils.asyncRootCommand("touch \"" + escapeQuotes(path) + "\"");
     }
 
     public static void delete(String path) {
-        delete(path, false);
+        AsyncFileUtils.delete(path, false);
     }
 
     public static void delete(String path, boolean force) {
-        AsyncFileUtils.asyncIOOperation(path, "rm " + (force ? "-f" : "") + " \"" +escapePath(path) + "\"");
-    }
-
-    public static void write(String path, String content) {
-        AsyncFileUtils.writeInternal(path, ">", content);
-    }
-
-    public static void writeSync(String path, String content) {
-        AsyncFileUtils.writeSyncInternal(path, ">", content);
+        AsyncFileUtils.asyncRootCommand("rm " + (force ? "-f" : "") + " \"" + escapeQuotes(path) + "\"");
     }
 
     public static void write(String path, boolean content) {
@@ -58,6 +48,14 @@ public class AsyncFileUtils {
         AsyncFileUtils.writeSync(path, (content ? "1" : "0"));
     }
 
+    public static void write(String path, short content) {
+        AsyncFileUtils.write(path, Short.toString(content));
+    }
+
+    public static void writeSync(String path, short content) {
+        AsyncFileUtils.writeSync(path, Short.toString(content));
+    }
+
     public static void write(String path, int content) {
         AsyncFileUtils.write(path, Integer.toString(content));
     }
@@ -66,31 +64,44 @@ public class AsyncFileUtils {
         AsyncFileUtils.writeSync(path, Integer.toString(content));
     }
 
+    public static void write(String path, long content) {
+        AsyncFileUtils.write(path, Long.toString(content));
+    }
+
+    public static void writeSync(String path, long content) {
+        AsyncFileUtils.writeSync(path, Long.toString(content));
+    }
+
+    public static void write(String path, String content) {
+        AsyncFileUtils.write(path, new String[] { content });
+    }
+
+    public static void writeSync(String path, String content) {
+        AsyncFileUtils.writeSync(path, new String[] { content });
+    }
+
     public static void write(String path, String[] content) {
-        AsyncFileUtils.write(path, content[0]);
-        for (int i = 1; i < content.length; i++)
-            AsyncFileUtils.append(path, content[i]);
+        AsyncFileUtils.asyncRootCommand(generateWriteCommand(path, content));
     }
 
     public static void writeSync(String path, String[] content) {
-        AsyncFileUtils.writeSync(path, content[0]);
-        for (int i = 1; i < content.length; i++)
-            AsyncFileUtils.appendSync(path, content[i]);
+        AsyncFileUtils.syncRootCommand(generateWriteCommand(path, content));
     }
 
     public static void append(String path, String content) {
-        AsyncFileUtils.writeInternal(path, ">>", content);
+        AsyncFileUtils.asyncRootCommand("echo \"" + escapeQuotes(content) + "\" >> \"" + escapeQuotes(path) + "\"");
     }
 
     public static void appendSync(String path, String content) {
-        AsyncFileUtils.writeSyncInternal(path, ">>", content);
+        AsyncFileUtils.syncRootCommand("echo \"" + escapeQuotes(content) + "\" >> \"" + escapeQuotes(path) + "\"");
     }
 
     public static List<String> read(String path) {
-        return AsyncFileUtils.syncLockedIOOperation(path, "cat \"" + escapePath(path) + "\"");
+        return AsyncFileUtils.syncRootCommand("cat \"" + escapeQuotes(path) + "\"");
     }
 
-    public static String readLine(String path) {
+    @Nullable
+    public static String readString(String path) {
         List<String> result = AsyncFileUtils.read(path);
         return (result == null ? null : result.get(0));
     }
@@ -100,7 +111,7 @@ public class AsyncFileUtils {
     }
 
     public static boolean readBoolean(String path, boolean onlyTrueOnOne) {
-        String result = AsyncFileUtils.readLine(path);
+        String result = AsyncFileUtils.readString(path);
         if (result == null) {
             return false;
         }
@@ -111,9 +122,9 @@ public class AsyncFileUtils {
         }
     }
 
-    public static int readInt(String path, int def) {
+    public static int readInteger(String path, int def) {
         try {
-            String result = AsyncFileUtils.readLine(path);
+            String result = AsyncFileUtils.readString(path);
             if (result == null) {
                 return def;
             }
@@ -123,70 +134,39 @@ public class AsyncFileUtils {
         }
     }
 
-    private static void writeInternal(String path, String operator, String content) {
-        content = content.replace("\"", "\\\"");
-        AsyncFileUtils.asyncIOOperation(path, "echo \"" + content + "\" " + operator + " \"" + escapePath(path) + "\"");
+    @NonNull
+    private static String generateWriteCommand(String path, String[] content) {
+        String commands = "";
+        commands += "echo \"" + escapeQuotes(content[0]) + "\" > \"" + escapeQuotes(path) + "\" && ";
+        for (int i = 1; i < content.length; i++)
+            commands += "echo \"" + escapeQuotes(content[i]) + "\" >> \"" + escapeQuotes(path) + "\" && ";
+
+        return commands.substring(0, commands.length() - 4);
     }
 
-    private static void writeSyncInternal(String path, String operator, String content) {
-        content = content.replace("\"", "\\\"");
-        AsyncFileUtils.syncLockedIOOperation(path, "echo \"" + content + "\" " + operator + " \"" + escapePath(path) + "\"");
-    }
-
-    private static List<String> syncLockedIOOperation(String path, String command) {
-        final Object lock;
-
-        synchronized (filePathLocks)
-        {
-            if (!filePathLocks.containsKey(path))
-                filePathLocks.put(path, new Object());
-
-            lock = filePathLocks.get(path);
-        }
-
-        synchronized (lock)
-        {
-            try {
-                return Shell.SU.run(command);
-            } catch (Exception e) {
-                Log.e("TheNexus", "AsyncFileUtils.syncLockedIOOperation: failed to execute command: \"" + command + "\"", e);
-            }
+    @Nullable
+    private static List<String> syncRootCommand(String command) {
+        try {
+            Shell.SU.clearCachedResults();
+            return Shell.SU.run(command);
+        } catch (Exception e) {
+            Log.e("TheNexus", "AsyncFileUtils.syncLockedIOOperation: failed to execute command: \"" + command + "\"", e);
         }
 
         return null;
     }
 
-    private static void asyncIOOperation(final String path, final String command) {
+    private static void asyncRootCommand(final String command) {
         Thread thread = new Thread(new Runnable() {
-
             @Override
             public void run() {
-                final Object lock;
-
-                synchronized (filePathLocks)
-                {
-                    if (!filePathLocks.containsKey(path))
-                        filePathLocks.put(path, new Object());
-
-                    lock = filePathLocks.get(path);
-                }
-
-                synchronized (lock)
-                {
-                    try {
-                        Shell.SU.run(command);
-                    } catch (Exception e) {
-                        Log.e("TheNexus", "AsyncFileUtils.asyncIOOperation: failed to execute command: \"" + command + "\"", e);
-                    }
-                }
+                AsyncFileUtils.syncRootCommand(command);
             }
-
         });
         thread.start();
     }
 
-    private static String escapePath(String path) {
+    private static String escapeQuotes(String path) {
         return path.replace("\"", "\\\"");
     }
-
 }

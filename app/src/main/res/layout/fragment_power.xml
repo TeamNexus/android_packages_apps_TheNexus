@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="8dip"
+    android:paddingTop="8dip"
     tools:context="at.lukasberger.android.thenexus.MainActivity">
 
     <LinearLayout
@@ -26,7 +26,8 @@
     <LinearLayout
         android:id="@+id/fragment_power_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <!--
            Profiles
           -->
@@ -41,10 +42,10 @@
             <RelativeLayout
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dip"
-                android:layout_marginEnd="6dip"
-                android:layout_marginTop="6dip"
-                android:layout_marginBottom="6dip"
+                android:paddingStart="15dip"
+                android:paddingEnd="6dip"
+                android:paddingTop="6dip"
+                android:paddingBottom="6dip"
                 android:layout_weight="1">
 
                 <TextView
@@ -69,6 +70,108 @@
 
             <Switch
                 android:id="@+id/fragment_power_profiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="false"
+                android:padding="8dip" />
+
+        </LinearLayout>
+
+        <!--
+           Boost
+          -->
+        <LinearLayout
+            android:id="@+id/fragment_power_boost_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:paddingEnd="?android:attr/scrollbarSize">
+
+            <RelativeLayout
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:paddingStart="15dip"
+                android:paddingEnd="6dip"
+                android:paddingTop="6dip"
+                android:paddingBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/fragment_power_boost_title"
+                    android:text="@string/fragment_power_boost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal" />
+
+                <TextView
+                    android:text="@string/fragment_power_boost_descr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_power_boost_title"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:maxLines="6" />
+
+            </RelativeLayout>
+
+            <Switch
+                android:id="@+id/fragment_power_boost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="false"
+                android:padding="8dip" />
+
+        </LinearLayout>
+
+        <!--
+           Application Startup-Boost
+          -->
+        <LinearLayout
+            android:id="@+id/fragment_power_app_boost_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:paddingEnd="?android:attr/scrollbarSize">
+
+            <RelativeLayout
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:paddingStart="15dip"
+                android:paddingEnd="6dip"
+                android:paddingTop="6dip"
+                android:paddingBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/fragment_power_app_boost_title"
+                    android:text="@string/fragment_power_app_boost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal" />
+
+                <TextView
+                    android:text="@string/fragment_power_app_boost_descr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_power_app_boost_title"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:maxLines="6" />
+
+            </RelativeLayout>
+
+            <Switch
+                android:id="@+id/fragment_power_app_boost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

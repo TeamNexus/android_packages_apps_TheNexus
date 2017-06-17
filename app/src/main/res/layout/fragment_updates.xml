@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="8dip"
+    android:paddingTop="8dip"
     tools:context="at.lukasberger.android.thenexus.MainActivity">
 
     <LinearLayout
@@ -48,9 +48,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dip"
-                    android:layout_marginStart="16dip"
-                    android:layout_marginEnd="16dip"
+                    android:paddingTop="24dip"
+                    android:paddingStart="16dip"
+                    android:paddingEnd="16dip"
                     android:id="@+id/fragment_updates_info_title"
                     android:text="@string/fragment_updates_info_no_infos"
                     android:textColor="@android:color/primary_text_dark"
@@ -59,9 +59,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="16dip"
-                    android:layout_marginEnd="16dip"
+                    android:paddingTop="12dp"
+                    android:paddingStart="16dip"
+                    android:paddingEnd="16dip"
                     android:id="@+id/fragment_updates_info_subtitle"
                     android:text="@string/fragment_updates_info_no_infos_subtitle"
                     android:textColor="@android:color/secondary_text_dark"
@@ -106,10 +106,10 @@
             <RelativeLayout
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dip"
-                android:layout_marginEnd="6dip"
-                android:layout_marginTop="6dip"
-                android:layout_marginBottom="6dip"
+                android:paddingStart="15dip"
+                android:paddingEnd="6dip"
+                android:paddingTop="6dip"
+                android:paddingBottom="6dip"
                 android:layout_weight="1">
 
                 <TextView
@@ -157,10 +157,10 @@
             <RelativeLayout
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dip"
-                android:layout_marginEnd="6dip"
-                android:layout_marginTop="6dip"
-                android:layout_marginBottom="6dip"
+                android:paddingStart="15dip"
+                android:paddingEnd="6dip"
+                android:paddingTop="6dip"
+                android:paddingBottom="6dip"
                 android:layout_weight="1">
 
                 <TextView
@@ -208,10 +208,10 @@
             <RelativeLayout
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dip"
-                android:layout_marginEnd="6dip"
-                android:layout_marginTop="6dip"
-                android:layout_marginBottom="6dip"
+                android:paddingStart="15dip"
+                android:paddingEnd="6dip"
+                android:paddingTop="6dip"
+                android:paddingBottom="6dip"
                 android:layout_weight="1">
 
                 <TextView
@@ -259,10 +259,10 @@
             <RelativeLayout
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dip"
-                android:layout_marginEnd="6dip"
-                android:layout_marginTop="6dip"
-                android:layout_marginBottom="6dip"
+                android:paddingStart="15dip"
+                android:paddingEnd="6dip"
+                android:paddingTop="6dip"
+                android:paddingBottom="6dip"
                 android:layout_weight="1">
 
                 <TextView

@@ -32,6 +32,7 @@ import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.SystemUtils;
 
 public class PowerFragment extends Fragment {
 
@@ -51,6 +52,7 @@ public class PowerFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final String romName = SystemUtils.getSystemProperty("ro.nexus.otarom");
         final SharedPreferences prefs = view.getContext().getSharedPreferences("TheNexus", 0);
         final SharedPreferences.Editor prefsEdit = prefs.edit();
 
@@ -74,6 +76,44 @@ public class PowerFragment extends Fragment {
                     }
 
                 });
+
+                /*
+                 * Enable Boost
+                 */
+                Switch boostSwitch = (Switch)view.findViewById(R.id.fragment_power_boost);
+                FragmentHelper.setChecked(boostSwitch.getId(), AsyncFileUtils.readBoolean("/data/power/boost"));
+                boostSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        prefsEdit.putBoolean("power.boost", isChecked);
+                        prefsEdit.apply();
+
+                        AsyncFileUtils.write("/data/power/boost", isChecked);
+                    }
+
+                });
+
+                /*
+                 * Enable App-Boost
+                 */
+                Switch appBoostSwitch = (Switch)view.findViewById(R.id.fragment_power_app_boost);
+                if (romName.equals("NexusOS")) {
+                    FragmentHelper.setChecked(appBoostSwitch.getId(), AsyncFileUtils.readBoolean("/data/power/app_boost"));
+                    appBoostSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            prefsEdit.putBoolean("power.app_boost", isChecked);
+                            prefsEdit.apply();
+
+                            AsyncFileUtils.write("/data/power/app_boost", isChecked);
+                        }
+
+                    });
+                } else {
+                    appBoostSwitch.setVisibility(View.GONE);
+                }
 
                 FragmentHelper.finish();
             }
