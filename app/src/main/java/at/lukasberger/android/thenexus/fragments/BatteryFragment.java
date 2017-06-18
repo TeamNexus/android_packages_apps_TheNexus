@@ -46,6 +46,7 @@ import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.SettingsUtils;
 import at.lukasberger.android.thenexus.utils.SystemUtils;
 import eu.chainfire.libsuperuser.Shell;
 
@@ -67,13 +68,13 @@ public class BatteryFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final SharedPreferences prefs = view.getContext().getSharedPreferences("TheNexus", 0);
-        final SharedPreferences.Editor prefsEdit = prefs.edit();
 
         Thread thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
+                SettingsUtils.begin(view.getContext());
+
                 /*
                  * Maximum Charging Limit
                  */
@@ -107,9 +108,7 @@ public class BatteryFragment extends Fragment {
                         progress += 10; // minimal value of 100 mAh
                         progress *= 10; // only set in steps of ten
 
-                        prefsEdit.putInt("battery.max_charging_limit_current", progress);
-                        prefsEdit.apply();
-
+                        SettingsUtils.set("battery.max_charging_limit_current", progress);
                         AsyncFileUtils.write("/sys/class/power_supply/max77843-charger/current_max_tunable", progress);
                     }
 

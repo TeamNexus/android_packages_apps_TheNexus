@@ -31,7 +31,8 @@ import android.widget.Switch;
 import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
-import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.SettingsUtils;
+import at.lukasberger.android.thenexus.utils.SystemUtils;
 
 public class FingerprintFragment extends Fragment {
 
@@ -51,29 +52,45 @@ public class FingerprintFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final SharedPreferences prefs = view.getContext().getSharedPreferences("TheNexus", 0);
-        final SharedPreferences.Editor prefsEdit = prefs.edit();
 
         Thread thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
+                SettingsUtils.begin(view.getContext());
+
                 /*
                  * Always-On Fingerprint
                  */
-                Switch alwaysOnFPSwitch = (Switch)view.findViewById(R.id.fragment_fingerprint_always_on_fp);
+                final Switch alwaysOnFPSwitch = (Switch)view.findViewById(R.id.fragment_fingerprint_always_on_fp);
                 FragmentHelper.setChecked(alwaysOnFPSwitch.getId(), AsyncFileUtils.readBoolean("/data/power/always_on_fp"));
                 alwaysOnFPSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        prefsEdit.putBoolean("fingerprint.always_on_fp", isChecked);
-                        prefsEdit.apply();
-
+                        SettingsUtils.set("fingerprint.always_on_fp", isChecked);
                         AsyncFileUtils.write("/data/power/always_on_fp", isChecked);
                     }
 
                 });
+
+                /*
+                 * Always-On Fingerprint
+                 */
+                final Switch allowUnlockAfterRestartSwitch = (Switch)view.findViewById(R.id.fragment_fingerprint_allow_unlock_after_restart);
+                if (SystemUtils.isNexusOS()) {
+                    FragmentHelper.setChecked(allowUnlockAfterRestartSwitch.getId(), SettingsUtils.getBoolean("fingerprint.allow_unlock_after_restart", false));
+                    allowUnlockAfterRestartSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            SettingsUtils.set("fingerprint.allow_unlock_after_restart", isChecked);
+                        }
+
+                    });
+                } else {
+                    allowUnlockAfterRestartSwitch.setVisibility(View.GONE);
+                }
 
                 FragmentHelper.finish();
             }

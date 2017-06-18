@@ -28,6 +28,8 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class AsyncFileUtils {
 
+    private final static Object rootCommandLock = new Object();
+
     public static void touch(String path) {
         AsyncFileUtils.asyncRootCommand("touch \"" + escapeQuotes(path) + "\"");
     }
@@ -147,8 +149,10 @@ public class AsyncFileUtils {
     @Nullable
     private static List<String> syncRootCommand(String command) {
         try {
-            Shell.SU.clearCachedResults();
-            return Shell.SU.run(command);
+            synchronized (rootCommandLock) {
+                Shell.SU.clearCachedResults();
+                return Shell.SU.run(command);
+            }
         } catch (Exception e) {
             Log.e("TheNexus", "AsyncFileUtils.syncLockedIOOperation: failed to execute command: \"" + command + "\"", e);
         }

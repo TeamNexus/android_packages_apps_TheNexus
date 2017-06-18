@@ -31,7 +31,7 @@ import android.widget.Switch;
 import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
-import at.lukasberger.android.thenexus.utils.FileUtils;
+import at.lukasberger.android.thenexus.utils.SettingsUtils;
 
 public class TouchscreenFragment extends Fragment {
 
@@ -51,13 +51,13 @@ public class TouchscreenFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final SharedPreferences prefs = view.getContext().getSharedPreferences("TheNexus", 0);
-        final SharedPreferences.Editor prefsEdit = prefs.edit();
 
         Thread thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
+                SettingsUtils.begin(view.getContext());
+
                 /*
                  * Enable DT2W
                  */
@@ -67,9 +67,7 @@ public class TouchscreenFragment extends Fragment {
 
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        prefsEdit.putBoolean("touchscreen.dt2w", isChecked);
-                        prefsEdit.apply();
-
+                        SettingsUtils.set("touchscreen.dt2w", isChecked);
                         AsyncFileUtils.write("/sys/android_touch/doubletap2wake", isChecked);
                         AsyncFileUtils.write("/data/power/dt2w", isChecked);
                     }

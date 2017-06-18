@@ -100,6 +100,11 @@
         Enables fingerprint-wakelock so you can unlock the device with the fingerprint-sensor
         even when the screen is turned off.
     </string>
+    <string name="fragment_fingerprint_allow_unlock_after_restart">Allow Fingerprint-unlock after restart</string>
+    <string name="fragment_fingerprint_allow_unlock_after_restart_descr">
+        Allows you to unlock the phone with the fingerprint-sensor after the device got rebooted.
+        Use it on your own risk!
+    </string>
 
     <!-- Fragment: Power -->
     <string name="fragment_power_profiles">Enable Profiles</string>

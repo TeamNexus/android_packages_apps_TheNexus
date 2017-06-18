@@ -52,4 +52,8 @@ public class SystemUtils {
         return false;
     }
 
+    public static boolean isNexusOS() {
+        return SystemUtils.getSystemProperty("ro.nexus.otarom").equals("NexusOS");
+    }
+
 }
