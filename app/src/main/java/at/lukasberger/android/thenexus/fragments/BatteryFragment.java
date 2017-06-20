@@ -62,19 +62,18 @@ public class BatteryFragment extends Fragment {
                  * Maximum Charging Limit
                  */
                 SeekBar maxChargeLimitSeekBar = (SeekBar)view.findViewById(R.id.fragment_battery_max_charging_limit);
-                int maxChargeLimit = AsyncFileUtils.readInteger("/sys/class/power_supply/max77843-charger/current_max_tunable", 1000);
+                int maxChargeLimit = AsyncFileUtils.readInteger("/sys/class/power_supply/max77843-charger/current_max_tunable", 1500);
 
                 FragmentHelper.setText(R.id.fragment_battery_max_charging_limit_current, getString(R.string.fragment_battery_max_charging_limit_text, maxChargeLimit));
 
                 maxChargeLimit = Math.max(maxChargeLimit, 0);
-                maxChargeLimit = Math.min(1500, maxChargeLimit);
-                FragmentHelper.setProgress(maxChargeLimitSeekBar.getId(), (maxChargeLimit / 10) - 10);
+                maxChargeLimit = Math.min(2000, maxChargeLimit);
+                FragmentHelper.setProgress(maxChargeLimitSeekBar.getId(), maxChargeLimit / 10);
 
                 maxChargeLimitSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        progress += 10; // minimal value of 100 mAh
                         progress *= 10; // only set in steps of ten
 
                         // we need to restart the FragmentHelper here which was finished below
@@ -88,7 +87,6 @@ public class BatteryFragment extends Fragment {
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
                         int progress = seekBar.getProgress();
-                        progress += 10; // minimal value of 100 mAh
                         progress *= 10; // only set in steps of ten
 
                         SettingsUtils.set("battery.max_charging_limit_current", progress);

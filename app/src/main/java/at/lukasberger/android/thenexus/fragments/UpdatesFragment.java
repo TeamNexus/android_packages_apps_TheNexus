@@ -41,13 +41,11 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import org.apache.commons.io.FilenameUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -327,7 +325,8 @@ public class UpdatesFragment extends Fragment {
 
                             HttpURLConnection otaIndexConnection = (HttpURLConnection)otaDownloadUrl.openConnection();
                             InputStream otaRemoteStream          = otaIndexConnection.getInputStream();
-                            String otaLocalStreamFileName        = FilenameUtils.getName(otaDownloadUrl.getPath());
+                            String[] otaLocalStreamPathParts     = otaDownloadUrl.getPath().split("\\?")[0].split("/");
+                            String otaLocalStreamFileName        = otaLocalStreamPathParts[otaLocalStreamPathParts.length - 1];
                             FileOutputStream otaLocalStream      = context.openFileOutput(otaLocalStreamFileName, Context.MODE_PRIVATE);
 
                             Field otaLocalStreamPathField = FileOutputStream.class.getDeclaredField("path");
