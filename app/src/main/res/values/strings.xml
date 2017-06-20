@@ -8,6 +8,7 @@
     <string name="drawer_category_personalization">Personalization</string>
     <string name="drawer_start">Start</string>
     <string name="drawer_updates">Updates</string>
+    <string name="drawer_bugreport">Bugreport</string>
     <string name="drawer_battery">Battery</string>
     <string name="drawer_fingerprint">Fingerprint</string>
     <string name="drawer_power">Power</string>
@@ -31,9 +32,13 @@
     <string name="fragment_start_battery_status">Status: %1$s</string>
     <string name="fragment_start_battery_speed">%1$d mA</string>
     <string name="fragment_start_power_profile">Power-Profile</string>
-    <string name="fragment_start_power_profile_power_save">Powersave</string>
+    <string name="fragment_start_power_profile_power_save">Power save</string>
+    <string name="fragment_start_power_profile_efficiency">Efficiency</string>
     <string name="fragment_start_power_profile_balanced">Balanced</string>
+    <string name="fragment_start_power_profile_quick">Quick</string>
     <string name="fragment_start_power_profile_performance">Performance</string>
+    <string name="fragment_start_bugreport_title">Bugreport</string>
+    <string name="fragment_start_bugreport_subtitle">Generates a bugreport which can be shared afterwards</string>
 
     <!-- Fragment: Updates -->
     <string name="fragment_updates_searching_for_updates">Searching for updates...</string>
@@ -133,5 +138,9 @@
 
     <!-- Fragment: No Root -->
     <string name="fragment_no_root">No root-access</string>
+
+    <!-- Dialog: Bugreport -->
+    <string name="dialog_bugreport_title">Generating bugreport...</string>
+    <string name="dialog_bugreport_content">This can take a while, please be patient...</string>
 
 </resources>

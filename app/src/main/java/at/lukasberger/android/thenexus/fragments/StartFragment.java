@@ -23,30 +23,71 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.SystemUtils;
 import cyanogenmod.power.PerformanceManager;
+import eu.chainfire.libsuperuser.Shell;
 
 public class StartFragment extends Fragment {
+
+    private final String BROADCAST_KEY = "at.lukasberger.android.thenexus.fragments.StartFragment.BROADCAST";
+
+    private final int BROADCAST_FINISH_BUGREPORT = 0x00000001;
 
     private View baseView;
     private CardView batteryCardView;
     private TextView batteryPercentageTextView;
     private TextView batterySpeedTextView;
     private TextView batteryStatusTextView;
+    private MaterialDialog dialog;
+
+    private Intent broadcastIntent = new Intent(BROADCAST_KEY);
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int action = intent.getIntExtra("action", 0);
+            String fileName;
+            Intent emailIntent;
+
+            switch (action) {
+                case BROADCAST_FINISH_BUGREPORT:
+                    dialog.hide();
+                    fileName = intent.getStringExtra("fileName");
+
+                    emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    emailIntent.setType("*/*");
+                    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "Share Bugreport" });
+                    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "File");
+                    emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
+                    startActivity(Intent.createChooser(emailIntent, "Share Bugreport"));
+                    break;
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -106,13 +147,23 @@ public class StartFragment extends Fragment {
                         break;
 
                     case 1:
-                        powerProfileTextView.setText(R.string.fragment_start_power_profile_balanced);
-                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(1);
+                        powerProfileTextView.setText(R.string.fragment_start_power_profile_efficiency);
+                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(3);
                         break;
 
                     case 2:
-                        powerProfileTextView.setText(R.string.fragment_start_power_profile_performance);
+                        powerProfileTextView.setText(R.string.fragment_start_power_profile_balanced);
                         PerformanceManager.getInstance(view.getContext()).setPowerProfile(2);
+                        break;
+
+                    case 3:
+                        powerProfileTextView.setText(R.string.fragment_start_power_profile_quick);
+                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(4);
+                        break;
+
+                    case 4:
+                        powerProfileTextView.setText(R.string.fragment_start_power_profile_performance);
+                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(3);
                         break;
                 }
             }
@@ -122,6 +173,64 @@ public class StartFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
+
+        });
+
+        this.getContext().registerReceiver(broadcastReceiver, new IntentFilter(BROADCAST_KEY));
+
+        CardView bugreportCardView = (CardView)view.findViewById(R.id.fragment_start_bugreport_card_view);
+        bugreportCardView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog = new MaterialDialog.Builder(getContext())
+                        .title(R.string.dialog_bugreport_title)
+                        .content(R.string.dialog_bugreport_content)
+                        .cancelable(false)
+                        .build();
+
+                dialog.show();
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        // generate filename
+                        String romName = SystemUtils.getSystemProperty("ro.nexus.otarom");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.US);
+                        String bugreportBasedir = Environment.getExternalStorageDirectory().getPath() + "/.thenexus/bugreports";
+                        String bugreportName = romName + "-" + sdf.format(new Date());
+                        String bugreportDir = bugreportBasedir + "/" + bugreportName;
+                        String bugreportFile = bugreportDir + ".zip";
+
+                        // create directory
+                        Shell.SU.run("mkdir -p " + bugreportDir);
+
+                        // dump build.props
+                        Shell.SU.run("cp -f /system/build.prop " + bugreportDir + "/build.prop");
+
+                        // dump logcat
+                        Shell.SU.run("logcat -d > " + bugreportDir + "/logcat.txt 2>&1");
+
+                        // dump RIL-logcat
+                        Shell.SU.run("logcat -d -b radio > " + bugreportDir + "/logcat-radio.txt 2>&1");
+
+                        // dump full kmsg
+                        Shell.SU.run("timeout 5s cat /dev/kmsg > " + bugreportDir + "/kmsg-full.txt 2>&1");
+
+                        // dump last kmsg
+                        Shell.SU.run("cat /proc/last_kmsg > " + bugreportDir + "/kmsg-last.txt 2>&1");
+
+                        // compress and clean up
+                        Shell.SU.run("zip -9 " + bugreportFile + " " + bugreportDir + "/*");
+                        Shell.SU.run("cd \"" + bugreportBasedir + "\" && rm -rf \"./" + bugreportName + "\"");
+
+                        broadcastIntent.putExtra("action", BROADCAST_FINISH_BUGREPORT);
+                        broadcastIntent.putExtra("fileName", bugreportFile);
+                        getContext().sendBroadcast(broadcastIntent);
+                    }
+
+                }).start();
+            }
 
         });
     }
@@ -148,6 +257,8 @@ public class StartFragment extends Fragment {
             case 0: powerProfileTextView.setText(R.string.fragment_start_power_profile_power_save); break;
             case 1: powerProfileTextView.setText(R.string.fragment_start_power_profile_balanced); break;
             case 2: powerProfileTextView.setText(R.string.fragment_start_power_profile_performance); break;
+            case 3: powerProfileTextView.setText(R.string.fragment_start_power_profile_efficiency); break;
+            case 4: powerProfileTextView.setText(R.string.fragment_start_power_profile_quick); break;
         }
     }
 
@@ -227,5 +338,18 @@ public class StartFragment extends Fragment {
         }
 
     };
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.getContext().registerReceiver(broadcastReceiver, new IntentFilter(BROADCAST_KEY));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.getContext().unregisterReceiver(broadcastReceiver);
+    }
 
 }

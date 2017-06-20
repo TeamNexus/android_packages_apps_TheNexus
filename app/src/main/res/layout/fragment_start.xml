@@ -93,8 +93,61 @@
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/fragment_start_profile_card_view"
+            android:id="@+id/fragment_start_bugreport_card_view"
             android:layout_below="@id/fragment_start_device_card_view"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dip"
+            android:layout_marginEnd="6dip"
+            android:layout_marginBottom="6dip"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardBackgroundColor="@color/md_red_800"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:src="@drawable/ic_bugreport" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginEnd="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/white"
+                        android:text="@string/fragment_start_bugreport_title" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fragment_start_bugreport_subtitle"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/fragment_start_profile_card_view"
+            android:layout_below="@id/fragment_start_bugreport_card_view"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

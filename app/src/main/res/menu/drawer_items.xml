@@ -13,6 +13,10 @@
                 android:id="@+id/nav_updates"
                 android:icon="@drawable/ic_menu_updates"
                 android:title="@string/drawer_updates" />
+            <item
+                android:id="@+id/nav_bugreport"
+                android:icon="@drawable/ic_bugreport"
+                android:title="@string/drawer_bugreport" />
         </menu>
     </item>
 

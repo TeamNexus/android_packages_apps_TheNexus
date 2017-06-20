@@ -18,12 +18,6 @@
 
 package at.lukasberger.android.thenexus.utils;
 
-import android.util.Log;
-
-import java.util.List;
-
-import eu.chainfire.libsuperuser.Shell;
-
 public final class FileUtils {
 
     public static String convertBytesToReadable(int bytes) {

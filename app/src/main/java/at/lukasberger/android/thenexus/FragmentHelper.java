@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -31,7 +30,7 @@ import android.widget.TextView;
 
 public class FragmentHelper {
 
-    private static final String BROADCAST_KEY = "at.lukasberger.android.thenexus.FRAGMENTHELPER_BROADCAST";
+    private static final String BROADCAST_KEY = "at.lukasberger.android.thenexus.FragmentHelper.BROADCAST";
     private static final int BROADCAST_FINISHED = 0x00000001;
     private static final int BROADCAST_SET_TEXT = 0x00000002;
     private static final int BROADCAST_SET_PROGRESS = 0x00000003;

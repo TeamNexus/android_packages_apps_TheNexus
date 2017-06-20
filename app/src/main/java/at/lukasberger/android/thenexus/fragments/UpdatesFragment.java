@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -46,6 +47,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -62,7 +64,7 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class UpdatesFragment extends Fragment {
 
-    private final String BROADCAST_KEY = "UPDATER_BROADCAST";
+    private final String BROADCAST_KEY = "at.lukasberger.android.thenexus.fragments.UpdatesFragment.BROADCAST";
 
     private final int BROADCAST_HIDE_SEARCHING_FOR_UPDATES_DIALOG = 0x00000001;
     private final int BROADCAST_SEARCHING_FOR_UPDATES_FAILED      = 0x00000002;
@@ -242,8 +244,8 @@ public class UpdatesFragment extends Fragment {
                                 return;
                             }
 
-                            URL deviceOtaUrl                     = new URL("https://nexus-roms.eu/files/ota.php?device=" + deviceOtaName + "&rom=" + romOtaName);
-                            HttpURLConnection otaIndexConnection = (HttpURLConnection)deviceOtaUrl.openConnection();
+                            URL otaUrl = new URL("https://nexus-roms.eu/files/ota.php?device=" + deviceOtaName + "&rom=" + romOtaName);
+                            HttpURLConnection otaIndexConnection = (HttpURLConnection)otaUrl.openConnection();
 
                             BufferedReader in = new BufferedReader(new InputStreamReader(otaIndexConnection.getInputStream()));
                             StringBuilder sb = new StringBuilder();
@@ -373,15 +375,17 @@ public class UpdatesFragment extends Fragment {
                                         (backup_boot   ? "B" : ""));
                             }
 
-                            recovery_script.add("install /sdcard/.nexusota/" + otaLocalStreamFileName);
+                            String otaDir = Environment.getExternalStorageDirectory().getPath() + "/.nexusota/ota";
+
+                            recovery_script.add("install " + otaDir + "/" + otaLocalStreamFileName);
                             recovery_script.add("wipe cache");
                             recovery_script.add("wipe dalvik");
                             recovery_script.add("cmd reboot system");
 
                             Shell.SU.run("mkdir -p /cache/recovery/");
-                            Shell.SU.run("mkdir -p /sdcard/.nexusota/");
-                            Shell.SU.run("rm -f /sdcard/.nexusota/*");
-                            Shell.SU.run("mv -f " + otaLocalStreamPath + " /sdcard/.nexusota/" + otaLocalStreamFileName);
+                            Shell.SU.run("mkdir -p " + otaDir + "/");
+                            Shell.SU.run("rm -f " + otaDir + "/*");
+                            Shell.SU.run("mv -f " + otaLocalStreamPath + " " + otaDir + "/" + otaLocalStreamFileName);
                             AsyncFileUtils.writeSync("/cache/recovery/openrecoveryscript", recovery_script.toArray(new String[] { }));
 
                             // request user to accept reboot

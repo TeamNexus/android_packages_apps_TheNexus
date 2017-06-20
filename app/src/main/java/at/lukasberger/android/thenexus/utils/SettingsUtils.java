@@ -22,7 +22,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
-import android.util.Log;
 
 public class SettingsUtils {
 

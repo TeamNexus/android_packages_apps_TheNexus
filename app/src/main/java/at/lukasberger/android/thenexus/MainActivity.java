@@ -36,17 +36,12 @@ import at.lukasberger.android.thenexus.fragments.StartFragment;
 import at.lukasberger.android.thenexus.fragments.PowerFragment;
 import at.lukasberger.android.thenexus.fragments.TouchscreenFragment;
 import at.lukasberger.android.thenexus.fragments.UpdatesFragment;
-import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
     private DrawerLayout drawer;
-    private ActionBarDrawerToggle toggle;
-    private NavigationView navigationView;
-
     private boolean firstFragmentUpdate;
 
     @Override
@@ -60,13 +55,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
 
-        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
 
-        navigationView = (NavigationView)findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView)findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         firstFragmentUpdate = true;
@@ -134,4 +129,5 @@ public class MainActivity extends AppCompatActivity
         this.firstFragmentUpdate = false;
         transact.commit();
     }
+
 }
