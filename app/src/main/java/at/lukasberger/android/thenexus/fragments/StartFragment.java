@@ -153,7 +153,7 @@ public class StartFragment extends Fragment {
 
                     case 2:
                         powerProfileTextView.setText(R.string.fragment_start_power_profile_balanced);
-                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(2);
+                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(1);
                         break;
 
                     case 3:
@@ -163,7 +163,7 @@ public class StartFragment extends Fragment {
 
                     case 4:
                         powerProfileTextView.setText(R.string.fragment_start_power_profile_performance);
-                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(3);
+                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(2);
                         break;
                 }
             }
