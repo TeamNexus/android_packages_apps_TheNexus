@@ -18,6 +18,8 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_RESOURCE_DIR := \
+    $(LOCAL_PATH)/../../../libs/MaterialProgressBar/library/src/main/res \
+    $(LOCAL_PATH)/../../../libs/material-dialogs/core/src/main/res \
     $(LOCAL_PATH)/res \
     frameworks/support/design/res \
     frameworks/support/v7/appcompat/res \
@@ -27,10 +29,12 @@ LOCAL_RESOURCE_DIR := \
 LOCAL_AAPT_FLAGS := \
     --auto-add-overlay \
     --extra-packages android.support.design \
+    --extra-packages android.support.v4.support \
     --extra-packages android.support.v7.appcompat \
     --extra-packages android.support.v7.cardview \
     --extra-packages android.support.v7.recyclerview \
-    --extra-packages android.support.v4.support
+    --extra-packages com.afollestad.materialdialogs \
+    --extra-packages me.zhanghai.android.materialprogressbar
 
 LOCAL_STATIC_JAVA_LIBRARIES += \
     android-support-design \
@@ -39,7 +43,8 @@ LOCAL_STATIC_JAVA_LIBRARIES += \
     android-support-v7-cardview \
     android-support-v7-recyclerview \
     material-dialogs-core \
-	org.cyanogenmod.platform.sdk
+    material-progressbar \
+    org.cyanogenmod.platform.sdk
 
 LOCAL_SRC_FILES := \
     $(call all-java-files-under, java)
