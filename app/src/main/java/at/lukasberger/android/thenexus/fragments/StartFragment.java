@@ -252,13 +252,27 @@ public class StartFragment extends Fragment {
         TextView powerProfileTextView = (TextView)baseView.findViewById(R.id.fragment_start_power_profile);
         SeekBar powerProfileSeekBar = (SeekBar)baseView.findViewById(R.id.fragment_start_power_profile_bar);
 
-        powerProfileSeekBar.setProgress(profile);
         switch (profile) {
-            case 0: powerProfileTextView.setText(R.string.fragment_start_power_profile_power_save); break;
-            case 1: powerProfileTextView.setText(R.string.fragment_start_power_profile_balanced); break;
-            case 2: powerProfileTextView.setText(R.string.fragment_start_power_profile_performance); break;
-            case 3: powerProfileTextView.setText(R.string.fragment_start_power_profile_efficiency); break;
-            case 4: powerProfileTextView.setText(R.string.fragment_start_power_profile_quick); break;
+            case 0:
+                powerProfileTextView.setText(R.string.fragment_start_power_profile_power_save);
+                powerProfileSeekBar.setProgress(0);
+                break;
+            case 1:
+                powerProfileTextView.setText(R.string.fragment_start_power_profile_balanced);
+                powerProfileSeekBar.setProgress(2);
+                break;
+            case 2:
+                powerProfileTextView.setText(R.string.fragment_start_power_profile_performance);
+                powerProfileSeekBar.setProgress(4);
+                break;
+            case 3:
+                powerProfileTextView.setText(R.string.fragment_start_power_profile_efficiency);
+                powerProfileSeekBar.setProgress(1);
+                break;
+            case 4:
+                powerProfileTextView.setText(R.string.fragment_start_power_profile_quick);
+                powerProfileSeekBar.setProgress(3);
+                break;
         }
     }
 

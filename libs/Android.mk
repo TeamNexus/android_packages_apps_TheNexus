@@ -36,9 +36,9 @@ LOCAL_AAPT_FLAGS := \
 
 LOCAL_STATIC_JAVA_LIBRARIES += \
     android-support-annotations \
-    android-support-v4 \
     android-support-v7-appcompat \
     android-support-v7-recyclerview \
+    android-support-v13 \
     material-progressbar
 
 LOCAL_SRC_FILES := $(call all-java-files-under, java)
