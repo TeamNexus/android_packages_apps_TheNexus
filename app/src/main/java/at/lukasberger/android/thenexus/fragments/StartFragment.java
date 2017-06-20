@@ -41,7 +41,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import at.lukasberger.android.thenexus.FragmentHelper;
@@ -78,12 +80,14 @@ public class StartFragment extends Fragment {
                     dialog.hide();
                     fileName = intent.getStringExtra("fileName");
 
-                    emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    emailIntent.setType("*/*");
-                    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "Share Bugreport" });
-                    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "File");
-                    emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
-                    startActivity(Intent.createChooser(emailIntent, "Share Bugreport"));
+                    if (new File(fileName).exists()) {
+                        emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                        emailIntent.setType("*/*");
+                        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "Share Bugreport" });
+                        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "File");
+                        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(fileName)));
+                        startActivity(Intent.createChooser(emailIntent, "Share Bugreport"));
+                    }
                     break;
             }
         }
@@ -203,26 +207,35 @@ public class StartFragment extends Fragment {
                         String bugreportFile = bugreportDir + ".zip";
 
                         // create directory
-                        Shell.SU.run("mkdir -p " + bugreportDir);
+                        List<String> cmds = new ArrayList<>();
 
-                        // dump build.props
-                        Shell.SU.run("cp -f /system/build.prop " + bugreportDir + "/build.prop");
+                        // create directory recursive
+                        cmds.add("mkdir -p \"" + bugreportDir + "\"");
+                        cmds.add("mkdir -p \"" + bugreportDir + "/logcats\"");
+                        cmds.add("mkdir -p \"" + bugreportDir + "/kmsg\"");
 
-                        // dump logcat
-                        Shell.SU.run("logcat -d > " + bugreportDir + "/logcat.txt 2>&1");
+                        // dump everything
+                        cmds.add("cp -f /system/build.prop \"" + bugreportDir + "/build.prop\"");
+                        cmds.add("logcat -d > \"" + bugreportDir + "/logcat/default.txt\" 2>&1");
+                        cmds.add("logcat -d | grep 'avc\\: denied' > \"" + bugreportDir + "/logcat/grepped-avc.txt\" 2>&1");
+                        cmds.add("logcat -d -s SELinux > \"" + bugreportDir + "/logcat/tags-SELinux.txt\" 2>&1");
+                        cmds.add("logcat -d -s Magisk > \"" + bugreportDir + "/logcat/tags-Magisk.txt\" 2>&1");
+                        cmds.add("logcat -d -s Exynos5PowerHAL > \"" + bugreportDir + "/logcat/tags-Exynos5PowerHAL.txt\" 2>&1");
+                        cmds.add("logcat -d -b crash > \"" + bugreportDir + "/logcat/buffer-crash.txt\" 2>&1");
+                        cmds.add("logcat -d -b radio > \"" + bugreportDir + "/logcat/buffer-radio.txt\" 2>&1");
+                        cmds.add("timeout 5s cat /dev/kmsg > \"" + bugreportDir + "/kmsg/full-def.txt\" 2>&1");
+                        cmds.add("cat /proc/kmsg > \"" + bugreportDir + "/kmsg/full-proc.txt\" 2>&1");
+                        cmds.add("cat /proc/last_kmsg > \"" + bugreportDir + "/kmsg/last.txt\" 2>&1");
 
-                        // dump RIL-logcat
-                        Shell.SU.run("logcat -d -b radio > " + bugreportDir + "/logcat-radio.txt 2>&1");
+                        // zip it (relative)
+                        cmds.add("cd \"" + bugreportDir + "\"");
+                        cmds.add("zip -r9 \"" + bugreportFile + "\" ./*");
 
-                        // dump full kmsg
-                        Shell.SU.run("timeout 5s cat /dev/kmsg > " + bugreportDir + "/kmsg-full.txt 2>&1");
+                        // clean up
+                        cmds.add("cd \"" + bugreportBasedir + "\"");
+                        cmds.add("rm -rf \"./" + bugreportName + "\"");
 
-                        // dump last kmsg
-                        Shell.SU.run("cat /proc/last_kmsg > " + bugreportDir + "/kmsg-last.txt 2>&1");
-
-                        // compress and clean up
-                        Shell.SU.run("zip -9 " + bugreportFile + " " + bugreportDir + "/*");
-                        Shell.SU.run("cd \"" + bugreportBasedir + "\" && rm -rf \"./" + bugreportName + "\"");
+                        Shell.SU.run(cmds);
 
                         broadcastIntent.putExtra("action", BROADCAST_FINISH_BUGREPORT);
                         broadcastIntent.putExtra("fileName", bugreportFile);
