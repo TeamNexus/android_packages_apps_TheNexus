@@ -142,5 +142,7 @@
     <!-- Dialog: Bugreport -->
     <string name="dialog_bugreport_title">Generating bugreport...</string>
     <string name="dialog_bugreport_content">This can take a while, please be patient...</string>
+    <string name="dialog_bugreport_finished_title">Bugreport generated!</string>
+    <string name="dialog_bugreport_finished_content">If you want to select it from a file-chooser, it\'s placed in %1$s</string>
 
 </resources>

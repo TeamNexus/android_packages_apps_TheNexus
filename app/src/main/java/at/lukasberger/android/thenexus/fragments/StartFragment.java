@@ -77,8 +77,15 @@ public class StartFragment extends Fragment {
 
             switch (action) {
                 case BROADCAST_FINISH_BUGREPORT:
-                    dialog.hide();
                     fileName = intent.getStringExtra("fileName");
+
+                    dialog.hide();
+                    dialog = new MaterialDialog.Builder(getContext())
+                            .title(R.string.dialog_bugreport_finished_title)
+                            .content(getString(R.string.dialog_bugreport_finished_content, fileName))
+                            .cancelable(true)
+                            .build();
+                    dialog.show();
 
                     if (new File(fileName).exists()) {
                         emailIntent = new Intent(android.content.Intent.ACTION_SEND);
