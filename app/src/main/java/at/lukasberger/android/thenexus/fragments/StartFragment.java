@@ -223,13 +223,13 @@ public class StartFragment extends Fragment {
 
                         // dump everything
                         cmds.add("cp -f /system/build.prop \"" + bugreportDir + "/build.prop\"");
-                        cmds.add("logcat -d > \"" + bugreportDir + "/logcat/default.txt\" 2>&1");
-                        cmds.add("logcat -d | grep 'avc\\: denied' > \"" + bugreportDir + "/logcat/grepped-avc.txt\" 2>&1");
-                        cmds.add("logcat -d -s SELinux > \"" + bugreportDir + "/logcat/tags-SELinux.txt\" 2>&1");
-                        cmds.add("logcat -d -s Magisk > \"" + bugreportDir + "/logcat/tags-Magisk.txt\" 2>&1");
-                        cmds.add("logcat -d -s Exynos5PowerHAL > \"" + bugreportDir + "/logcat/tags-Exynos5PowerHAL.txt\" 2>&1");
-                        cmds.add("logcat -d -b crash > \"" + bugreportDir + "/logcat/buffer-crash.txt\" 2>&1");
-                        cmds.add("logcat -d -b radio > \"" + bugreportDir + "/logcat/buffer-radio.txt\" 2>&1");
+                        cmds.add("logcat -d > \"" + bugreportDir + "/logcats/default.txt\" 2>&1");
+                        cmds.add("logcat -d | grep 'avc\\: denied' > \"" + bugreportDir + "/logcats/grepped-avc.txt\" 2>&1");
+                        cmds.add("logcat -d -s SELinux > \"" + bugreportDir + "/logcats/tags-SELinux.txt\" 2>&1");
+                        cmds.add("logcat -d -s Magisk > \"" + bugreportDir + "/logcats/tags-Magisk.txt\" 2>&1");
+                        cmds.add("logcat -d -s Exynos5PowerHAL > \"" + bugreportDir + "/logcats/tags-Exynos5PowerHAL.txt\" 2>&1");
+                        cmds.add("logcat -d -b crash > \"" + bugreportDir + "/logcats/buffer-crash.txt\" 2>&1");
+                        cmds.add("logcat -d -b radio > \"" + bugreportDir + "/logcats/buffer-radio.txt\" 2>&1");
                         cmds.add("timeout 5s cat /dev/kmsg > \"" + bugreportDir + "/kmsg/full-def.txt\" 2>&1");
                         cmds.add("cat /proc/kmsg > \"" + bugreportDir + "/kmsg/full-proc.txt\" 2>&1");
                         cmds.add("cat /proc/last_kmsg > \"" + bugreportDir + "/kmsg/last.txt\" 2>&1");
