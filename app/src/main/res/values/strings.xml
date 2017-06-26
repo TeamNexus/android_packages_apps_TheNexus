@@ -93,11 +93,6 @@
         the recommended minimal and maximal values.
     </string>
     <string name="fragment_battery_max_charging_limit_text">%1$d mA</string>
-    <string name="fragment_battery_calibrate">Calibrate Battery</string>
-    <string name="fragment_battery_calibrate_descr">
-        Recalibrate the battery. This can be useful after non-clean ROM-upgrades.
-    </string>
-    <string name="fragment_battery_calibrate_toast">Battery calibrated</string>
 
     <!-- Fragment: Fingerprint -->
     <string name="fragment_fingerprint_always_on_fp">Enable always-on Fingerprint-Sensor</string>

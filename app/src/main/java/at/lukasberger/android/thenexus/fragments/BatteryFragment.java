@@ -95,20 +95,6 @@ public class BatteryFragment extends Fragment {
 
                 });
 
-                /*
-                 * Calibrate Battery
-                 */
-                RelativeLayout calibrateBatteryButton = (RelativeLayout)view.findViewById(R.id.fragment_battery_calibrate);
-                calibrateBatteryButton.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        AsyncFileUtils.delete("/data/system/batterystats.bin");
-                        Toast.makeText(view.getContext(), R.string.fragment_battery_calibrate_toast, Toast.LENGTH_SHORT).show();
-                    }
-
-                });
-
                 FragmentHelper.finish(false);
             }
 
