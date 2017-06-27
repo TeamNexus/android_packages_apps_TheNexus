@@ -30,7 +30,7 @@
 
     <!-- Tiles -->
     <string name="tile_quick_charge">Quick-Charge</string>
-    <string name="tile_power_profile">Quick-Charge</string>
+    <string name="tile_power_profile">Power-Profile</string>
 
     <!-- Fragment: Start -->
     <string name="fragment_start_device_name">%1$s %2$s</string>
