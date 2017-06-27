@@ -22,6 +22,15 @@
     <string name="this_can_take_a_while_internet">
         This can take a while, depending on your current internet connection
     </string>
+    <string name="power_profile_power_save">Power save</string>
+    <string name="power_profile_efficiency">Efficiency</string>
+    <string name="power_profile_balanced">Balanced</string>
+    <string name="power_profile_quick">Quick</string>
+    <string name="power_profile_performance">Performance</string>
+
+    <!-- Tiles -->
+    <string name="tile_quick_charge">Quick-Charge</string>
+    <string name="tile_power_profile">Quick-Charge</string>
 
     <!-- Fragment: Start -->
     <string name="fragment_start_device_name">%1$s %2$s</string>
@@ -32,13 +41,9 @@
     <string name="fragment_start_battery_status">Status: %1$s</string>
     <string name="fragment_start_battery_speed">%1$d mA</string>
     <string name="fragment_start_power_profile">Power-Profile</string>
-    <string name="fragment_start_power_profile_power_save">Power save</string>
-    <string name="fragment_start_power_profile_efficiency">Efficiency</string>
-    <string name="fragment_start_power_profile_balanced">Balanced</string>
-    <string name="fragment_start_power_profile_quick">Quick</string>
-    <string name="fragment_start_power_profile_performance">Performance</string>
     <string name="fragment_start_bugreport_title">Bugreport</string>
     <string name="fragment_start_bugreport_subtitle">Generates a bugreport which can be shared afterwards</string>
+    <string name="fragment_start_set_profile_toast">Failed to set power-profile, please use the battery-settings</string>
 
     <!-- Fragment: Updates -->
     <string name="fragment_updates_searching_for_updates">Searching for updates...</string>

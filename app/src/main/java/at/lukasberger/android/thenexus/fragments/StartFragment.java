@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -151,31 +152,36 @@ public class StartFragment extends Fragment {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                switch (progress) {
-                    case 0:
-                        powerProfileTextView.setText(R.string.fragment_start_power_profile_power_save);
-                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(0);
-                        break;
+                try {
+                    switch (progress) {
+                        case 0:
+                            powerProfileTextView.setText(R.string.power_profile_power_save);
+                            PerformanceManager.getInstance(view.getContext()).setPowerProfile(0);
+                            break;
 
-                    case 1:
-                        powerProfileTextView.setText(R.string.fragment_start_power_profile_efficiency);
-                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(3);
-                        break;
+                        case 1:
+                            powerProfileTextView.setText(R.string.power_profile_efficiency);
+                            PerformanceManager.getInstance(view.getContext()).setPowerProfile(3);
+                            break;
 
-                    case 2:
-                        powerProfileTextView.setText(R.string.fragment_start_power_profile_balanced);
-                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(1);
-                        break;
+                        case 2:
+                            powerProfileTextView.setText(R.string.power_profile_balanced);
+                            PerformanceManager.getInstance(view.getContext()).setPowerProfile(1);
+                            break;
 
-                    case 3:
-                        powerProfileTextView.setText(R.string.fragment_start_power_profile_quick);
-                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(4);
-                        break;
+                        case 3:
+                            powerProfileTextView.setText(R.string.power_profile_quick);
+                            PerformanceManager.getInstance(view.getContext()).setPowerProfile(4);
+                            break;
 
-                    case 4:
-                        powerProfileTextView.setText(R.string.fragment_start_power_profile_performance);
-                        PerformanceManager.getInstance(view.getContext()).setPowerProfile(2);
-                        break;
+                        case 4:
+                            powerProfileTextView.setText(R.string.power_profile_performance);
+                            PerformanceManager.getInstance(view.getContext()).setPowerProfile(2);
+                            break;
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(seekBar.getContext(), R.string.fragment_start_set_profile_toast, Toast.LENGTH_LONG).show();
+                    ex.printStackTrace();
                 }
             }
 
@@ -274,23 +280,23 @@ public class StartFragment extends Fragment {
 
         switch (profile) {
             case 0:
-                powerProfileTextView.setText(R.string.fragment_start_power_profile_power_save);
+                powerProfileTextView.setText(R.string.power_profile_power_save);
                 powerProfileSeekBar.setProgress(0);
                 break;
             case 1:
-                powerProfileTextView.setText(R.string.fragment_start_power_profile_balanced);
+                powerProfileTextView.setText(R.string.power_profile_balanced);
                 powerProfileSeekBar.setProgress(2);
                 break;
             case 2:
-                powerProfileTextView.setText(R.string.fragment_start_power_profile_performance);
+                powerProfileTextView.setText(R.string.power_profile_performance);
                 powerProfileSeekBar.setProgress(4);
                 break;
             case 3:
-                powerProfileTextView.setText(R.string.fragment_start_power_profile_efficiency);
+                powerProfileTextView.setText(R.string.power_profile_efficiency);
                 powerProfileSeekBar.setProgress(1);
                 break;
             case 4:
-                powerProfileTextView.setText(R.string.fragment_start_power_profile_quick);
+                powerProfileTextView.setText(R.string.power_profile_quick);
                 powerProfileSeekBar.setProgress(3);
                 break;
         }

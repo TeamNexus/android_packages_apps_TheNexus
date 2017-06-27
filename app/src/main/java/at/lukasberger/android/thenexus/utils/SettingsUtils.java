@@ -37,7 +37,6 @@ public class SettingsUtils {
     }
 
     public static void set(String name, boolean value) {
-
         // global settings
         Settings.Secure.putInt(mContext.getContentResolver(), "at.lukasberger.android.thenexus." + name, (value ? 1 : 0));
 

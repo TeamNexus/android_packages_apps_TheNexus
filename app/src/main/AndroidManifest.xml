@@ -43,6 +43,46 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
+        <!--
+           QuickChargeTile
+          -->
+        <service
+            android:name=".tiles.QuickChargeTile"
+            android:enabled="true"
+            android:icon="@drawable/ic_battery_full_black"
+            android:description="@string/app_name"
+            android:label="@string/tile_quick_charge"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="true"/>
+        </service>
+
+        <!--
+           PowerProfileTile
+          -->
+        <service
+            android:name=".tiles.PowerProfileTile"
+            android:enabled="true"
+            android:icon="@drawable/ic_menu_power_white"
+            android:description="@string/app_name"
+            android:label="@string/tile_power_profile"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="true"/>
+        </service>
     </application>
 
 </manifest>
