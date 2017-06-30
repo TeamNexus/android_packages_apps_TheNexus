@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import at.lukasberger.android.thenexus.fragments.BatteryFragment;
 import at.lukasberger.android.thenexus.fragments.FingerprintFragment;
 import at.lukasberger.android.thenexus.fragments.NoRootFragment;
+import at.lukasberger.android.thenexus.fragments.PropertiesFragment;
 import at.lukasberger.android.thenexus.fragments.StartFragment;
 import at.lukasberger.android.thenexus.fragments.PowerFragment;
 import at.lukasberger.android.thenexus.fragments.TouchscreenFragment;
@@ -105,6 +106,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_touchscreen:
                 fragment = new TouchscreenFragment();
                 setTitle("Touchscreen");
+                break;
+            case R.id.nav_props:
+                fragment = new PropertiesFragment();
+                setTitle("Properties");
                 break;
         }
 

@@ -40,6 +40,10 @@
                 android:id="@+id/nav_touchscreen"
                 android:icon="@drawable/ic_menu_touchscreen"
                 android:title="@string/drawer_touchscreen" />
+            <item
+                android:id="@+id/nav_props"
+                android:icon="@drawable/ic_menu_properties"
+                android:title="@string/drawer_properties" />
         </menu>
     </item>
 
