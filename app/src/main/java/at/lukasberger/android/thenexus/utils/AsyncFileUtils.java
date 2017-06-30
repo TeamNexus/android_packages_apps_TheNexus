@@ -98,6 +98,14 @@ public class AsyncFileUtils {
         AsyncFileUtils.syncRootCommand("echo \"" + escapeQuotes(content) + "\" >> \"" + escapeQuotes(path) + "\"");
     }
 
+    public static void appendSystem(String path, String content) {
+        AsyncFileUtils.asyncSystemCommand("echo \"" + escapeQuotes(content) + "\" >> \"" + escapeQuotes(path) + "\"");
+    }
+
+    public static void appendSystemSync(String path, String content) {
+        AsyncFileUtils.syncSystemCommand("echo \"" + escapeQuotes(content) + "\" >> \"" + escapeQuotes(path) + "\"");
+    }
+
     public static List<String> read(String path) {
         return AsyncFileUtils.syncRootCommand("cat \"" + escapeQuotes(path) + "\"");
     }
@@ -136,6 +144,38 @@ public class AsyncFileUtils {
         }
     }
 
+    public static void replaceRootLine(String path, String str, int line) {
+        AsyncFileUtils.asyncRootCommand("sed -i '" + line + "s/.*/" + str + "/' " + path);
+    }
+
+    public static void replaceRootLineSync(String path, String str, int line) {
+        AsyncFileUtils.syncRootCommand("sed -i '" + line + "s/.*/" + str + "/' " + path);
+    }
+
+    public static void replaceSystemLine(String path, String str, int line) {
+        AsyncFileUtils.asyncSystemCommand("sed -i '" + line + "s/.*/" + str + "/' " + path);
+    }
+
+    public static void replaceSystemLineSync(String path, String str, int line) {
+        AsyncFileUtils.syncSystemCommand("sed -i '" + line + "s/.*/" + str + "/' " + path);
+    }
+
+    public static void removeRootLine(String path, int line) {
+        AsyncFileUtils.asyncRootCommand("sed -i '" + line + "d' " + path);
+    }
+
+    public static void removeRootLineSync(String path, int line) {
+        AsyncFileUtils.syncRootCommand("sed -i '" + line + "d' " + path);
+    }
+
+    public static void removeSystemLine(String path, int line) {
+        AsyncFileUtils.asyncSystemCommand("sed -i '" + line + "d' " + path);
+    }
+
+    public static void removeSystemLineSync(String path, int line) {
+        AsyncFileUtils.syncSystemCommand("sed -i '" + line + "d' " + path);
+    }
+
     @NonNull
     private static String generateWriteCommand(String path, String[] content) {
         String commands = "";
@@ -160,6 +200,30 @@ public class AsyncFileUtils {
         return null;
     }
 
+    @Nullable
+    private static List<String> syncSystemCommand(String command) {
+        try {
+            synchronized (rootCommandLock) {
+                Shell.SU.clearCachedResults();
+
+                /* Remount /system as read-write */
+                remountSystem(true);
+
+                /* Execute command */
+                List<String> result = Shell.SU.run(command);
+
+                /* Remount /system as read-only */
+                remountSystem(false);
+
+                return result;
+            }
+        } catch (Exception e) {
+            Log.e("TheNexus", "AsyncFileUtils.syncLockedIOOperation: failed to execute command: \"" + command + "\"", e);
+        }
+
+        return null;
+    }
+
     private static void asyncRootCommand(final String command) {
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -168,6 +232,20 @@ public class AsyncFileUtils {
             }
         });
         thread.start();
+    }
+
+    private static void asyncSystemCommand(final String command) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AsyncFileUtils.syncSystemCommand(command);
+            }
+        });
+        thread.start();
+    }
+
+    private static void remountSystem(boolean rw) {
+        syncRootCommand("mount -o " + ((rw) ? "rw" : "ro") + ",remount /system");
     }
 
     private static String escapeQuotes(String path) {
