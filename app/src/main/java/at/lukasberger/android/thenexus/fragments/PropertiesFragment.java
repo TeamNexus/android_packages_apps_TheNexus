@@ -90,7 +90,7 @@ public class PropertiesFragment extends Fragment {
                         .positiveText(getString(R.string.dialog_properties_save_button))
                         .negativeText(getString(R.string.dialog_properties_remove_button))
                         .neutralText(getString(R.string.dialog_properties_cancel_button))
-                        .input("Value", property.getValue(), new MaterialDialog.InputCallback() {
+                        .input(getString(R.string.dialog_properties_input_value), property.getValue(), new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 // Nothing here
@@ -143,9 +143,9 @@ public class PropertiesFragment extends Fragment {
                 final Property property = new Property();
                 new MaterialDialog.Builder(getContext())
                         .title(getString(R.string.menu_properties_add))
-                        .positiveText("Ok")
+                        .positiveText(getString(R.string.dialog_properties_ok_button))
                         .neutralText(getString(R.string.dialog_properties_cancel_button))
-                        .input("Property name", "", new MaterialDialog.InputCallback() {
+                        .input(getString(R.string.dialog_properties_property_name), "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 property.setTitle(input.toString());
@@ -158,7 +158,7 @@ public class PropertiesFragment extends Fragment {
                                         .title(getString(R.string.menu_properties_add))
                                         .positiveText(getString(R.string.dialog_properties_save_button))
                                         .neutralText(getString(R.string.dialog_properties_cancel_button))
-                                        .input("Value", "", new MaterialDialog.InputCallback() {
+                                        .input(getString(R.string.dialog_properties_input_value), "", new MaterialDialog.InputCallback() {
                                             @Override
                                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                                 // Nothing here

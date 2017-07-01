@@ -157,5 +157,8 @@
     <string name="dialog_properties_save_button">Save</string>
     <string name="dialog_properties_remove_button">Remove</string>
     <string name="dialog_properties_cancel_button">Cancel</string>
+    <string name="dialog_properties_ok_button">OK</string>
+    <string name="dialog_properties_input_value">Value</string>
+    <string name="dialog_properties_property_name">Property-Name</string>
 
 </resources>
