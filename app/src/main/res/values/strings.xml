@@ -137,6 +137,9 @@
         Warning: Probably destroys deep-sleep and battery!
     </string>
 
+    <!-- Fragment: Properties -->
+    <string name="fragment_properties_toast_readonly">Sorry, but this property can\'t be edited as it is read-only</string>
+
     <!-- Fragment: No Root -->
     <string name="fragment_no_root">No root-access</string>
 

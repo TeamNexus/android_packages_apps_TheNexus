@@ -32,6 +32,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -78,6 +79,11 @@ public class PropertiesFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 final Property property = properties.get(position);
+
+                if (property.getTitle().startsWith("ro.")) {
+                    Toast.makeText(view.getContext(), getString(R.string.fragment_properties_toast_readonly), Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 new MaterialDialog.Builder(getContext())
                         .title(getString(R.string.dialog_properties_title, property.getTitle()))
