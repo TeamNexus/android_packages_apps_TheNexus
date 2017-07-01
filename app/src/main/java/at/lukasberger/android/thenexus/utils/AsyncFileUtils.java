@@ -145,35 +145,35 @@ public class AsyncFileUtils {
     }
 
     public static void replaceRootLine(String path, String str, int line) {
-        AsyncFileUtils.asyncRootCommand("sed -i '" + line + "s/.*/" + str + "/' " + path);
+        AsyncFileUtils.asyncRootCommand("sed -i '" + line + "s/.*/" + escapeQuotes(str) + "/' " + escapeQuotes(path));
     }
 
     public static void replaceRootLineSync(String path, String str, int line) {
-        AsyncFileUtils.syncRootCommand("sed -i '" + line + "s/.*/" + str + "/' " + path);
+        AsyncFileUtils.syncRootCommand("sed -i '" + line + "s/.*/" + escapeQuotes(str) + "/' " + escapeQuotes(path));
     }
 
     public static void replaceSystemLine(String path, String str, int line) {
-        AsyncFileUtils.asyncSystemCommand("sed -i '" + line + "s/.*/" + str + "/' " + path);
+        AsyncFileUtils.asyncSystemCommand("sed -i '" + line + "s/.*/" + escapeQuotes(str) + "/' " + escapeQuotes(path));
     }
 
     public static void replaceSystemLineSync(String path, String str, int line) {
-        AsyncFileUtils.syncSystemCommand("sed -i '" + line + "s/.*/" + str + "/' " + path);
+        AsyncFileUtils.syncSystemCommand("sed -i '" + line + "s/.*/" + escapeQuotes(str) + "/' " + escapeQuotes(path));
     }
 
     public static void removeRootLine(String path, int line) {
-        AsyncFileUtils.asyncRootCommand("sed -i '" + line + "d' " + path);
+        AsyncFileUtils.asyncRootCommand("sed -i '" + line + "d' " + escapeQuotes(path));
     }
 
     public static void removeRootLineSync(String path, int line) {
-        AsyncFileUtils.syncRootCommand("sed -i '" + line + "d' " + path);
+        AsyncFileUtils.syncRootCommand("sed -i '" + line + "d' " + escapeQuotes(path));
     }
 
     public static void removeSystemLine(String path, int line) {
-        AsyncFileUtils.asyncSystemCommand("sed -i '" + line + "d' " + path);
+        AsyncFileUtils.asyncSystemCommand("sed -i '" + line + "d' " + escapeQuotes(path));
     }
 
     public static void removeSystemLineSync(String path, int line) {
-        AsyncFileUtils.syncSystemCommand("sed -i '" + line + "d' " + path);
+        AsyncFileUtils.syncSystemCommand("sed -i '" + line + "d' " + escapeQuotes(path));
     }
 
     @NonNull
