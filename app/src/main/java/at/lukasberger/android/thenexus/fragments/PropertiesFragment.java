@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -167,11 +168,14 @@ public class PropertiesFragment extends Fragment {
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                String value = dialog.getInputEditText().getText().toString();
-                                                if (!value.trim().isEmpty()) {
-                                                    property.setValue(value);
-                                                    PropertiesUtil.addProperty(property);
-                                                    updateProperties();
+                                                Editable text = dialog.getInputEditText().getText();
+                                                if (text != null) {
+                                                    String value = text.toString();
+                                                    if (!value.trim().isEmpty()) {
+                                                        property.setValue(value);
+                                                        PropertiesUtil.addProperty(property);
+                                                        updateProperties();
+                                                    }
                                                 }
                                             }
                                         }).show();
