@@ -68,22 +68,24 @@ public class PropertiesFragment extends Fragment {
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        Thread thread = new Thread(new Runnable() {
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+            @Override
+            public void run() {
+                recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
-        updateProperties();
+                properties = PropertiesUtil.readProperties();
 
-        FragmentHelper.finish();
-    }
+                propsAdapter = new PropertiesAdapter(getContext(), properties);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setAdapter(propsAdapter);
 
-    private void updateProperties() {
-        properties = PropertiesUtil.readProperties();
-
-        propsAdapter = new PropertiesAdapter(getContext(), properties);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(propsAdapter);
+                FragmentHelper.finish();
+            }
+        });
+        thread.start();
     }
 
     @Override

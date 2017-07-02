@@ -28,12 +28,6 @@ public class Property {
         // Nothing here
     }
 
-    public Property(String title, String value) {
-        this.title = title;
-        this.value = value;
-        this.line = -1;
-    }
-
     public Property(String title, String value, int line) {
         this.title = title;
         this.value = value;

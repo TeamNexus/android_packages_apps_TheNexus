@@ -144,7 +144,7 @@
     <string name="fragment_no_root">No root-access</string>
 
     <!-- Menu: Properties -->
-    <string name="menu_properties_add">Add property</string>
+    <string name="menu_properties_add">Add new property</string>
 
     <!-- Dialog: Bugreport -->
     <string name="dialog_bugreport_title">Generating bugreport...</string>
@@ -153,7 +153,6 @@
     <string name="dialog_bugreport_finished_content">If you want to select it from a file-chooser, it\'s placed in %1$s</string>
 
     <!-- Dialog: Properties -->
-    <string name="dialog_properties_title">Edit: %1$s</string>
     <string name="dialog_properties_save_button">Save</string>
     <string name="dialog_properties_remove_button">Remove</string>
     <string name="dialog_properties_cancel_button">Cancel</string>

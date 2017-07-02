@@ -67,7 +67,7 @@ public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.Vi
             }
 
             new MaterialDialog.Builder(context)
-                    .title(context.getString(R.string.dialog_properties_title, property.getTitle()))
+                    .title(property.getTitle())
                     .positiveText(context.getString(R.string.dialog_properties_save_button))
                     .negativeText(context.getString(R.string.dialog_properties_remove_button))
                     .neutralText(context.getString(R.string.dialog_properties_cancel_button))
