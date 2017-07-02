@@ -46,14 +46,14 @@ public class PropertiesUtil {
     }
 
     public static void addProperty(Property property) {
-        AsyncFileUtils.appendSystemSync(propertiesPath, property.toString());
+        AsyncFileUtils.appendSystem(propertiesPath, property.toString());
     }
 
     public static void updateProperty(Property property) {
-        AsyncFileUtils.replaceSystemLineSync(propertiesPath, property.toString(), property.getLine());
+        AsyncFileUtils.replaceSystemLine(propertiesPath, property.toString(), property.getLine());
     }
 
     public static void removeProperty(Property property) {
-        AsyncFileUtils.removeSystemLineSync(propertiesPath, property.getLine());
+        AsyncFileUtils.removeSystemLine(propertiesPath, property.getLine());
     }
 }
