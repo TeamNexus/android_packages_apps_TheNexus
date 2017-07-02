@@ -54,6 +54,10 @@ public class Property {
         return this.line;
     }
 
+    public void setLine(int line) {
+        this.line = line;
+    }
+
     @Override
     public String toString() {
         return title + "=" + value;

@@ -130,6 +130,7 @@ public class PropertiesFragment extends Fragment {
                                                     String value = text.toString();
                                                     if (!value.trim().isEmpty()) {
                                                         property.setValue(value);
+                                                        property.setLine(PropertiesUtil.getLinesCount() + 1);
                                                         PropertiesUtil.addProperty(property);
                                                         properties.add(property);
                                                         propsAdapter.notifyDataSetChanged();

@@ -176,6 +176,10 @@ public class AsyncFileUtils {
         AsyncFileUtils.syncSystemCommand("sed -i '" + line + "d' " + escapeQuotes(path));
     }
 
+    public static int getFileLinesCount(String path) {
+        return Integer.parseInt(AsyncFileUtils.syncSystemCommand("sed -n '$=' " + escapeQuotes(path)).get(0));
+    }
+
     @NonNull
     private static String generateWriteCommand(String path, String[] content) {
         String commands = "";

@@ -56,4 +56,8 @@ public class PropertiesUtil {
     public static void removeProperty(Property property) {
         AsyncFileUtils.removeSystemLine(propertiesPath, property.getLine());
     }
+
+    public static int getLinesCount() {
+        return AsyncFileUtils.getFileLinesCount(propertiesPath);
+    }
 }
