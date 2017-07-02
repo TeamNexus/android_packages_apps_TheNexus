@@ -54,6 +54,6 @@ public class PropertiesUtil {
     }
 
     public static void removeProperty(Property property) {
-        AsyncFileUtils.removeRootLineSync(propertiesPath, property.getLine());
+        AsyncFileUtils.removeSystemLineSync(propertiesPath, property.getLine());
     }
 }
