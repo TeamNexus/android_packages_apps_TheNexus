@@ -33,7 +33,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -43,8 +42,6 @@ import java.util.List;
 import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.adapters.PropertiesAdapter;
-import at.lukasberger.android.thenexus.interfaces.ClickListener;
-import at.lukasberger.android.thenexus.listeners.RecyclerOnClickListener;
 import at.lukasberger.android.thenexus.models.Property;
 import at.lukasberger.android.thenexus.utils.PropertiesUtil;
 
@@ -76,55 +73,13 @@ public class PropertiesFragment extends Fragment {
 
         updateProperties();
 
-        recyclerView.addOnItemTouchListener(new RecyclerOnClickListener(getContext(), new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                final Property property = properties.get(position);
-
-                if (property.getTitle().startsWith("ro.")) {
-                    Toast.makeText(view.getContext(), getString(R.string.fragment_properties_toast_readonly), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                new MaterialDialog.Builder(getContext())
-                        .title(getString(R.string.dialog_properties_title, property.getTitle()))
-                        .positiveText(getString(R.string.dialog_properties_save_button))
-                        .negativeText(getString(R.string.dialog_properties_remove_button))
-                        .neutralText(getString(R.string.dialog_properties_cancel_button))
-                        .input(getString(R.string.dialog_properties_input_value), property.getValue(), new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                // Nothing here
-                            }
-                        })
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                String value = dialog.getInputEditText().getText().toString();
-                                if (!value.trim().isEmpty()) {
-                                    property.setValue(value);
-                                    PropertiesUtil.updateProperty(property);
-                                    updateProperties();
-                                }
-                            }
-                        })
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                PropertiesUtil.removeProperty(property);
-                                updateProperties();
-                            }
-                        }).show();
-            }
-        }));
-
         FragmentHelper.finish();
     }
 
     private void updateProperties() {
         properties = PropertiesUtil.readProperties();
 
-        propsAdapter = new PropertiesAdapter(properties);
+        propsAdapter = new PropertiesAdapter(getContext(), properties);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -174,7 +129,8 @@ public class PropertiesFragment extends Fragment {
                                                     if (!value.trim().isEmpty()) {
                                                         property.setValue(value);
                                                         PropertiesUtil.addProperty(property);
-                                                        updateProperties();
+                                                        properties.add(property);
+                                                        propsAdapter.notifyDataSetChanged();
                                                     }
                                                 }
                                             }
