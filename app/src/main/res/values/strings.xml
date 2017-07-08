@@ -119,15 +119,16 @@
         power-profile is changed. Useful for normal usage, but should be deactivated if the
         user often customizes the system-settings.
     </string>
+    <string name="fragment_power_boost_profiles">Enable Boost-Profiles</string>
+    <string name="fragment_power_boost_profiles_descr">
+        Allows the power-management to enable dynamic boost-profiles. These profiles will
+        scale CPU- and GPU-frequencies accordingly to the system\'s wishes which can increase
+        performance and battery-lifetime.
+    </string>
     <string name="fragment_power_boost">Enable Boost</string>
     <string name="fragment_power_boost_descr">
         Allows the power-management to boost the system under some circumstances.
         It will result in a more smooth UI-experience, but also drain the battery faster.
-    </string>
-    <string name="fragment_power_app_boost">Boost performance-hungry apps</string>
-    <string name="fragment_power_app_boost_descr">
-        Allows the power-management to boost specific applications which may require a
-        more powerful performance-profile. Only applies if device is not in powersave-mode.
     </string>
 
     <!-- Fragment: Touchscreen -->

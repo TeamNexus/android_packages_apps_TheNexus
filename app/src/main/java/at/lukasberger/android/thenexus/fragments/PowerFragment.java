@@ -76,6 +76,21 @@ public class PowerFragment extends Fragment {
                 });
 
                 /*
+                 * Enable Boost-Profiles
+                 */
+                Switch boostProfilesSwitch = (Switch)view.findViewById(R.id.fragment_power_boost_profiles);
+                FragmentHelper.setChecked(boostProfilesSwitch.getId(), AsyncFileUtils.readBoolean("/data/power/boost_profiles"));
+                boostProfilesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SettingsUtils.set("power.boost_profiles", isChecked);
+                        AsyncFileUtils.write("/data/power/boost_profiles", isChecked);
+                    }
+
+                });
+
+                /*
                  * Enable Boost
                  */
                 Switch boostSwitch = (Switch)view.findViewById(R.id.fragment_power_boost);
@@ -89,25 +104,6 @@ public class PowerFragment extends Fragment {
                     }
 
                 });
-
-                /*
-                 * Enable App-Boost
-                 */
-                Switch appBoostSwitch = (Switch)view.findViewById(R.id.fragment_power_app_boost);
-                if (SystemUtils.isNexusOS()) {
-                    FragmentHelper.setChecked(appBoostSwitch.getId(), AsyncFileUtils.readBoolean("/data/power/app_boost"));
-                    appBoostSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            SettingsUtils.set("power.app_boost", isChecked);
-                            AsyncFileUtils.write("/data/power/app_boost", isChecked);
-                        }
-
-                    });
-                } else {
-                    appBoostSwitch.setVisibility(View.GONE);
-                }
 
                 FragmentHelper.finish();
             }

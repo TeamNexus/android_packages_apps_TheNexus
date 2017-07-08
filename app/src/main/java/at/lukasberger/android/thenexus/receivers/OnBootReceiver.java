@@ -49,7 +49,7 @@ public class OnBootReceiver extends BroadcastReceiver
 
                 if (prefs.contains("fingerprint.always_on_fp")) {
                     AsyncFileUtils.writeSync("/data/power/always_on_fp",
-                            prefs.getBoolean("fingerprint.always_on_fp", false));
+                            prefs.getBoolean("fingerprint.always_on_fp", true));
                 }
 
                 if (prefs.contains("power.profiles")) {
@@ -57,18 +57,18 @@ public class OnBootReceiver extends BroadcastReceiver
                             prefs.getBoolean("power.profiles", true));
                 }
 
-                if (prefs.contains("power.boost")) {
-                    AsyncFileUtils.writeSync("/data/power/boost",
-                            prefs.getBoolean("power.boost", true));
+                if (prefs.contains("power.boost_profiles")) {
+                    AsyncFileUtils.writeSync("/data/power/boost_profiles",
+                            prefs.getBoolean("power.boost_profiles", true));
                 }
 
-                if (romName.equals("NexusOS") && prefs.contains("power.app_boost")) {
-                    AsyncFileUtils.writeSync("/data/power/app_boost",
-                            prefs.getBoolean("power.app_boost", true));
+                if (prefs.contains("power.boost")) {
+                    AsyncFileUtils.writeSync("/data/power/boost",
+                            prefs.getBoolean("power.boost", false));
                 }
 
                 if (prefs.contains("touchscreen.dt2w")) {
-                    boolean dt2w = prefs.getBoolean("power.profiles", true);
+                    boolean dt2w = prefs.getBoolean("touchscreen.dt2w", false);
                     AsyncFileUtils.writeSync("/sys/android_touch/doubletap2wake", dt2w);
                     AsyncFileUtils.writeSync("/data/power/dt2w", dt2w);
                 }
