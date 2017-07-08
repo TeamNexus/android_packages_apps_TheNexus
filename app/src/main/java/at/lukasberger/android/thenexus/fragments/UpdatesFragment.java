@@ -242,7 +242,7 @@ public class UpdatesFragment extends Fragment {
                                 return;
                             }
 
-                            URL otaUrl = new URL("https://nexus-roms.eu/files/ota.php?device=" + deviceOtaName + "&rom=" + romOtaName);
+                            URL otaUrl = new URL("https://stor.lukasberger.at/teamnexus/ota.php?device=" + deviceOtaName + "&rom=" + romOtaName);
                             HttpURLConnection otaIndexConnection = (HttpURLConnection)otaUrl.openConnection();
 
                             BufferedReader in = new BufferedReader(new InputStreamReader(otaIndexConnection.getInputStream()));
