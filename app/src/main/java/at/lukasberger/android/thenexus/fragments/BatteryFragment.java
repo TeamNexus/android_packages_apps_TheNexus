@@ -24,14 +24,17 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import at.lukasberger.android.thenexus.FragmentHelper;
 import at.lukasberger.android.thenexus.R;
 import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.SettingsUtils;
+import at.lukasberger.android.thenexus.utils.SystemUtils;
 
 public class BatteryFragment extends Fragment {
 
@@ -94,6 +97,24 @@ public class BatteryFragment extends Fragment {
                     }
 
                 });
+
+                /*
+                 * Disable Critical Battery-Shutdown
+                 */
+                final Switch noCriticalShutdown = (Switch)view.findViewById(R.id.fragment_battery_no_critical_shutdown);
+                if (SystemUtils.isNexusOS()) {
+                    FragmentHelper.setChecked(noCriticalShutdown.getId(), SettingsUtils.getBoolean("battery.no_critical_shutdown", false));
+                    noCriticalShutdown.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            SettingsUtils.set("battery.no_critical_shutdown", isChecked);
+                        }
+
+                    });
+                } else {
+                    noCriticalShutdown.setVisibility(View.GONE);
+                }
 
                 FragmentHelper.finish(false);
             }

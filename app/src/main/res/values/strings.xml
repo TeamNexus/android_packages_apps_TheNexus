@@ -99,6 +99,11 @@
         the recommended minimal and maximal values.
     </string>
     <string name="fragment_battery_max_charging_limit_text">%1$d mA</string>
+    <string name="fragment_battery_no_critical_shutdown">Disable Critical Battery-Shutdown</string>
+    <string name="fragment_battery_no_critical_shutdown_descr">
+        Allows you to disable the automated shutdown on critical battery-levels. Use it
+        with caution.
+    </string>
 
     <!-- Fragment: Fingerprint -->
     <string name="fragment_fingerprint_always_on_fp">Enable always-on Fingerprint-Sensor</string>
