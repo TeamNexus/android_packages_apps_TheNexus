@@ -57,20 +57,40 @@ public class OnBootReceiver extends BroadcastReceiver
                             prefs.getBoolean("power.profiles", true));
                 }
 
-                if (prefs.contains("power.boost_profiles")) {
-                    AsyncFileUtils.writeSync("/data/power/boost_profiles",
-                            prefs.getBoolean("power.boost_profiles", true));
-                }
-
-                if (prefs.contains("power.boost")) {
-                    AsyncFileUtils.writeSync("/data/power/boost",
-                            prefs.getBoolean("power.boost", false));
-                }
-
                 if (prefs.contains("touchscreen.dt2w")) {
                     boolean dt2w = prefs.getBoolean("touchscreen.dt2w", false);
                     AsyncFileUtils.writeSync("/sys/android_touch/doubletap2wake", dt2w);
                     AsyncFileUtils.writeSync("/data/power/dt2w", dt2w);
+                }
+
+                if (prefs.contains("wakelock.nfc_ese")) {
+                    AsyncFileUtils.write("/sys/module/wakeup/parameters/wakelock_nfc_ese",
+                            prefs.getBoolean("wakelock.nfc_ese", false));
+                }
+
+                if (prefs.contains("wakelock.nfc_sec")) {
+                    AsyncFileUtils.write("/sys/module/wakeup/parameters/wakelock_nfc_sec",
+                            prefs.getBoolean("wakelock.nfc_sec", false));
+                }
+
+                if (prefs.contains("wakelock.sensorhub_gps")) {
+                    AsyncFileUtils.write("/sys/module/wakeup/parameters/wakelock_sensorhub_gps",
+                            prefs.getBoolean("wakelock.sensorhub_gps", false));
+                }
+
+                if (prefs.contains("wakelock.sensorhub_grip")) {
+                    AsyncFileUtils.write("/sys/module/wakeup/parameters/wakelock_sensorhub_grip",
+                            prefs.getBoolean("wakelock.sensorhub_grip", false));
+                }
+
+                if (prefs.contains("wakelock.sensorhub_ssp")) {
+                    AsyncFileUtils.write("/sys/module/wakeup/parameters/wakelock_sensorhub_ssp",
+                            prefs.getBoolean("wakelock.sensorhub_ssp", false));
+                }
+
+                if (prefs.contains("wakelock.sensorhub_ssp2")) {
+                    AsyncFileUtils.write("/sys/module/wakeup/parameters/wakelock_sensorhub_ssp2",
+                            prefs.getBoolean("wakelock.sensorhub_ssp2", false));
                 }
             }
 

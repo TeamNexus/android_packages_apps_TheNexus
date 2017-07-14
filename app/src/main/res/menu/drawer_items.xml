@@ -13,10 +13,6 @@
                 android:id="@+id/nav_updates"
                 android:icon="@drawable/ic_menu_updates"
                 android:title="@string/drawer_updates" />
-            <item
-                android:id="@+id/nav_bugreport"
-                android:icon="@drawable/ic_bugreport"
-                android:title="@string/drawer_bugreport" />
         </menu>
     </item>
 
@@ -33,6 +29,10 @@
                 android:icon="@drawable/ic_menu_fingerprint"
                 android:title="@string/drawer_fingerprint" />
             <item
+                android:id="@+id/nav_props"
+                android:icon="@drawable/ic_menu_properties"
+                android:title="@string/drawer_properties" />
+            <item
                 android:id="@+id/nav_power"
                 android:icon="@drawable/ic_menu_power"
                 android:title="@string/drawer_power" />
@@ -41,9 +41,9 @@
                 android:icon="@drawable/ic_menu_touchscreen"
                 android:title="@string/drawer_touchscreen" />
             <item
-                android:id="@+id/nav_props"
-                android:icon="@drawable/ic_menu_properties"
-                android:title="@string/drawer_properties" />
+                android:id="@+id/nav_wakelocks"
+                android:icon="@drawable/ic_menu_wakelocks"
+                android:title="@string/drawer_wakelocks" />
         </menu>
     </item>
 

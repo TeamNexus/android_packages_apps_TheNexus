@@ -37,6 +37,7 @@ import at.lukasberger.android.thenexus.fragments.StartFragment;
 import at.lukasberger.android.thenexus.fragments.PowerFragment;
 import at.lukasberger.android.thenexus.fragments.TouchscreenFragment;
 import at.lukasberger.android.thenexus.fragments.UpdatesFragment;
+import at.lukasberger.android.thenexus.fragments.WakelocksFragment;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity
@@ -99,6 +100,10 @@ public class MainActivity extends AppCompatActivity
                 fragment = new FingerprintFragment();
                 setTitle("Fingerprint");
                 break;
+            case R.id.nav_props:
+                fragment = new PropertiesFragment();
+                setTitle("Properties");
+                break;
             case R.id.nav_power:
                 fragment = new PowerFragment();
                 setTitle("Power");
@@ -107,9 +112,9 @@ public class MainActivity extends AppCompatActivity
                 fragment = new TouchscreenFragment();
                 setTitle("Touchscreen");
                 break;
-            case R.id.nav_props:
-                fragment = new PropertiesFragment();
-                setTitle("Properties");
+            case R.id.nav_wakelocks:
+                fragment = new WakelocksFragment();
+                setTitle("Wakelocks");
                 break;
         }
 

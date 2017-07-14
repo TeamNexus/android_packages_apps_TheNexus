@@ -9,7 +9,7 @@
     tools:context="at.lukasberger.android.thenexus.MainActivity">
 
     <LinearLayout
-        android:id="@+id/fragment_fingerprint_loader"
+        android:id="@+id/fragment_wakelocks_loader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -24,13 +24,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/fragment_fingerprint_layout"
+        android:id="@+id/fragment_wakelocks_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/element_fingerprint_always_on_fp" />
-        <include layout="@layout/element_fingerprint_allow_unlock_after_restart" />
+        <include layout="@layout/element_wakelocks_nfc_ese" />
+        <include layout="@layout/element_wakelocks_nfc_sec" />
+        <include layout="@layout/element_wakelocks_sensorhub_gps" />
+        <include layout="@layout/element_wakelocks_sensorhub_grip" />
+        <include layout="@layout/element_wakelocks_sensorhub_ssp" />
+        <include layout="@layout/element_wakelocks_sensorhub_ssp2" />
 
     </LinearLayout>
 

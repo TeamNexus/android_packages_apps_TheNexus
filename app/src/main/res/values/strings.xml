@@ -14,6 +14,7 @@
     <string name="drawer_power">Power</string>
     <string name="drawer_touchscreen">Touchscreen</string>
     <string name="drawer_properties">Properties</string>
+    <string name="drawer_wakelocks">Wakelocks</string>
 
     <!-- Common -->
     <string name="common_yes">Yes</string>
@@ -145,6 +146,14 @@
 
     <!-- Fragment: Properties -->
     <string name="fragment_properties_toast_readonly">Sorry, but this property can\'t be edited as it is read-only</string>
+
+    <!-- Fragment: Wakelocks -->
+    <string name="fragment_wakelocks_nfc_ese">nfc_ese</string>
+    <string name="fragment_wakelocks_nfc_sec">nfc_sec</string>
+    <string name="fragment_wakelocks_sensorhub_gps">sensorhub_gps</string>
+    <string name="fragment_wakelocks_sensorhub_grip">sensorhub_grip</string>
+    <string name="fragment_wakelocks_sensorhub_ssp">sensorhub_ssp</string>
+    <string name="fragment_wakelocks_sensorhub_ssp2">sensorhub_ssp2</string>
 
     <!-- Fragment: No Root -->
     <string name="fragment_no_root">No root-access</string>

@@ -34,7 +34,7 @@ import at.lukasberger.android.thenexus.utils.AsyncFileUtils;
 import at.lukasberger.android.thenexus.utils.SettingsUtils;
 import at.lukasberger.android.thenexus.utils.SystemUtils;
 
-public class PowerFragment extends Fragment {
+public class WakelocksFragment extends Fragment {
 
     @Nullable
     @Override
@@ -43,8 +43,8 @@ public class PowerFragment extends Fragment {
             return null;
         }
 
-        View view = inflater.inflate(R.layout.fragment_power, container, false);
-        FragmentHelper.begin(view, R.id.fragment_power_loader, R.id.fragment_power_layout);
+        View view = inflater.inflate(R.layout.fragment_wakelocks, container, false);
+        FragmentHelper.begin(view, R.id.fragment_wakelocks_loader, R.id.fragment_wakelocks_layout);
 
         return view;
     }
@@ -60,24 +60,32 @@ public class PowerFragment extends Fragment {
             public void run() {
                 SettingsUtils.begin(view.getContext());
 
-                /*
-                 * Enable Profiles
-                 */
-                Switch profilesSwitch = (Switch)view.findViewById(R.id.fragment_power_profiles);
-                FragmentHelper.setChecked(profilesSwitch.getId(), AsyncFileUtils.readBoolean("/data/power/profiles"));
-                profilesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        SettingsUtils.set("power.profiles", isChecked);
-                        AsyncFileUtils.write("/data/power/profiles", isChecked);
-                    }
-
-                });
+                init(view, R.id.fragment_wakelocks_nfc_ese, "nfc_ese");
+                init(view, R.id.fragment_wakelocks_nfc_sec, "nfc_sec");
+                init(view, R.id.fragment_wakelocks_sensorhub_gps, "sensorhub_gps");
+                init(view, R.id.fragment_wakelocks_sensorhub_grip, "sensorhub_grip");
+                init(view, R.id.fragment_wakelocks_sensorhub_ssp, "sensorhub_ssp");
+                init(view, R.id.fragment_wakelocks_sensorhub_ssp2, "sensorhub_ssp2");
 
                 FragmentHelper.finish();
             }
         });
         thread.start();
     }
+
+    private void init(View view, int element, final String wakelock)
+    {
+        Switch sensorhub_ssp2_Switch = (Switch)view.findViewById(element);
+        FragmentHelper.setChecked(element, AsyncFileUtils.readBoolean("/sys/module/wakeup/parameters/wakelock_" + wakelock, false));
+        sensorhub_ssp2_Switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingsUtils.set("wakelock." + wakelock, isChecked);
+                AsyncFileUtils.write("/sys/module/wakeup/parameters/wakelock_" + wakelock, isChecked);
+            }
+
+        });
+    }
+
 }

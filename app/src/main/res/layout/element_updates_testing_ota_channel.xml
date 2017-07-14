@@ -1,0 +1,48 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_updates_testing_ota_channel_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="48dp"
+    android:paddingEnd="?android:attr/scrollbarSize">
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingStart="15dip"
+        android:paddingEnd="6dip"
+        android:paddingTop="6dip"
+        android:paddingBottom="6dip"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/fragment_updates_testing_ota_channel_title"
+            android:text="@string/fragment_updates_testing_ota_channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal" />
+
+        <TextView
+            android:text="@string/fragment_updates_testing_ota_channel_descr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_updates_testing_ota_channel_title"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:maxLines="5" />
+
+    </RelativeLayout>
+
+    <Switch
+        android:id="@+id/fragment_updates_testing_ota_channel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="false"
+        android:padding="8dip" />
+
+</LinearLayout>
