@@ -45,6 +45,7 @@ LOCAL_SRC_FILES := $(call all-java-files-under, java)
 
 LOCAL_MODULE      := material-dialogs-core
 LOCAL_CERTIFICATE := platform
+LOCAL_SDK_VERSION := 25
 
 include $(BUILD_STATIC_JAVA_LIBRARY)
 
@@ -75,5 +76,6 @@ LOCAL_SRC_FILES := \
 
 LOCAL_MODULE      := material-progressbar
 LOCAL_CERTIFICATE := platform
+LOCAL_SDK_VERSION := 25
 
 include $(BUILD_STATIC_JAVA_LIBRARY)
